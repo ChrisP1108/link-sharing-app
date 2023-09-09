@@ -29,4 +29,4 @@ class ENV {
 
 // Set Environment Variables in $_ENV from the .env file
 
-ENV::load(__DIR__ . '../../.env');
+ENV::load(dirname(dirname(__DIR__)) . '\.env');
