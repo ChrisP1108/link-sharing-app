@@ -1,3 +1,7 @@
 # Environment Variables
 
 .env
+
+# Frontend Private Folder
+
+/frontend/private

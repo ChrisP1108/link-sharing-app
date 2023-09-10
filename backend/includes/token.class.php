@@ -8,7 +8,7 @@ class Token {
 
     // Hash string algorithm for token signature
 
-    private static function pre_hash_stringify($expiration = null) {
+    private static function pre_hash_stringify($id, $expiration = null) {
 
         // Split WEB_TOKEN_SECRET in two
 
@@ -21,7 +21,7 @@ class Token {
 
         if (!$expiration) {
             throw new Exception("Expiration time required.");
-        } else return $first_half_secret . base64_encode($_SERVER['HTTP_USER_AGENT']) . $second_half_secret . base64_encode($expiration);
+        } else return $first_half_secret . base64_encode($id) . base64_encode($_SERVER['HTTP_USER_AGENT']) . $second_half_secret . base64_encode($expiration);
     }
 
     public static function generate($id = null, $expiration = null) {
@@ -44,7 +44,7 @@ class Token {
 
         // Bcrypt Hashing
 
-        $hash = password_hash(self::pre_hash_stringify($expiration_string), PASSWORD_BCRYPT, $options);
+        $hash = password_hash(self::pre_hash_stringify($user_id, $expiration_string), PASSWORD_BCRYPT, $options);
 
         // Compile Token
 
@@ -97,7 +97,7 @@ class Token {
             // Verify key
 
             $hashed_key = $decoded['key'];
-            $check = password_verify(self::pre_hash_stringify($expiration_time), $hashed_key);
+            $check = password_verify(self::pre_hash_stringify($decoded_id, $expiration_time), $hashed_key);
             
             return $check;
         
