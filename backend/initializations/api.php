@@ -27,8 +27,8 @@
             $all_users =  $database->get_table_data();
 
             if ($all_users !== false && !empty($all_users)) {
-                if (!authorized_user('user', $all_users)) {
-                    return unauthorized();
+                if (!authorized_user($all_users)) {
+                    return  unauthorized_bad_token();
                 }
             } else {
                 return error_authentication();
@@ -161,8 +161,8 @@
             $all_users =  $database->get_table_data();
 
             if ($all_users !== false && !empty($all_users)) {
-                if (!authorized_user('user', $all_users)) {
-                    return unauthorized();
+                if (!authorized_user($all_users)) {
+                    return  unauthorized_bad_token();
                 }
             } else {
                 return error_authentication();
@@ -221,8 +221,8 @@
             $all_users =  $database->get_table_data();
 
             if ($all_users !== false && !empty($all_users)) {
-                if (!authorized_user('user', $all_users)) {
-                    return unauthorized();
+                if (!authorized_user($all_users)) {
+                    return  unauthorized_bad_token();
                 }
             } else {
                 return error_authentication();
@@ -311,7 +311,7 @@
     API::post('user/logout', function($req) {
 
         if (token_exists()) {
-            Token::remove_cookie('user');
+            Token::remove_cookie($_ENV['WEB_TOKEN_NAME']);
             return [
                 'status' => 200,
                 'msg' => 'User successfully logged out.'
@@ -373,9 +373,9 @@
 
     function generate_token($user) {
         Token::generate_set_cookie([
-            'name' => 'user',
+            'name' => $_ENV['WEB_TOKEN_NAME'],
             'id' => $user['id'],
-            'role' => 'user',
+            'role' => $_ENV['WEB_TOKEN_NAME'],
             'expiration' => time() + 604800,
             'secure' => false,
             'http_only' => true
@@ -384,24 +384,24 @@
 
     // Authorized User
 
-    function authorized_user($type, $data) {
+    function authorized_user($data) {
 
         // Make sure user has valid token
 
-        return Token::cookie_valid($_COOKIE[$type], $data, $type, 'id') ?? false;
+        return Token::cookie_valid($_COOKIE[$_ENV['WEB_TOKEN_NAME']], $data, $_ENV['WEB_TOKEN_NAME'], 'id') ?? false;
     }
 
     // Get Token Id
 
     function token_id() {
-        $cookie = $_COOKIE['user'] ?? null;
+        $cookie = $_COOKIE[$_ENV['WEB_TOKEN_NAME']] ?? null;
         return Token::get_cookie_id($cookie);
     }
 
     // Check if token exists
 
     function token_exists() {
-        $cookie = $_COOKIE['user'] ?? false;
+        $cookie = $_COOKIE[$_ENV['WEB_TOKEN_NAME']] ?? false;
         if (!$cookie) {
             return false;
         } else return true;
@@ -409,10 +409,11 @@
 
     // Unauthorized message
 
-    function unauthorized() {
+    function  unauthorized_bad_token() {
+        Token::remove_cookie($_ENV['WEB_TOKEN_NAME']);
         return [
             'status' => 401,
-            'msg' => 'Unauthorized.'
+            'msg' => 'Unauthorized. Invalid token.'
         ];
     }
 
