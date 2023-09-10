@@ -28,13 +28,13 @@ class API {
 
         $uri_has_id = self::split_url_id();
 
-        if ($uri_has_id[1]) {
+        if (!empty($uri_has_id[1])) {
             $parsed_uri = $uri_has_id[0];
         }
 
         if (str_contains($route, '/{id}')) {
             $parsed_route = self::ROOT_URI . explode('{id}', $route)[0];
-        } else $parsed_route = $route;
+        } else $parsed_route = self::ROOT_URI . $route;
 
         return $_SERVER['REQUEST_METHOD'] === $type && $parsed_uri ===  $parsed_route;
     }
@@ -82,7 +82,7 @@ class API {
             'body' => $body_data
         ];
 
-        $id = self::split_url_id()[1];
+        $id = self::split_url_id()[1] ?? null;
 
         if ($id) {
             $output['id'] = $id;
@@ -98,6 +98,7 @@ class API {
             $response = $callback(self::parse_request_data($route));
             header('Content-Type: application/json');
             http_response_code($response['status'] ?? 200);
+            unset($response['status']);
             echo json_encode($response);
             exit;
         }
