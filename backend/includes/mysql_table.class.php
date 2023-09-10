@@ -1,15 +1,18 @@
 <?php
 
-class Db_Connection {
-    private $conn;
+class MySql_Table {
+    private $db_host;
+    private $db_username;
+    private $db_password;
     private $schema_name;
     private $table_name;
     private $table_schema;
+    private $conn;
 
     // Connect To Database.  Use After Database Schema Created First. Returns Boolean
 
     private function connect() {
-        $this->conn = new mysqli($_ENV['DB_HOST'], $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'], $this->schema_name);
+        $this->conn = new mysqli($this->db_host, $this->db_username, $this->db_password, $this->schema_name);
         if ($this->conn->connect_error) {
             return false;
         } else return true;
@@ -27,7 +30,7 @@ class Db_Connection {
     // Check For Database Scheme.  Returns Boolean.  Throws Error If Connection Fails
 
     private function create_db_schema_if_none() {
-        $this->conn = new mysqli($_ENV['DB_HOST'], $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD']);
+        $this->conn = new mysqli($this->db_host, $this->db_username, $this->db_password);
         if (!$this->conn->connect_error) {
             $db_search_query =  "SELECT SCHEMA_NAME FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME='". $this->schema_name ."'";
             $result = $this->conn->query($db_search_query);
@@ -134,7 +137,10 @@ class Db_Connection {
 
     // Run On Instantiation
 
-    public function __construct($schema_name, $table_name, $table_schema) {
+    public function __construct($db_host, $db_username, $db_password, $schema_name, $table_name, $table_schema) {
+        $this->db_host = $db_host;
+        $this->db_username = $db_username;
+        $this->db_password = $db_password;
         $this->schema_name = $schema_name;
         $this->table_name = $table_name;
         $this->table_schema = $table_schema;

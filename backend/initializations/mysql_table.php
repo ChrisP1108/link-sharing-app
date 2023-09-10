@@ -4,7 +4,7 @@
 
     global $database;
 
-    $database = new Db_Connection("link_sharing_app", "users", [
+    $database = new MySql_Table($_ENV['DB_HOST'], $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'], "link_sharing_app", "users", [
         "id mediumint(11) NOT NULL AUTO_INCREMENT",
         "first_name varchar(100) NOT NULL",
         "last_name varchar(100) NOT NULL",
