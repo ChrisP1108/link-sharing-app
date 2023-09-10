@@ -1,6 +1,6 @@
 <?php 
 
-    // Setup database connection
+    // Setup database connection, along with creating database schema and table in MySql if it does not already exist.
 
     global $database;
 

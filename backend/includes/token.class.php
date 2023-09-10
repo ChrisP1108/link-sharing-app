@@ -19,6 +19,8 @@ class Token {
         $first_half_secret = substr($_ENV['WEB_TOKEN_SECRET'], 0, $mid_point);
         $second_half_secret = substr($_ENV['WEB_TOKEN_SECRET'], $mid_point);   
 
+        // Check for expiration and then encode string prior to hashing
+
         if (!$expiration) {
             throw new Exception("Expiration time required.");
         } else return $first_half_secret . base64_encode($id) . base64_encode($_SERVER['HTTP_USER_AGENT']) . $second_half_secret . base64_encode($role) . base64_encode($expiration);

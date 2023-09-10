@@ -137,7 +137,10 @@ class MySql_Table {
 
     // Run On Instantiation
 
-    public function __construct($db_host, $db_username, $db_password, $schema_name, $table_name, $table_schema) {
+    public function __construct($db_host = null, $db_username = null, $db_password = null, $schema_name = null, $table_name = null, $table_schema = null) {
+        
+        // Set properties 
+        
         $this->db_host = $db_host;
         $this->db_username = $db_username;
         $this->db_password = $db_password;

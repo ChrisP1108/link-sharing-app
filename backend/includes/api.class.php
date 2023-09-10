@@ -32,6 +32,8 @@ class API {
             $parsed_uri = $uri_has_id[0];
         }
 
+        // Split {id} from route
+
         if (str_contains($route, '/{id}')) {
             $parsed_route = self::ROOT_URI . explode('{id}', $route)[0];
         } else $parsed_route = self::ROOT_URI . $route;
@@ -76,6 +78,8 @@ class API {
             }
         }
 
+        // Output headers, parameters, and body
+
         $output = [
             'headers' => $header_data,
             'parameters' => $params_data,
@@ -83,6 +87,8 @@ class API {
         ];
 
         $id = self::split_url_id()[1] ?? null;
+
+        // Set id if id found in url
 
         if ($id) {
             $output['id'] = $id;
@@ -95,7 +101,13 @@ class API {
 
     private static function callback_response($callback, $route) {
         if (is_callable($callback)) {
+
+            // Make callback
+
             $response = $callback(self::parse_request_data($route));
+
+            // Set headers, status code, and send data back via JSON and exit
+
             header('Content-Type: application/json');
             http_response_code($response['status'] ?? 200);
             unset($response['status']);

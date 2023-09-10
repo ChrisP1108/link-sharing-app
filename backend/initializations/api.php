@@ -71,6 +71,8 @@
             return input_invalid($body);
         }
 
+        // Return 400 status if body data does not have required fields
+
         if (!$body || empty($body['first_name']) || empty($body['last_name']) || empty($body['email']) || empty($body['password'])) {
             return [
                 'status' => 400,
@@ -92,12 +94,17 @@
                     ];
                 }
             }
-
         }
+
+        // Hash password
 
         $body['password'] = hash_password($body['password']);
 
+        // Timestamp date created
+
         $body['created'] = get_date_time();
+
+        // Check that user was added
 
         $user_add = $database->create_table_row($body);
 
@@ -115,6 +122,8 @@
                 }
             }
 
+            // Return 500 status if user added wasn't found in databaze
+
             if (!$new_user) {
                 return [
                     'status' => 500,
@@ -126,11 +135,16 @@
 
             generate_token($new_user);
 
+            // Return 200 status if user successfully added.
+
             return [
                 'status' => 200,
                 'msg' => 'User successfully added.'
             ];
         } else {
+
+            // Return 500 status if error occured adding user to database
+
             return [
                 'status' => 500,
                 'msg' => 'There was an error adding user.'
@@ -156,7 +170,7 @@
 
         if ($user !== false && !empty($user)) {
 
-            // Check authentication.  Return 500 error if unable to get all users
+            // Check authentication.  Return 500 error if unable to get all users or 401 if token is invalid
 
             $all_users =  $database->get_table_data();
 
@@ -169,11 +183,15 @@
             }
         }
 
+        // Get body data and check that it has required fields
+
         $body = $req['body'] ?? null;
 
         if (input_invalid($body) !== false) {
             return input_invalid($body);
         }
+
+        // Get Id from token
 
         $id = token_id() ?? null;
 
@@ -183,14 +201,22 @@
 
         $body['updated'] = get_date_time();
 
+        // Update user data in MySql
+
         $update_user = $database->update_table_row($id, $body);
 
         if ($update_user !== false) {
+
+            // Return 200 status if user data successfully updated
+
             return [
                 'status' => 200,
                 'msg' => 'User successfully updated.'
             ];
         } else {
+
+            // Return 500 status if error occured updating user
+
             return [
                 'status' => 500,
                 'msg' => 'There was an error updating user.'
@@ -216,7 +242,7 @@
 
         if ($user !== false && !empty($user)) {
             
-            // Check authentication.  Return 500 error if unable to get all users
+            // Check authentication.  Return 500 error if unable to get all users or 401 if token is invalid.
 
             $all_users =  $database->get_table_data();
 
@@ -234,11 +260,17 @@
         $delete_user = $database->delete_table_row($id);
 
         if ($delete_user !== false) {
+
+            // Return 200 status if user was successfully deleted.
+
             return [
                 'status' => 200,
                 'msg' => 'User successfully deleted.'
             ];
         } else {
+
+            // Return 500 status if there was an error deleting user.
+
             return [
                 'status' => 500,
                 'msg' => 'There was an error deleting user.'
@@ -276,11 +308,15 @@
 
         if ($all_users !== false && !empty($all_users)) {
 
+            // Find corresponding user in database that matches email
+
             foreach($all_users as $u) {
                 if (strtolower($body['email']) === strtolower($u['email'])) {
                     $user = $u;
                 }
             }
+
+            // If user in database found, check password
 
             if ($user) {
                 $authorized = password_verify($body['password'], $u['password']);
@@ -311,12 +347,18 @@
     API::post('user/logout', function($req) {
 
         if (token_exists()) {
+
+            // If token found, remove it and return 200 status
+
             Token::remove_cookie($_ENV['WEB_TOKEN_NAME']);
             return [
                 'status' => 200,
                 'msg' => 'User successfully logged out.'
             ];
         } else {
+
+            // If token not found, return 400 status
+
             return [
                 'status' => 400,
                 'msg' => 'User already logged out.'
@@ -409,7 +451,7 @@
 
     // Unauthorized message
 
-    function  unauthorized_bad_token() {
+    function unauthorized_bad_token() {
         Token::remove_cookie($_ENV['WEB_TOKEN_NAME']);
         return [
             'status' => 401,
@@ -434,5 +476,3 @@
             'msg' => 'Error getting user data during authentication.'
         ];
     }
-
-
