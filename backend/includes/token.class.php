@@ -8,7 +8,7 @@ class Token {
 
     // Hash string algorithm for token signature
 
-    private static function pre_hash_stringify($id, $expiration = null) {
+    private static function pre_hash_stringify($id, $role, $expiration = null) {
 
         // Split WEB_TOKEN_SECRET in two
 
@@ -21,10 +21,10 @@ class Token {
 
         if (!$expiration) {
             throw new Exception("Expiration time required.");
-        } else return $first_half_secret . base64_encode($id) . base64_encode($_SERVER['HTTP_USER_AGENT']) . $second_half_secret . base64_encode($expiration);
+        } else return $first_half_secret . base64_encode($id) . base64_encode($_SERVER['HTTP_USER_AGENT']) . $second_half_secret . base64_encode($role) . base64_encode($expiration);
     }
 
-    public static function generate($id = null, $expiration = null) {
+    public static function generate($id = null, $role = null, $expiration = null) {
 
         // User Parameters
 
@@ -36,6 +36,10 @@ class Token {
             throw new Exception("User Id input required");
         }
 
+        if (!$role) {
+            throw new Exception("User role input required");
+        }
+
         // Hashing Salt Rounds.
 
         $options = [
@@ -44,7 +48,7 @@ class Token {
 
         // Bcrypt Hashing
 
-        $hash = password_hash(self::pre_hash_stringify($user_id, $expiration_string), PASSWORD_BCRYPT, $options);
+        $hash = password_hash(self::pre_hash_stringify($user_id, $role, $expiration_string), PASSWORD_BCRYPT, $options);
 
         // Compile Token
 
@@ -57,10 +61,10 @@ class Token {
         return base64_encode($token);
     }
 
-    public static function cookie_valid($cookie = null, $users = null, $user_id_key = 'id') {
+    public static function cookie_valid($cookie = null, $users = null, $role = null, $user_id_key = 'id') {
 
-        if (!$cookie || !$users) {
-            throw new Exception("Cookie and user data required.");
+        if (!$cookie || !$role || !$users) {
+            throw new Exception("Cookie, role, and user data required.");
         }
 
         $json_token = base64_decode($cookie) ?? 'no data';
@@ -97,11 +101,20 @@ class Token {
             // Verify key
 
             $hashed_key = $decoded['key'];
-            $check = password_verify(self::pre_hash_stringify($decoded_id, $expiration_time), $hashed_key);
+            $check = password_verify(self::pre_hash_stringify($decoded_id, $role, $expiration_time), $hashed_key);
             
             return $check;
         
         } else return false;
+    }
+
+    public static function get_cookie_id($cookie) {
+
+        $json_token = base64_decode($cookie) ?? 'no data';
+
+        $decoded = json_decode($json_token, true);
+
+        return $decoded['id'] ?? null;
     }
 
     public static function set_cookie($data = null) {
@@ -115,14 +128,14 @@ class Token {
         if (!$name) {
             throw new Exception("Cookie name parameter required.");
         }
-        setcookie($name, '', time() - 3000);
+        setcookie($name, '', time() - 300, '/');
     }
 
     public static function generate_set_cookie($data) {
-        if (!$data || !isset($data['name']) || !isset($data['id'])) {
-            throw new Exception("Id and cookie name parameters required.");
+        if (!$data || !isset($data['name']) || !isset($data['id']) || !isset($data['role'])) {
+            throw new Exception("Id, cookie name, and role parameters required.");
         }
-        $data['value'] = self::generate($data['id'] ?? null, $data['expiration'] ?? null);
+        $data['value'] = self::generate($data['id'], $data['role'], $data['expiration']);
         self::set_cookie($data);
     }
 }
