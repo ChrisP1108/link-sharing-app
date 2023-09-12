@@ -73,11 +73,8 @@
 
         // Return 400 status if body data does not have required fields
 
-        if (!$body || empty($body['first_name']) || empty($body['last_name']) || empty($body['email']) || empty($body['password'])) {
-            return [
-                'status' => 400,
-                'msg' => 'A request body must be passed in with a first_name, last_name, email, and password keys and values at a minimum.'
-            ];
+        if (input_invalid($body) !== false) {
+            return input_invalid($body);
         }
 
         // Make sure user with the same email doesn't already exist in database
@@ -96,17 +93,23 @@
             }
         }
 
+        // Sanitize inputs
+
+        $sanitized_data = Sanitize::sanitize_data($body);
+
         // Hash password
 
-        $body['password'] = hash_password($body['password']);
+        $sanitized_data['password'] = hash_password($body['password']);
 
         // Timestamp date created
 
-        $body['created'] = get_date_time();
+        $sanitized_data['created'] = get_date_time();
+
+        // Add user to database
+
+        $user_add = $database->create_table_row($sanitized_data);
 
         // Check that user was added
-
-        $user_add = $database->create_table_row($body);
 
         if ($user_add !== false) {
 
@@ -117,7 +120,7 @@
             $new_user = null;
 
             foreach($updated_users as $u) {
-                if (strtolower($u['email']) === strtolower($body['email'])) {
+                if (strtolower($u['email']) === strtolower($sanitized_data['email'])) {
                     $new_user = $u;
                 }
             }
@@ -195,15 +198,21 @@
 
         $id = token_id() ?? null;
 
-        if (!empty($body['password'])) {
-            $body['password'] = hash_password($body['password']);
-        }
+        // Sanitize inputs
 
-        $body['updated'] = get_date_time();
+        $sanitized_data = Sanitize::sanitize_data($body);
+
+        // Hash password
+
+        $sanitized_data['password'] = hash_password($body['password']);
+
+        // Set updated time stamp
+
+        $sanitized_data['updated'] = get_date_time();
 
         // Update user data in MySql
 
-        $update_user = $database->update_table_row($id, $body);
+        $update_user = $database->update_table_row($id, $sanitized_data);
 
         if ($update_user !== false) {
 
