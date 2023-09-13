@@ -6,9 +6,7 @@
 
         // Get users from database
 
-        global $database;
-
-        $users = $database->get_table_data();
+        $users = DATABASE->get_table_data();
 
         // Get cookie that has token, if it exists
 

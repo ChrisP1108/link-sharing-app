@@ -7,7 +7,7 @@
     */
 
     if (user_page_authenticate()) {
-        header('Location: /edit');
+        header('Location: /preview');
     } else {
         header('Location: /login');
     }

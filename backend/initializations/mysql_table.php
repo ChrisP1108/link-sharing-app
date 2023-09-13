@@ -2,8 +2,6 @@
 
     // Setup database connection, along with creating database schema and table in MySql if it does not already exist.
 
-    global $database;
-
     $database = new MySql_Table($_ENV['DB_HOST'], $_ENV['DB_USERNAME'], $_ENV['DB_PASSWORD'], "link_sharing_app", "users", [
         "id mediumint(11) NOT NULL AUTO_INCREMENT",
         "first_name varchar(100) NOT NULL",
@@ -18,3 +16,5 @@
         "updated datetime",
         "PRIMARY KEY (id)"
     ]);
+
+    define("DATABASE", $database);

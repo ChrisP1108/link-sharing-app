@@ -23,9 +23,10 @@
 
         require 'frontend/includes/view.class.php';
 
-        // User Page Authentication Utilities
+        // Utilities
 
-        require 'frontend/includes/user_page_authenticate.function.php';
+        require 'frontend/utilities/user_page_authenticate.php';
+        require 'frontend/utilities/components.php';
 
         // Views Controller Import
 

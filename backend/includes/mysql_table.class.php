@@ -44,7 +44,7 @@ class MySql_Table {
                     $this->close_connection();
                 } else die("Error creating database schema " . $this->schema_name);
             }
-        } else die("Error connecting to database when attempting to check database for existing database schema.");
+        } else return false;
     }
 
     // Check For Database Table In Specified Database Schema.  Returns Boolean.  Throws Error If Connection Fails
@@ -66,7 +66,7 @@ class MySql_Table {
                     return true;
                 } else die("Error creating database table " . $this->table_name . " in " . $this->schema_name . " database schema.");
             }
-        } else die("Error connecting to database when attempting to check database for existing database table in a database schema.");
+        } else return false;
     }
 
     // Get data from database table.  If no id found, it will return the entire table, otherwise it will return table row based upon id. Returns false if data is unable to be retrieved

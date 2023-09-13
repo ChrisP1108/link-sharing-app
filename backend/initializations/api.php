@@ -14,9 +14,7 @@
             return unauthorized_no_token();
         }
 
-        global $database;
-
-        $user = $database->get_table_data(token_id());
+        $user = DATABASE->get_table_data(token_id());
 
         // Check that token is valid and get data corresponding to user id
 
@@ -24,7 +22,7 @@
 
             // Check authentication.  Return 500 error if unable to get all users
 
-            $all_users =  $database->get_table_data();
+            $all_users = DATABASE->get_table_data();
 
             if ($all_users !== false && !empty($all_users)) {
                 if (!authorized_user($all_users)) {
@@ -61,8 +59,6 @@
 
     API::post('user', function($req) {
 
-        global $database;
-
         // Check that body contains required fields
 
         $body = $req['body'] ?? null;
@@ -79,7 +75,7 @@
 
         // Make sure user with the same email doesn't already exist in database
 
-        $existing_users = $database->get_table_data();
+        $existing_users = DATABASE->get_table_data();
 
         if ($existing_users) {
 
@@ -107,7 +103,7 @@
 
         // Add user to database
 
-        $user_add = $database->create_table_row($sanitized_data);
+        $user_add = DATABASE->create_table_row($sanitized_data);
 
         // Check that user was added
 
@@ -115,7 +111,7 @@
 
             // Get new user data from database.  Check that it was added
 
-            $updated_users = $database->get_table_data();
+            $updated_users = DATABASE->get_table_data();
 
             $new_user = null;
 
@@ -167,15 +163,13 @@
             return unauthorized_no_token();
         }
 
-        global $database;
-
-        $user = $database->get_table_data(token_id());
+        $user = DATABASE->get_table_data(token_id());
 
         if ($user !== false && !empty($user)) {
 
             // Check authentication.  Return 500 error if unable to get all users or 401 if token is invalid
 
-            $all_users =  $database->get_table_data();
+            $all_users =  DATABASE->get_table_data();
 
             if ($all_users !== false && !empty($all_users)) {
                 if (!authorized_user($all_users)) {
@@ -212,7 +206,7 @@
 
         // Update user data in MySql
 
-        $update_user = $database->update_table_row($id, $sanitized_data);
+        $update_user = DATABASE->update_table_row($id, $sanitized_data);
 
         if ($update_user !== false) {
 
@@ -245,15 +239,13 @@
             return unauthorized_no_token();
         }
 
-        global $database;
-
-        $user = $database->get_table_data(token_id());
+        $user = DATABASE->get_table_data(token_id());
 
         if ($user !== false && !empty($user)) {
             
             // Check authentication.  Return 500 error if unable to get all users or 401 if token is invalid.
 
-            $all_users =  $database->get_table_data();
+            $all_users =  DATABASE->get_table_data();
 
             if ($all_users !== false && !empty($all_users)) {
                 if (!authorized_user($all_users)) {
@@ -266,7 +258,7 @@
 
         $id = token_id() ?? null;
 
-        $delete_user = $database->delete_table_row($id);
+        $delete_user = DATABASE->delete_table_row($id);
 
         if ($delete_user !== false) {
 
@@ -305,9 +297,7 @@
             ];
         }
 
-        global $database;
-
-        $all_users =  $database->get_table_data();
+        $all_users =  DATABASE->get_table_data();
 
         // Find user in database matching email and check password.
 

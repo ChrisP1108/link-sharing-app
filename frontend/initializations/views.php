@@ -8,17 +8,22 @@
 
     $pages = new View($pages_file_path, true, '404');
 
-        // Setup page routes.  All routes protected for logged in users only access, except for login page which has public access.
+        // Setup page routes.  Edit and preview page routes protected for users with authentication token only.
 
         $pages->create([
                 [
                     'route' => '/',
                     'view' => 'home',
-                    'protect' => true
+                    'protect' => false
                 ],
                 [
                     'route' => '/login',
                     'view' => 'login',
+                    'protect' => false
+                ],
+                [
+                    'route' => '/create',
+                    'view' => 'create',
                     'protect' => false
                 ],
                 [
