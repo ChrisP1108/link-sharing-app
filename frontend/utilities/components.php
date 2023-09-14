@@ -17,4 +17,10 @@
         public static function footer() {
             self::get_path('footer');
         }
+
+        // Create / Edit Component
+
+        public static function create_edit() {
+            self::get_path('create_edit');
+        }
     }

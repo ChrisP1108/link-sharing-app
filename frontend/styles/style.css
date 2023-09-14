@@ -1,0 +1,9 @@
+@import 'colors.css';
+
+/* Light mode styling */
+
+.light-mode {
+    & .section-box {
+        border-radius: 12px;
+    }
+}

@@ -1,8 +1,8 @@
 <?php
     Component::header();
-?>
 
-    <h1>Edit page works!</h1>
+    Component::create_edit();
+?>
 
 <?php
     Component::footer();
