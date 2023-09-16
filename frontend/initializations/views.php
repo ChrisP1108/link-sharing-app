@@ -8,7 +8,7 @@
 
     $pages = new View($pages_file_path, true, '404');
 
-        // Setup page routes.  Edit and preview page routes protected for users with authentication token only.
+        // Setup page routes.  Preview page route protected for users with authentication token only.
 
         $pages->create([
                 [
@@ -22,14 +22,9 @@
                     'protect' => false
                 ],
                 [
-                    'route' => '/create',
-                    'view' => 'create',
+                    'route' => '/profile',
+                    'view' => 'profile',
                     'protect' => false
-                ],
-                [
-                    'route' => '/edit',
-                    'view' => 'edit',
-                    'protect' => true
                 ],
                 [
                     'route' => '/preview',

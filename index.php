@@ -25,6 +25,7 @@
 
         // Utilities
 
+        require 'frontend/utilities/get_user_data.php';
         require 'frontend/utilities/user_page_authenticate.php';
         require 'frontend/utilities/components.php';
 
