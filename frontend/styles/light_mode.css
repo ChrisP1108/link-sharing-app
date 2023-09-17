@@ -1,0 +1,20 @@
+.light-mode {
+
+    background: var(--light_grey);
+
+    & h3 {
+        color: var(--dark_grey);
+    }
+
+    & h5 {
+        color: var(--grey);
+    }
+
+    & .box-section {
+        background: var(--white);
+    }
+
+    & .logo-container h2 {
+        color: var(--dark_grey);
+    }
+}

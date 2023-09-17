@@ -1,7 +1,7 @@
 <?php
     Component::header();
 
-    Component::create_login(false);
+    Component::create_login(true);
 ?>
 
 <?php

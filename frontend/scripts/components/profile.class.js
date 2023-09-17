@@ -15,7 +15,7 @@ export default class Profile {
 
     render() {
         return `
-            ${Header('test')}
+            ${Header()}
         `
     }
 

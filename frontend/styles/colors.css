@@ -1,7 +1,11 @@
-/* Light mode colors */
-
 :root {
-    --white: #fff;
-    --light-grey: #fafafa;
-    --grey: #737373; 
+    --purple: #633CFF;
+    --purple_hover: #BEADFF;
+    --light_purple: #EFEBFF;
+    --dark_grey: #333333;
+    --grey: #737373;
+    --border: #D9D9D9;
+    --light_grey: #FAFAFA;
+    --white: #FFFFFF;
+    --red: #FF3939;
 }

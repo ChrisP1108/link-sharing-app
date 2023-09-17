@@ -7,4 +7,4 @@
     <title>Link Sharing App</title>
     
 </head>
-<body>
+<body class="light-mode">

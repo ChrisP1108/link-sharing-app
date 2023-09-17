@@ -372,10 +372,10 @@
     // Handle body input error on POST and PUT Requests
 
     function input_invalid($body) {
-        if (!$body || empty($body['first_name']) || empty($body['last_name']) || empty($body['email']) || empty($body['password'])) {
+        if (!$body || empty($body['email']) || empty($body['password'])) {
             return [
                 'status' => 400,
-                'msg' => 'A request body must be passed in with a first_name, last_name, email, and password keys and values at a minimum.'
+                'msg' => 'A request body must be passed in with an email and password keys and values at a minimum.'
             ];
         } 
 

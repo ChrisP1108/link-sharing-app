@@ -2,7 +2,7 @@
 
     class Component {
 
-        private static function get_path($component) {
+        private static function get_path($component = '', $prop = null) {
             include dirname(__DIR__) . '/components/' . $component . '.php';
         }
 
@@ -20,7 +20,13 @@
 
         // Create / Edit Component
 
-        public static function create_edit() {
-            self::get_path('create_edit');
+        public static function create_login($create = false) {
+            self::get_path('create_login', $create);
+        }
+
+        // Logo
+
+        public static function logo() {
+            self::get_path('logo');
         }
     }

@@ -22,9 +22,14 @@
                     'protect' => false
                 ],
                 [
+                    'route' => '/create',
+                    'view' => 'create',
+                    'protect' => false
+                ],
+                [
                     'route' => '/profile',
                     'view' => 'profile',
-                    'protect' => false
+                    'protect' => true
                 ],
                 [
                     'route' => '/preview',

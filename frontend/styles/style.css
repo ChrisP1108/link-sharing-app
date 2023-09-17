@@ -1,9 +1,36 @@
 @import 'colors.css';
+@import 'typography.css';
+@import 'light_mode.css';
 
-/* Light mode styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-.light-mode {
-    & .section-box {
-        border-radius: 12px;
+body {
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: grid;
+    place-items: center;
+    padding: 24px;
+}
+
+.box-section {
+    border-radius: 12px;
+}
+
+.logo-container {
+    display: flex;
+    width: fit-content;
+    align-items: center;
+    gap: 8px;
+}
+
+.create-login {
+    width: min(400px, 100%);
+
+    & h3 {
+        margin-top: 60px;
     }
 }
