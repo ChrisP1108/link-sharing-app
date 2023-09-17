@@ -1,8 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
 
-h1, h2, h3, h4, h5, h6, p, label, span {
+h1, h2, h3, h4, h5, h6, p, label, span, a {
     line-height: 1.5em;
     font-family: 'Instrument Sans', sans-serif;
+    text-decoration: none;
 }
 
 /* Logo Text */
@@ -15,7 +16,7 @@ h1, h2, h3, h4, h5, h6, p, label, span {
 /* Heading M */
 
 h3 {
-    font-size: clamp(16px + 0.5rem, 6vw, 24px + 0.5rem);
+    font-size: clamp(8px + 1rem, 6vw, 24px + 0.5rem);
     font-weight: 700;
 }
 
@@ -28,7 +29,7 @@ h4 {
 
 /* Body M */
 
-h5, input, select, option {
+h5, input, select, option, button {
     font-size: 1rem;
     font-weight: 400;
 }

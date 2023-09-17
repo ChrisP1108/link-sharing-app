@@ -1,0 +1,81 @@
+form {
+    .form-field {
+        margin-bottom: 1rem;
+
+        & .input-container {
+            display: flex;
+            align-items: center;
+            border-radius: 8px;
+            margin-top: 0.25rem;
+            padding: 0 min(1rem, 4.5%);
+            position: relative;
+
+            & svg {
+                width: 0.875rem;
+                height: 0.875rem;
+            }
+
+            & input, & select, & option {
+                background: transparent;
+                border: 0px;
+                padding: 0.75em min(1em, 4%);
+                width: 100%;
+                flex: 1;
+
+                &:focus {
+                    outline: none;
+                }
+            }
+
+            &:has(input:focus) {
+                border: 1px var(--purple) solid;
+                background: var(--white);
+                filter: drop-shadow(0px 0px 16px var(--purple_opaque));
+            }
+
+            & p {
+                color: var(--red);
+                width: max-content;
+                inset: 0;
+                text-wrap: nowrap;
+            }
+        }
+
+        &.field-error {
+
+            & .input-container {
+                border: 1px var(--red) solid !important;
+
+                & p {
+                    transform: translateY(calc(100% + 0.25rem));
+                    position: absolute;
+
+                    @media(min-width: 25.0625rem) {
+                        position: relative;
+                        align-self: center;
+                        transform: translateY(0);
+                    }
+                }
+            }
+
+            @media(max-width: 25rem) {
+                margin-bottom: 2rem;
+            }
+
+            & label {
+                color: var(--red) !important;
+            }
+        }
+    }
+
+    & button {
+        background: var(--purple);
+        color: var(--white);
+        border: 0px;
+        border-radius: 8px;
+        padding: 0.75em 1.5em;
+        margin-bottom: 1.25rem;
+        width: 100%;
+        cursor: pointer;
+    }
+}

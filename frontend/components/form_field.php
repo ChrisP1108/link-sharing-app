@@ -19,14 +19,17 @@
                 ';
             break;
     }
+
+    $err_msg = $props['errMsg'] ?? "Can't be empty";
 ?>
 
-<div class="form-field">
+<div class="form-field" data-fieldname="<?php echo $props['name']; ?>">
     <label for="<?php echo $props['name']; ?>">
         <?php echo ucfirst($props['label']); ?>
     </label>
     <div class="input-container">
         <?php echo $icon_code ? $icon_code : ''; ?>
-        <input type="<?php echo $props['type']; ?>" name="<?php echo $props['name']; ?>" id="<?php echo $props['name']; ?>" placeholder="<?php echo $props['placeholder']; ?>">
+        <input data-required="<?php echo $props['required'] ? 'true' : 'false'; ?>" type="<?php echo $props['type'] === 'email' ? 'text' : $props['type']; ?>" data-type="<?php echo $props['type']; ?>" name="<?php echo $props['name']; ?>" id="<?php echo $props['name']; ?>" placeholder="<?php echo $props['placeholder']; ?>">
+        <p hidden><?php echo $err_msg; ?></p>
     </div>
 </div>

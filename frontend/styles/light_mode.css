@@ -1,3 +1,5 @@
+/* Light mode color styling */
+
 .light-mode {
 
     background: var(--light_grey);
@@ -14,6 +16,10 @@
         color: var(--dark_grey);
     }
 
+    & a {
+        color: var(--purple);
+    }
+
     & .box-section {
         background: var(--white);
     }
@@ -24,10 +30,6 @@
 
     & .input-container {
         border: 1px var(--border) solid;
-
-        &:has(input:focus) {
-            border: 1px var(--purple) solid;
-        }
     }
 
 }
