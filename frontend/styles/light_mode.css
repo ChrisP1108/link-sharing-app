@@ -10,6 +10,10 @@
         color: var(--grey);
     }
 
+    & p, & label, & input, & select, & option {
+        color: var(--dark_grey);
+    }
+
     & .box-section {
         background: var(--white);
     }
@@ -17,4 +21,13 @@
     & .logo-container h2 {
         color: var(--dark_grey);
     }
+
+    & .input-container {
+        border: 1px var(--border) solid;
+
+        &:has(input:focus) {
+            border: 1px var(--purple) solid;
+        }
+    }
+
 }

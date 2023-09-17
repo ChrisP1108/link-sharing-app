@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=swap');
 
-h1, h2, h3, h4, h5, h6, p, span {
+h1, h2, h3, h4, h5, h6, p, label, span {
     line-height: 1.5em;
     font-family: 'Instrument Sans', sans-serif;
 }
@@ -28,14 +28,14 @@ h4 {
 
 /* Body M */
 
-h5 {
+h5, input, select, option {
     font-size: 1rem;
     font-weight: 400;
 }
 
 /* Body S */
 
-p {
+p, label {
     font-size: 0.75rem;
     font-weight: 400;
 }
