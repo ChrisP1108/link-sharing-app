@@ -50,7 +50,6 @@
                         'icon' => 'password',
                         'placeholder' => 'At least 8 characters',
                         'required' => true,
-                        'errMsg' => 'Please check again'
                     ]);
                     Component::form_field([
                         'name' => 'confirm_password',
@@ -58,7 +57,7 @@
                         'type' => 'password',
                         'icon' => 'password',
                         'placeholder' => 'At least 8 characters',
-                        'required' => false
+                        'required' => true
                     ]);
 
                     // Password creation note on create page

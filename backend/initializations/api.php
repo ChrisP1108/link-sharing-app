@@ -137,7 +137,7 @@
             // Return 200 status if user successfully added.
 
             return [
-                'status' => 200,
+                'status' => 201,
                 'msg' => 'User successfully added.'
             ];
         } else {
