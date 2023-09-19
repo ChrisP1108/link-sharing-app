@@ -1,3 +1,73 @@
+// Form error message handler
+
+function formErrSet(errMsg) {
+    const formErrMsg = document.querySelector("[data-formerrmsg]");
+    formErrMsg.removeAttribute("hidden");
+    formErrMsg.innerText = errMsg;
+
+    const formFields = document.querySelectorAll(`[data-fieldtype]`);
+
+    formFields.forEach(field => {
+        field.addEventListener('click', () => {
+            formErrMsg.setAttribute("hidden", "");
+            formErrMsg.innerText = '';
+        });
+    });
+}
+
+// Field error handler
+
+function fieldErrorSet(fieldNode = null, errMsg = null) {
+
+    // Select error text p tag
+
+    console.log(errMsg);
+
+    const inputErrMsg = fieldNode.querySelector('p');
+
+    // Add field red border and show error text
+
+    fieldNode.classList.add("field-error");
+
+    inputErrMsg.innerText = errMsg ? errMsg : inputErrMsg.innerText;
+
+    inputErrMsg.removeAttribute("hidden");
+
+    // Monitor click to remove red border and error text
+
+    // Check if multiple password fields, like on create page and remove all error styling and error text, otherwise remove single field
+
+    const multiplePasswordFields = document.querySelectorAll(`[data-fieldtype="password"]`);
+
+    fieldNode.addEventListener("click", () => {
+
+        // Apply if multiple password fields and field is type password, such as create page
+
+        if (multiplePasswordFields.length > 1 && fieldNode.dataset.fieldtype === 'password') {
+            multiplePasswordFields.forEach(pField => {
+                pField.classList.remove("field-error");
+                const errMsg = pField.querySelector("p");
+                errMsg.setAttribute("hidden", "");
+                errMsg.innerText = '';
+            });
+
+        } else {
+        
+            // Apply error styling to just one fields if no multiple password fields found
+        
+            fieldNode.classList.remove("field-error");
+            inputErrMsg.setAttribute("hidden", "");
+            inputErrMsg.innerText = '';
+        }
+    });
+}
+
+// Go to profile page 
+
+function directToProfile() {
+    window.location.href = window.location.origin + '/profile';
+}
+
 // API Request Handler
 
 async function APIReq(type = 'POST', data = {}, route = null) {
@@ -26,10 +96,6 @@ async function APIReq(type = 'POST', data = {}, route = null) {
 // Form submission handler
 
 async function formSubmission(e) {
-
-    // Prevent form default submission
-
-    e.preventDefault();
 
     // Gather form data and input nodes
 
@@ -112,22 +178,7 @@ async function formSubmission(e) {
         // Handle error on fields if error found.  Applies red border and red text, and removes when user clicks afterward
 
         if (fieldError) {            
-            fieldNode.classList.add("field-error");
-            inputErrMsg.removeAttribute("hidden");
-            fieldNode.addEventListener("click", () => {
-                if (field.type === 'password' && e.target.dataset.type === 'create') {
-                    document.querySelectorAll(`[data-fieldtype="password"]`).forEach(pField => {
-                        pField.classList.remove("field-error");
-                        const errMsg = pField.querySelector("p");
-                        errMsg.setAttribute("hidden", "");
-                        errMsg.innerText = '';
-                    });
-                } else {
-                    fieldNode.classList.remove("field-error");
-                    inputErrMsg.setAttribute("hidden", "");
-                    inputErrMsg.innerText = '';
-                }
-            });
+            fieldErrorSet(fieldNode);
         }
     });
 
@@ -135,19 +186,63 @@ async function formSubmission(e) {
 
     if (!formError) {
 
-        // Create user handler
+        // Set submitting to true to prevent form submission during API call
 
-        if (e.target.dataset.type === 'create') {
-            formData.password = formData.confirm_password;
-            delete formData.create_password;
-            delete formData.confirm_password;
+        submitting = true;
 
-            const apiRequest = await APIReq("POST", formData, '/api/user');
+        // Select button node and get it's text
 
-            if (apiRequest.ok) {
-                window.location.href = window.location.origin + '/profile';
-            }
+        const button = e.target.querySelector("button");
+
+        const buttonText = button.innerText;
+
+        // Load Spinner in submit button
+
+        const spinnerHTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="6 6 12 12" style="fill: #fff; position: absolute; inset: 0; margin: auto;" height="1.75em" width="3.6em"><circle cx="4" cy="12" r="0"><animate begin="0;h.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="0;3" fill="freeze"></animate><animate begin="b.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="4;12" fill="freeze"></animate><animate begin="d.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="12;20" fill="freeze"></animate><animate id="g" begin="f.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="3;0" fill="freeze"></animate><animate id="h" begin="g.end" attributeName="cx" dur="0.001s" values="20;4" fill="freeze"></animate></circle><circle cx="4" cy="12" r="3"><animate begin="0;h.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="4;12" fill="freeze"></animate><animate begin="b.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="12;20" fill="freeze"></animate><animate id="e" begin="d.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="3;0" fill="freeze"></animate><animate id="f" begin="e.end" attributeName="cx" dur="0.001s" values="20;4" fill="freeze"></animate><animate begin="f.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="0;3" fill="freeze"></animate></circle><circle cx="12" cy="12" r="3"><animate begin="0;h.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="12;20" fill="freeze"></animate><animate id="c" begin="b.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="3;0" fill="freeze"></animate><animate id="d" begin="c.end" attributeName="cx" dur="0.001s" values="20;4" fill="freeze"></animate><animate begin="d.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="0;3" fill="freeze"></animate><animate begin="f.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="4;12" fill="freeze"></animate></circle><circle cx="20" cy="12" r="3"><animate id="a" begin="0;h.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="3;0" fill="freeze"></animate><animate id="b" begin="a.end" attributeName="cx" dur="0.001s" values="20;4" fill="freeze"></animate><animate begin="b.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="0;3" fill="freeze"></animate><animate id="e" begin="d.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="4;12" fill="freeze"></animate><animate begin="f.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="12;20" fill="freeze"></animate></circle></svg>`;
+
+        button.innerHTML = `<span>${buttonText}</span>` + spinnerHTML;
+
+        // Submission handle by type
+
+        switch(e.target.dataset.type) {
+
+            // Create user handler
+
+            case 'create':
+                formData.password = formData.confirm_password;
+                delete formData.create_password;
+                delete formData.confirm_password;
+
+                const createRequest = await APIReq("POST", formData, '/api/user');
+
+                if (createRequest.ok) {
+                    directToProfile();
+                } else {
+                    button.innerHTML = buttonText;
+                    if (createRequest.msg.includes('same email already exists')) {
+                        fieldErrorSet(document.querySelector(`[data-fieldtype="email"]`), 'Email already exists');
+                    } else {
+                        formErrSet(createRequest.msg);
+                    }
+                }
+            break;
+
+            // Login user handler
+
+            case 'login':
+                const loginRequest = await APIReq("POST", formData, 'api/user/login');
+
+                if (loginRequest.ok) {
+                    directToProfile();
+                } else {
+                    button.innerHTML = buttonText;
+                    formErrSet(loginRequest.msg);
+                }
         }
+
+        // Set submitting to false
+
+        submitting = false
     }
 }
 
@@ -156,4 +251,13 @@ async function formSubmission(e) {
 
 const form = document.querySelector("form");
 
-form.addEventListener("submit", formSubmission);
+// Used to determine if submission in process to API
+
+let submitting = false;
+
+form.addEventListener("submit", e => {
+    e.preventDefault();
+    if (!submitting) {
+        formSubmission(e);
+    } 
+});

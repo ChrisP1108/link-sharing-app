@@ -79,10 +79,11 @@
                 }
             ?>
 
+            <h5 hidden class="form-err-msg" data-formerrmsg></h5>
             <button type="submit"><?php echo $props['page'] === 'create' ? 'Create new account' : 'Login'?></button>
         </form>
         <h5 class="page-switch"><?php echo $props['page'] === 'create' ? "Already have an account?" : "Don't have an account?"; ?></h5>
-        <a href="<?php echo $props['page'] === 'create' ? '/login' : '/create'; ?>" class="page-switch"><?php echo $props['page'] === 'create' ? "Login" : "Create account"; ?></h5>
+        <a href="<?php echo $props['page'] === 'create' ? '/login' : '/create'; ?>" class="page-switch"><?php echo $props['page'] === 'create' ? "Login" : "Create account"; ?></a>
         <script src="/frontend/scripts/form_submission.js"></script>
     </section>
 </main>

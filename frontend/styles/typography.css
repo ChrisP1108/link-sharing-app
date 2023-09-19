@@ -6,37 +6,30 @@ h1, h2, h3, h4, h5, h6, p, label, span, a {
     text-decoration: none;
 }
 
-/* Logo Text */
-
-.logo-container h2 {
-    font-size: 36px;
-    font-weight: 800;
-}
-
 /* Heading M */
 
 h3 {
-    font-size: clamp(8px + 1rem, 6vw, 24px + 0.5rem);
+    font-size: clamp(min(8px + 1rem, 7.5vw), 6.25vw, 24px + 0.5rem);
     font-weight: 700;
 }
 
 /* Heading S */
 
 h4 {
-    font-size: 1rem;
+    font-size: min(1rem, 4.5vw);
     font-weight: 700;
 }
 
 /* Body M */
 
-h5, input, select, option, button {
-    font-size: 1rem;
+h5, input, select, option, button, a {
+    font-size: min(1rem, 4.5vw);
     font-weight: 400;
 }
 
 /* Body S */
 
 p, label {
-    font-size: 0.75rem;
+    font-size: min(0.75rem, 4vw);
     font-weight: 400;
 }

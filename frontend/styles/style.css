@@ -38,13 +38,14 @@ body {
     width: fit-content;
     align-items: center;
     gap: 8px;
+    font-size: min(2.25rem, 11vw) !important;
 
     & svg {
-        width: 2.0625rem;
-        height: 2.0625rem;
+        width: 1.15em;
+        height: 1.15em;
     }
 
     & h2 {
-        font-size: 2.25rem !important;
+        font-size: inherit;
     }
 }

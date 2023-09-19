@@ -69,6 +69,11 @@ form {
         }
     }
 
+    .form-err-msg {
+        color: var(--red);
+        margin-bottom: 1.25em;
+    }
+
     & button {
         background: var(--purple);
         color: var(--white);
@@ -78,5 +83,11 @@ form {
         margin-bottom: 1.25rem;
         width: 100%;
         cursor: pointer;
+        position: relative;
+
+        & span {
+            opacity: 0;
+            line-height: 0;
+        }
     }
 }

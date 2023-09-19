@@ -17,6 +17,6 @@
         if ($cookie && Token::cookie_valid($cookie, $users, $cookie, 'id')) {
             return Token::get_cookie_id($cookie);
         } else {
-            return $_ENV['ENVIRONMENT'] === 'development' ? true : false;
+            return false;
         }
     }
