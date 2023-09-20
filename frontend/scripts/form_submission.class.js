@@ -248,7 +248,6 @@ class FormHandler {
                             button.innerHTML = buttonText;
                             if (createRequest.msg.includes('same email already exists')) {
                                 this.#fieldErrorSet(this.#formNode.querySelector(`[data-fieldtype="email"]`), 'Email already exists');
-                                this.#formErrSet(createRequest.msg);
                             } else {
                                 this.#formErrSet(createRequest.msg);
                             }
@@ -264,7 +263,14 @@ class FormHandler {
                             this.#directToUrl('/profile');
                         } else {
                             button.innerHTML = buttonText;
-                            this.#formErrSet(loginRequest.msg);
+                            console.log(formData);
+                            if (loginRequest.msg.includes("Invalid user email")) {
+                                this.#fieldErrorSet(this.#formNode.querySelector(`[data-fieldtype="email"]`), 'Invalid email');
+                            } else if (loginRequest.msg.includes("Invalid password")) {
+                                this.#fieldErrorSet(this.#formNode.querySelector(`[data-fieldtype="password"]`), 'Invalid password');
+                            } else {
+                                this.#formErrSet(loginRequest.msg);
+                            }
                         }
                 }
 

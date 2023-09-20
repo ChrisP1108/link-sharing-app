@@ -126,7 +126,7 @@
             if (!$new_user) {
                 return [
                     'status' => 500,
-                    'msg' => 'There was an error adding user.'
+                    'msg' => 'There was an error adding user.  Please try again.'
                 ];
             }
 
@@ -146,7 +146,7 @@
 
             return [
                 'status' => 500,
-                'msg' => 'There was an error adding user.'
+                'msg' => 'There was an error adding user. Please try again.'
             ];
         }
     });
@@ -180,13 +180,9 @@
             }
         }
 
-        // Get body data and check that it has required fields
+        // Get body data
 
         $body = $req['body'] ?? null;
-
-        if (input_invalid($body) !== false) {
-            return input_invalid($body);
-        }
 
         // Get Id from token
 
@@ -222,7 +218,7 @@
 
             return [
                 'status' => 500,
-                'msg' => 'There was an error updating user.'
+                'msg' => 'There was an error updating user.  Please try again.'
             ];
         }
     });
@@ -322,15 +318,33 @@
             }
         } 
 
-        // If credentials failed, return 401 status, otherwise set token and return 200 status
+        // Return 400 response if user email not found
+
+        if (!$user) {
+            return [
+                'status' => 400,
+                'msg' => 'Invalid user email address.'
+            ];
+        }
+
+        // If password failed, return 401 status, otherwise increment times logged in, set token and return 200 status
         
         if (!$authorized) {
             return [
                 'status' => 401,
-                'msg' => 'Invalid credentials.'
+                'msg' => 'Invalid password.'
             ];
         } else {
+
+            // Increment times user logged in
+
+            $increment_times_logged_in = intval($user['times_logged_in']) + 1;
+            DATABASE->update_table_row($user['id'], ['times_logged_in' => $increment_times_logged_in]);
+            
             generate_token($user);
+
+            // Return 200 status
+
             return [
                 'status' => 200,
                 'msg' => 'User successfully logged in.'
