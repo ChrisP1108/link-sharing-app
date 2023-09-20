@@ -29,6 +29,6 @@
     <div class="input-container">
         <?php echo $icon_code ? $icon_code : ''; ?>
         <input data-required="<?php echo $props['required'] ? 'true' : 'false'; ?>" type="<?php echo $props['type'] === 'email' ? 'text' : $props['type']; ?>" name="<?php echo $props['name']; ?>" id="<?php echo $props['name']; ?>" placeholder="<?php echo $props['placeholder']; ?>">
-        <p hidden data-errormsg="true"></p>
+        <p hidden data-errormsg></p>
     </div>
 </div>

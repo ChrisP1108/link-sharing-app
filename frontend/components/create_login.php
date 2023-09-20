@@ -26,7 +26,7 @@
         }
     ?>
 
-        <form data-type="<?php echo $props['page']; ?>">
+        <form data-formtype="<?php echo $props['page']; ?>">
             <?php 
 
                 // Email Field
@@ -84,6 +84,10 @@
         </form>
         <h5 class="page-switch"><?php echo $props['page'] === 'create' ? "Already have an account?" : "Don't have an account?"; ?></h5>
         <a href="<?php echo $props['page'] === 'create' ? '/login' : '/create'; ?>" class="page-switch"><?php echo $props['page'] === 'create' ? "Login" : "Create account"; ?></a>
-        <script src="/frontend/scripts/form_submission.js"></script>
     </section>
 </main>
+
+<script src="/frontend/scripts/form_submission.class.js"></script>
+<script>
+    const formHandler = new FormHandler(`[data-formtype="<?php echo $props['page']; ?>"]`, "<?php echo $props['page']; ?>");
+</script>
