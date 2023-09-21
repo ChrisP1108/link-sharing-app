@@ -89,5 +89,5 @@
 
 <script src="/frontend/scripts/form_submission.class.js"></script>
 <script>
-    const formHandler = new FormHandler(`[data-formtype="<?php echo $props['page']; ?>"]`, "<?php echo $props['page']; ?>");
+    new FormHandler(`[data-formtype="<?php echo $props['page']; ?>"]`, "<?php echo $props['page']; ?>", "<?php echo $props['page'] === 'create' ? '/api/user' : '/api/user/login'; ?>");
 </script>

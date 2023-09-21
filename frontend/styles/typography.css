@@ -22,7 +22,7 @@ h4 {
 
 /* Body M */
 
-h5, input, select, option, button, a {
+h5, .input-container, button, a {
     font-size: min(1rem, 4.5vw);
     font-weight: 400;
 }

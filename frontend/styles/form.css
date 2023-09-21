@@ -1,18 +1,19 @@
 form {
     .form-field {
-        margin-bottom: 1rem;
+        margin-bottom: 1.25rem;
 
         & .input-container {
             display: flex;
             align-items: center;
-            border-radius: 8px;
+            border-radius: 0.5em;
             margin-top: 0.25rem;
             padding: 0 min(1rem, 4.5%);
             position: relative;
 
             & svg {
-                width: 0.875rem;
-                height: 0.875rem;
+                width: 0.875em;
+                height: 0.875em;
+                margin: 0.875em 0 ;
             }
 
             & input, & select, & option {
@@ -22,6 +23,7 @@ form {
                 padding: 0.75em min(1em, 4%);
                 width: 100%;
                 flex: 1;
+                font-size: inherit;
 
                 &:focus {
                     outline: none;
@@ -78,9 +80,9 @@ form {
         background: var(--purple);
         color: var(--white);
         border: 0px;
-        border-radius: 8px;
+        border-radius: 0.5em;
         padding: 0.75em 1.5em;
-        margin-bottom: 1.25rem;
+        margin-bottom: 1.25em;
         width: 100%;
         cursor: pointer;
         position: relative;
@@ -88,6 +90,15 @@ form {
         & span {
             opacity: 0;
             line-height: 0;
+        }
+
+        & svg {
+            fill: #fff !important;
+            position: absolute !important;
+            inset: 0 !important;
+            margin: auto !important;
+            height: 1.75em !important;
+            width: 3.6em !important;
         }
     }
 }
