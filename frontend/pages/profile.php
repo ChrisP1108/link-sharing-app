@@ -2,6 +2,10 @@
     Component::header();
 ?>
 
+<header class="profile-header">
+    <?php Component::logo(); ?>
+</header>
+
 <div id="app"></div>
 
 <script>

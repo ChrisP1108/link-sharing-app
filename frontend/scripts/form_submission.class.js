@@ -30,12 +30,12 @@ class FormHandler {
                 this.#spinnerSVG = spinnerSVG;
             }
 
-            // Set event listener on form submit.  Prevent default submission and run formSubmitCheck method if not currently in submitting process
+            // Set event listener on form submit.  Prevent default submission and run #formSubmitCheck method if not currently in submitting process
 
             this.#formNode.addEventListener("submit", e => {
                 e.preventDefault();
                 if (!this.#submitting) {
-                    this.formSubmitCheck(e);
+                    this.#formSubmitCheck(e);
                 }
             });
         }
@@ -44,7 +44,7 @@ class FormHandler {
 
         // Form error message handler
 
-        formErrSet(errMsg) {
+        #formErrSet(errMsg) {
             const formErrMsg = this.#formNode.querySelector("[data-formerrmsg]");
             formErrMsg.removeAttribute("hidden");
             formErrMsg.innerText = errMsg;
@@ -61,54 +61,76 @@ class FormHandler {
             });
         }
 
-        // Field error handler
+        // Remove field error handler
 
-        fieldErrorSet(fieldNode = null, errMsg = null) {
-
-            // Select error text p tag
+        #fieldErrorRemove(fieldNode) {
 
             const inputErrMsg = fieldNode.querySelector('[data-errormsg]');
+
+            const multiplePasswordFields = this.#formNode.querySelectorAll(`[data-fieldtype="password"]`);
+
+            // Apply if multiple password fields and field is type password, such as create page
+
+            if (multiplePasswordFields.length > 1 && fieldNode.dataset.fieldtype === 'password') {
+                multiplePasswordFields.forEach(pField => {
+                    pField.classList.remove("field-error");
+                    const errMsg = pField.querySelector("[data-errormsg]");
+                    errMsg.remove();
+                });
+
+            } else {
+            
+                // Apply error styling to just one fields if no multiple password fields found
+            
+                fieldNode.classList.remove("field-error");
+
+                // Remove input error text if found.
+
+                if (inputErrMsg) {
+                    inputErrMsg.remove();
+                }
+            }
+        }
+
+        // Set field error handler
+
+        #fieldErrorSet(fieldNode = null, errMsg = null) {
+
+            // Generate error text p tag
+
+            const inputErrMsg = document.createElement("p");
+
+            inputErrMsg.dataset.errormsg = '';
 
             // Add field red border and show error text
 
             fieldNode.classList.add("field-error");
 
-            inputErrMsg.innerText = errMsg ? errMsg : inputErrMsg.innerText;
+            inputErrMsg.innerText = errMsg ? errMsg : '';
 
-            inputErrMsg.removeAttribute("hidden");
+            // Add error text p tag into DOM
+
+            fieldNode.querySelector("[data-inputcontainer]").appendChild(inputErrMsg);
 
             // Monitor click to remove red border and error text
 
             // Check if multiple password fields, like on create page and remove all error styling and error text, otherwise remove single field
 
-            const multiplePasswordFields = this.#formNode.querySelectorAll(`[data-fieldtype="password"]`);
-
             fieldNode.addEventListener("click", () => {
-
-                // Apply if multiple password fields and field is type password, such as create page
-
-                if (multiplePasswordFields.length > 1 && fieldNode.dataset.fieldtype === 'password') {
-                    multiplePasswordFields.forEach(pField => {
-                        pField.classList.remove("field-error");
-                        const errMsg = pField.querySelector("[data-errormsg]");
-                        errMsg.setAttribute("hidden", "");
-                        errMsg.innerText = '';
-                    });
-
-                } else {
-                
-                    // Apply error styling to just one fields if no multiple password fields found
-                
-                    fieldNode.classList.remove("field-error");
-                    inputErrMsg.setAttribute("hidden", "");
-                    inputErrMsg.innerText = '';
-                }
+                this.#fieldErrorRemove(fieldNode);   
             });
         }
 
         // Direct to url
 
-        directToUrl(url) {
+        #directToUrl(url) {
+
+            // Make background opaque
+
+            document.body.classList.add("opaque");
+
+            // Perform redirect
+
             window.location.href = window.location.origin + '/' + url;
         }
 
@@ -155,7 +177,7 @@ class FormHandler {
 
         // Form submission field check.  Makes sure there are no error prior to submission
 
-        async formSubmitCheck(e) {
+        async #formSubmitCheck(e) {
 
             // Gather form data and input nodes
 
@@ -189,7 +211,7 @@ class FormHandler {
 
                 // Select Error text node
 
-                const inputErrMsg = fieldNode.querySelector('[data-errormsg]');
+                let inputErrMsg = '';
 
                 // Set error if required field blank
 
@@ -197,7 +219,7 @@ class FormHandler {
                     requiredBlank = true;
                     fieldError = true;
                     formError = true;
-                    inputErrMsg.innerText = "Can't be empty"
+                    inputErrMsg = "Can't be empty";
                 }
 
                 // Check that field inputs are valid
@@ -210,7 +232,7 @@ class FormHandler {
                             if (!emailRegex.test(field.value)) {
                                 fieldError = true;
                                 formError = true;
-                                inputErrMsg.innerText = "Invalid email"
+                                inputErrMsg = "Invalid email"
                             } 
                             break;
                     }
@@ -223,13 +245,13 @@ class FormHandler {
                     const passwords = passwordFields.map(i => i.value);
                     if (field.type === 'password' && field.value.length < 8) {
                         fieldError = true;
-                        inputErrMsg.innerText = "8 characters minimum";
+                        inputErrMsg = "8 characters minimum";
                         formError = true;
                     }
                     if (passwords[0] !== passwords[1]) {
                         if (field.type === 'password') {
                             fieldError = true;
-                            inputErrMsg.innerText = "Passwords do not match";
+                            inputErrMsg = "Passwords do not match";
                             formError = true;
                         } 
                     }
@@ -238,18 +260,22 @@ class FormHandler {
                 // Handle error on fields if error found.  Applies red border and red text, and removes when user clicks afterward
 
                 if (fieldError) {            
-                    this.fieldErrorSet(fieldNode);
+                    this.#fieldErrorSet(fieldNode, inputErrMsg);
                 }
             });
 
             if(!formError) {
-                this.formPostRequest(formData);
+                fieldNodes.forEach(field => {
+                    const fieldNode = this.#formNode.querySelector(`[data-fieldname="${field.name}"]`);
+                    this.#fieldErrorRemove(fieldNode);
+                });
+                this.#formPostRequest(formData);
             }
         }
 
         // Send data to API via a POST Request
 
-        async formPostRequest(formData) {
+        async #formPostRequest(formData) {
 
             // Set submitting to true to prevent form submission during API call
 
@@ -273,12 +299,12 @@ class FormHandler {
                     const createRequest = await this.apiPostRequest(formData);
 
                     if (createRequest.ok) {
-                        this.directToUrl('profile');
+                        this.#directToUrl('profile');
                     } else {
                         if (createRequest.msg.includes('same email already exists')) {
-                            this.fieldErrorSet(this.#formNode.querySelector(`[data-fieldtype="email"]`), 'Email already exists');
+                            this.#fieldErrorSet(this.#formNode.querySelector(`[data-fieldtype="email"]`), 'Email already exists');
                         } else {
-                            this.formErrSet(createRequest.msg);
+                            this.#formErrSet(createRequest.msg);
                         }
                     }
                 break;
@@ -289,14 +315,14 @@ class FormHandler {
                     const loginRequest = await this.apiPostRequest(formData);
 
                     if (loginRequest.ok) {
-                        this.directToUrl('profile');
+                        this.#directToUrl('profile');
                     } else {
                         if (loginRequest.msg.includes("Invalid user email")) {
-                            this.fieldErrorSet(this.#formNode.querySelector(`[data-fieldtype="email"]`), 'Invalid email');
+                            this.#fieldErrorSet(this.#formNode.querySelector(`[data-fieldtype="email"]`), 'Invalid email');
                         } else if (loginRequest.msg.includes("Invalid password")) {
-                            this.fieldErrorSet(this.#formNode.querySelector(`[data-fieldtype="password"]`), 'Invalid password');
+                            this.#fieldErrorSet(this.#formNode.querySelector(`[data-fieldtype="password"]`), 'Invalid password');
                         } else {
-                            this.formErrSet(loginRequest.msg);
+                            this.#formErrSet(loginRequest.msg);
                         }
                     }
             }

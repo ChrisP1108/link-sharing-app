@@ -1,4 +1,4 @@
-import Profile from '/frontend/scripts/components/profile.class.js';
+import Profile from '/frontend/scripts/components/profile/profile.class.js';
 
 const data = {
     first_name: 'Chris',
