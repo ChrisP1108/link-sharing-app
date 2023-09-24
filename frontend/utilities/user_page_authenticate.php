@@ -1,6 +1,6 @@
 <?php
 
-    // Checks is user has valid token to access page.  Returns if authorized, along with user id
+    // Checks if user has valid token to access page.  Returns if authorized, along with user id
 
     function user_page_authenticate() {
 
@@ -17,6 +17,7 @@
         if ($cookie && Token::cookie_valid($cookie, $users, $cookie, 'id')) {
             return Token::get_cookie_id($cookie);
         } else {
+            Token::remove_cookie($_ENV['WEB_TOKEN_NAME']);
             return false;
         }
     }

@@ -1,8 +1,9 @@
 :root {
     --purple: #633CFF;
-    --purple_hover: #BEADFF;
-    --purple_opaque: #633CFF50;
-    --light_purple: #EFEBFF;
+    --purple-active: #BEADFF;
+    --purple-opaque: #633CFF50;
+    --purple-opaque-2: #bdadff17;
+    --light-purple: #EFEBFF;
     --dark_grey: #333333;
     --grey: #737373;
     --border: #D9D9D9;
