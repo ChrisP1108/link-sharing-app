@@ -1,18 +1,39 @@
 body:has(.profile-page-container) {
 
     display: flex;
-    padding: 24px;
+    
+
+    @media(min-width: 48rem) {
+        padding: 24px;
+    }
 
     & .profile-page-container {
 
         max-width: 1400px;
         margin: 0 auto;
         display: grid;
-        grid-template-columns: 1fr 1.44fr;
+        grid-template-columns: 1fr;
         grid-template-rows: auto 1fr;
         gap: 24px;
         min-height: 100%;
         width: 100%;
+
+        & aside, main {
+            grid-column: 1 / 3;
+            margin: 0 24px;
+
+            @media(min-width: 48rem) {
+                margin: 0;
+            }
+
+            @media(min-width: 64rem) {
+                grid-column: auto;
+            }
+        }
+
+        @media(min-width: 64rem) {
+            grid-template-columns: 1fr 1.44fr;
+        }
 
         & .box-section {
             background: var(--white);
@@ -118,6 +139,10 @@ body:has(.profile-page-container) {
                 &:hover {
                     background: var(--light-purple);
                 }
+            }
+
+            & a {
+                display: flex;
             }
         }
     }

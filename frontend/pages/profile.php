@@ -31,7 +31,6 @@
     </header>
     <aside class="box-section"></aside>
     <main class="box-section"></main>
-
 </div>
 
 <div id="app"></div>
