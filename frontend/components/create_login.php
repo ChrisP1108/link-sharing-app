@@ -7,7 +7,7 @@
 
     ?>
 
-    <section class="box-section">
+    <section class="box-section box-padding-full">
 
     <?php
 
@@ -82,8 +82,10 @@
             <h5 hidden class="form-err-msg" data-formerrmsg></h5>
             <button type="submit"><?php echo $props['page'] === 'create' ? 'Create new account' : 'Login'?></button>
         </form>
-        <h5 class="page-switch"><?php echo $props['page'] === 'create' ? "Already have an account?" : "Don't have an account?"; ?></h5>
-        <a href="<?php echo $props['page'] === 'create' ? '/login' : '/create'; ?>" class="page-switch"><?php echo $props['page'] === 'create' ? "Login" : "Create account"; ?></a>
+        <div class="bottom-text">
+            <h5 class="page-switch"><?php echo $props['page'] === 'create' ? "Already have an account?" : "Don't have an account?"; ?></h5>
+            <a href="<?php echo $props['page'] === 'create' ? '/login' : '/create'; ?>" class="page-switch"><?php echo $props['page'] === 'create' ? "Login" : "Create account"; ?></a>
+        </div>
     </section>
 </main>
 

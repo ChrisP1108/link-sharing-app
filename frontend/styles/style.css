@@ -30,6 +30,10 @@ body {
     border-radius: 0.75rem;
 }
 
+.box-padding-full {
+    padding: 40px clamp(min(24px, 7vw), 6.25vw, 40px);
+}
+
 .logo-container {
     display: flex;
     width: fit-content;

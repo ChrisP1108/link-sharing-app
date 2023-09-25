@@ -10,13 +10,51 @@ class Profile {
     #links;
     #tabNodes;
     #tabSelected;
+    #tabSectionNode;
 
-    // Render html
+    // Render Links Tab HTML
 
-    render() {
+    #renderLinksHTML() {
         return `
-            <h1>Render works!</h1>
+            <h3>Customize your links</h3>
+            <h5>Add/edit/remove links below and then share all your profile with the world!</h5>
         `
+    }
+
+    // Render Profile Details HTML
+
+    #renderProfileDetailsHTML() {
+        return `
+            <h3>Profile Details</h3>
+            <h5>Add your details to create a personal touch to your profile.</h5>
+        `
+    }
+
+    // Set tab to be active
+
+    #setTabActive(tabName) {
+        let tab;
+        this.#tabNodes.forEach(t => {
+            if (t.dataset.tab === tabName) {
+                tab = t;
+            }
+            t.classList.remove("tab-active");
+        });
+        tab.classList.add("tab-active");
+        this.#tabSelected = tab.dataset.tab;
+
+        // Render HTML into main section based on tab that is active
+
+        switch(this.#tabSelected) {
+            case 'links':
+                this.#tabSectionNode.innerHTML = this.#renderLinksHTML();
+                break;
+            case 'profile':
+                this.#tabSectionNode.innerHTML = this.#renderProfileDetailsHTML();
+                break;
+            default:
+                break;
+        }
     }
 
     // Monitor clicking of links, profile details tabs
@@ -24,11 +62,7 @@ class Profile {
     #tabClickHandler() {
         this.#tabNodes.forEach(tab => {
             tab.addEventListener('click', () => {
-                this.#tabNodes.forEach(t => {
-                    t.classList.remove("tab-active");
-                });
-                tab.classList.add("tab-active");
-                this.#tabSelected = tab.dataset.tab;
+                this.#setTabActive(tab.dataset.tab);
             });
         });
     }
@@ -47,7 +81,9 @@ class Profile {
 
         this.#tabSelected = this.#tabNodes[0].dataset.tab ?? null;
 
+        this.#tabSectionNode = document.querySelector('[data-section="tabs"]');
+
         this.#tabClickHandler();
-        this.render();
+        this.#setTabActive(this.#tabSelected);
     }
 }

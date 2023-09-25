@@ -322,7 +322,7 @@
 
         if (!$user) {
             return [
-                'status' => 400,
+                'status' => 401,
                 'msg' => 'Invalid user email address.'
             ];
         }

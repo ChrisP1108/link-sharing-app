@@ -75,7 +75,9 @@ class FormHandler {
                 multiplePasswordFields.forEach(pField => {
                     pField.classList.remove("field-error");
                     const errMsg = pField.querySelector("[data-errormsg]");
-                    errMsg.remove();
+                    if (errMsg) {
+                        errMsg.remove();
+                    }
                 });
 
             } else {
