@@ -8,59 +8,37 @@ class Profile {
     #email;
     #image_url;
     #links;
-    #tabNodes;
+    #tabLinkNodes;
     #tabSelected;
-    #tabSectionNode;
+    #tabSectionNodes;
 
-    // Render Links Tab HTML
-
-    #renderLinksHTML() {
-        return `
-            <h3>Customize your links</h3>
-            <h5>Add/edit/remove links below and then share all your profile with the world!</h5>
-        `
-    }
-
-    // Render Profile Details HTML
-
-    #renderProfileDetailsHTML() {
-        return `
-            <h3>Profile Details</h3>
-            <h5>Add your details to create a personal touch to your profile.</h5>
-        `
-    }
-
-    // Set tab to be active
+    // Set tab to be active.  Also hides, unhides tab sections
 
     #setTabActive(tabName) {
-        let tab;
-        this.#tabNodes.forEach(t => {
-            if (t.dataset.tab === tabName) {
-                tab = t;
+
+        this.#tabLinkNodes.forEach(tab => {
+            if (tab.dataset.tab === tabName) {
+                tab.classList.add("tab-active");
+                this.#tabSelected = tab.dataset.tab;
+            } else {
+                tab.classList.remove("tab-active");
             }
-            t.classList.remove("tab-active");
         });
-        tab.classList.add("tab-active");
-        this.#tabSelected = tab.dataset.tab;
 
-        // Render HTML into main section based on tab that is active
+        this.#tabSectionNodes.forEach(section => {
+            if (section.dataset.tabsection === this.#tabSelected) {
+                section.removeAttribute("hidden");
+            } else {
+                section.setAttribute("hidden", "");
+            }
+        });
 
-        switch(this.#tabSelected) {
-            case 'links':
-                this.#tabSectionNode.innerHTML = this.#renderLinksHTML();
-                break;
-            case 'profile':
-                this.#tabSectionNode.innerHTML = this.#renderProfileDetailsHTML();
-                break;
-            default:
-                break;
-        }
     }
 
     // Monitor clicking of links, profile details tabs
 
     #tabClickHandler() {
-        this.#tabNodes.forEach(tab => {
+        this.#tabLinkNodes.forEach(tab => {
             tab.addEventListener('click', () => {
                 this.#setTabActive(tab.dataset.tab);
             });
@@ -77,11 +55,11 @@ class Profile {
         this.#image_url = image_url;
         this.#links = links;
 
-        this.#tabNodes = document.querySelectorAll("[data-tab]");
+        this.#tabLinkNodes = document.querySelectorAll("[data-tab]");
 
-        this.#tabSelected = this.#tabNodes[0].dataset.tab ?? null;
+        this.#tabSelected = this.#tabLinkNodes[0].dataset.tab ?? null;
 
-        this.#tabSectionNode = document.querySelector('[data-section="tabs"]');
+        this.#tabSectionNodes = document.querySelectorAll('[data-section="tabs"] [data-tabsection]');
 
         this.#tabClickHandler();
         this.#setTabActive(this.#tabSelected);
