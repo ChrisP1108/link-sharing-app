@@ -29,7 +29,21 @@ h5, .input-container, a {
 
 /* Body S */
 
-p, label {
+p, label, .mobile-link-container {
     font-size: min(0.75rem, 4vw);
+    font-weight: 400;
+}
+
+/* Profile Name Text */
+
+.name-text {
+    font-size: min(1.125rem, 5vw);
+    font-weight: 700;
+}
+
+/* Profile Email Text */
+
+.email-text {
+    font-size: min(0.875rem, 4.25vw);
     font-weight: 400;
 }
