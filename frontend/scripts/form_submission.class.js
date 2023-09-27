@@ -98,6 +98,10 @@ class FormHandler {
 
         #fieldErrorSet(fieldNode = null, errMsg = null) {
 
+            // Remove background opacity
+
+            document.body.classList.remove("opaque");
+
             // Generate error text p tag
 
             const inputErrMsg = document.createElement("p");
@@ -126,10 +130,6 @@ class FormHandler {
         // Direct to url
 
         #directToUrl(url) {
-
-            // Make background opaque
-
-            document.body.classList.add("opaque");
 
             // Perform redirect
 
@@ -283,6 +283,10 @@ class FormHandler {
 
             this.#submitting = true;
 
+            // Set window to be opaque during request
+
+            document.body.classList.add("opaque");
+
             // Load Spinner in submit button
 
             this.#formButtonNode.innerHTML = `<span>${this.#formButtonText}</span>` + this.#spinnerSVG;
@@ -329,7 +333,7 @@ class FormHandler {
                     }
             }
 
-            // Set set button text back from spinner and submitting to false
+            // Set set button text back from spinner and window to full opacity and submitting to false
             
             this.#formButtonNode.innerHTML = this.#formButtonText;
 
