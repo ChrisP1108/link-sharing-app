@@ -122,6 +122,28 @@ body:has(.profile-page-container) {
 
         & main {
             overflow-y: auto;
+
+            @media(max-width: 64rem) {
+                width: min(752px, 100%);
+                margin: 0 auto;
+            }
+
+            & .button-styling {
+                width: 100%;
+                margin: 2.25em 0 1.5em;
+                transition: 0.25s;
+            }
+
+            & section {
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+            }
+
+            & .get-started-container {
+                background: var(--light-grey) !important;
+                height: 100%;
+            }
         }
 
         @media(min-width: 64.0625rem) {
@@ -140,7 +162,7 @@ body:has(.profile-page-container) {
             transition: 0.25s;
             grid-column: 1 / 3;
 
-            & .logo-container, .button-url-direct {
+            & .logo-container, .button-styling {
                 min-width: 3.25rem;
 
             }
@@ -229,27 +251,34 @@ body:has(.profile-page-container) {
                 }
             }
 
-            & .button-url-direct {
-                border-radius: 0.5em;
-                padding: 0.5em 1.5em;
-                border: 1.5px var(--purple) solid;
-                color: var(--purple);
-                background: transparent;
-                transition: inherit;
-                font-size: inherit;
-                font-weight: 600;
+            & .button-styling {
 
                 @media(max-width: 33.6875rem) {
                     display: none;
                 }
 
-                &:hover {
-                    background: var(--light-purple);
-                }
             }
 
             & a {
                 display: flex;
+            }
+        }
+
+        & .button-styling {
+            border-radius: 0.5em;
+            padding: 0.5em 1.5em;
+            border: 1.5px var(--purple) solid;
+            color: var(--purple);
+            background: transparent;
+            transition: inherit;
+            font-weight: 600;
+
+            /* @media(max-width: 33.6875rem) {
+                display: none;
+            } */
+
+            &:hover {
+                background: var(--light-purple);
             }
         }
     }

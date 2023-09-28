@@ -37,7 +37,8 @@
                     'type' => 'email',
                     'icon' => 'email',
                     'placeholder' => 'e.g. alex@email.com',
-                    'required' => true
+                    'required' => true,
+                    'value' => ''
                 ]);
 
                 // Password Fields On Create Page
@@ -50,6 +51,7 @@
                         'icon' => 'password',
                         'placeholder' => 'At least 8 characters',
                         'required' => true,
+                        'value' => ''
                     ]);
                     Component::form_field([
                         'name' => 'confirm_password',
@@ -57,7 +59,8 @@
                         'type' => 'password',
                         'icon' => 'password',
                         'placeholder' => 'At least 8 characters',
-                        'required' => true
+                        'required' => true,
+                        'value' => ''
                     ]);
 
                     // Password creation note on create page
@@ -74,12 +77,13 @@
                         'type' => 'password',
                         'icon' => 'password',
                         'placeholder' => 'Enter your password',
-                        'required' => true
+                        'required' => true,
+                        'value' => ''
                     ]);
                 }
             ?>
 
-            <h5 hidden class="form-err-msg" data-formerrmsg></h5>
+            <h5 class="form-err-msg" data-formerrmsg></h5>
             <button type="submit"><?php echo $props['page'] === 'create' ? 'Create new account' : 'Login'?></button>
         </form>
         <div class="bottom-text">

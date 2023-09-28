@@ -7,6 +7,7 @@ class FormHandler {
         #formButtonText;
         #formType;
         #submitting = false;
+        #submissionError = false;
         #apiRoute;
         #spinnerSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="6 6 12 12"><circle cx="4" cy="12" r="0"><animate begin="0;h.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="0;3" fill="freeze"></animate><animate begin="b.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="4;12" fill="freeze"></animate><animate begin="d.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="12;20" fill="freeze"></animate><animate id="g" begin="f.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="3;0" fill="freeze"></animate><animate id="h" begin="g.end" attributeName="cx" dur="0.001s" values="20;4" fill="freeze"></animate></circle><circle cx="4" cy="12" r="3"><animate begin="0;h.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="4;12" fill="freeze"></animate><animate begin="b.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="12;20" fill="freeze"></animate><animate id="e" begin="d.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="3;0" fill="freeze"></animate><animate id="f" begin="e.end" attributeName="cx" dur="0.001s" values="20;4" fill="freeze"></animate><animate begin="f.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="0;3" fill="freeze"></animate></circle><circle cx="12" cy="12" r="3"><animate begin="0;h.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="12;20" fill="freeze"></animate><animate id="c" begin="b.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="3;0" fill="freeze"></animate><animate id="d" begin="c.end" attributeName="cx" dur="0.001s" values="20;4" fill="freeze"></animate><animate begin="d.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="0;3" fill="freeze"></animate><animate begin="f.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="4;12" fill="freeze"></animate></circle><circle cx="20" cy="12" r="3"><animate id="a" begin="0;h.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="3;0" fill="freeze"></animate><animate id="b" begin="a.end" attributeName="cx" dur="0.001s" values="20;4" fill="freeze"></animate><animate begin="b.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="0;3" fill="freeze"></animate><animate id="e" begin="d.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="4;12" fill="freeze"></animate><animate begin="f.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="12;20" fill="freeze"></animate></circle></svg>`;
 
@@ -45,8 +46,13 @@ class FormHandler {
         // Form error message handler
 
         #formErrSet(errMsg) {
+
+            // Set #submissionError to true
+
+            this.#submissionError = true;
+
             const formErrMsg = this.#formNode.querySelector("[data-formerrmsg]");
-            formErrMsg.removeAttribute("hidden");
+            formErrMsg.classList.remove("hidden");
             formErrMsg.innerText = errMsg;
 
             const formFields = this.#formNode.querySelectorAll(`[data-fieldtype]`);
@@ -55,8 +61,11 @@ class FormHandler {
 
             formFields.forEach(field => {
                 field.addEventListener('click', () => {
-                    formErrMsg.setAttribute("hidden", "");
+                    formErrMsg.classList.add("hidden", "");
                     formErrMsg.innerText = '';
+                    // Set #submissionError to false
+
+                    this.#submissionError = false;
                 });
             });
         }
@@ -92,39 +101,55 @@ class FormHandler {
                     inputErrMsg.remove();
                 }
             }
+
+            // Set #submissionError to false
+
+            this.#submissionError = false;
         }
 
         // Set field error handler
 
         #fieldErrorSet(fieldNode = null, errMsg = null) {
 
+            // Set #submissionError to true
+
+            this.#submissionError = true;
+
             // Remove background opacity
 
             document.body.classList.remove("opaque");
 
-            // Generate error text p tag
+            // Check if there is an existing error message to avoid duplicates
 
-            const inputErrMsg = document.createElement("p");
+            const existingErrMsg = fieldNode.querySelector("[data-errormsg]") !== null;
 
-            inputErrMsg.dataset.errormsg = '';
+            if (!existingErrMsg) {
 
-            // Add field red border and show error text
+                // Generate error text p tag
 
-            fieldNode.classList.add("field-error");
+                const inputErrMsg = document.createElement("p");
 
-            inputErrMsg.innerText = errMsg ? errMsg : '';
+                inputErrMsg.dataset.errormsg = '';
 
-            // Add error text p tag into DOM
+                // Add field red border and show error text
 
-            fieldNode.querySelector("[data-inputcontainer]").appendChild(inputErrMsg);
+                fieldNode.classList.add("field-error");
 
-            // Monitor click to remove red border and error text
+                inputErrMsg.innerText = errMsg ? errMsg : '';
 
-            // Check if multiple password fields, like on create page and remove all error styling and error text, otherwise remove single field
+                // Add error text p tag into DOM
 
-            fieldNode.addEventListener("click", () => {
-                this.#fieldErrorRemove(fieldNode);   
-            });
+                fieldNode.querySelector("[data-inputcontainer]").appendChild(inputErrMsg);
+
+                // Monitor click to remove red border and error text
+
+                // Check if multiple password fields, like on create page and remove all error styling and error text, otherwise remove single field
+
+                fieldNode.addEventListener("click", () => {
+                    this.#fieldErrorRemove(fieldNode);   
+                });
+
+            }
         }
 
         // Direct to url
@@ -291,6 +316,8 @@ class FormHandler {
 
             this.#formButtonNode.innerHTML = `<span>${this.#formButtonText}</span>` + this.#spinnerSVG;
 
+            // Checks for error
+            
             // Submission handle by type
 
             switch(this.#formType) {
@@ -333,9 +360,11 @@ class FormHandler {
                     }
             }
 
-            // Set set button text back from spinner and window to full opacity and submitting to false
+            // Set set button text back from spinner if error found and window to full opacity and submitting to false
             
-            this.#formButtonNode.innerHTML = this.#formButtonText;
+            if (this.#submissionError) {
+                this.#formButtonNode.innerHTML = this.#formButtonText;
+            }
 
             this.#submitting = false;
         }

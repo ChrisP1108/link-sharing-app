@@ -26,7 +26,7 @@
                     <rect x="0.5" y="0.5" width="51" height="41" rx="7.5"/>
                 </svg>
             </a>
-            <a href="/preview" class="button-url-direct">Preview</a>
+            <a href="/preview" class="button-styling">Preview</a>
         </div>
     </header>
     <aside class="box-section box-padding-full mobile-preview-container" data-section="mobile-preview">
@@ -36,11 +36,11 @@
             <foreignObject>
                 <div class="mobile-content-container">
                     <div class="image-container" data-mobilesection="image">
-                        <img>
+                        <img data-mobileimage>
                     </div>
                     <h6 class="name-text" data-mobilesection="name"></h6>
                     <p class="email-text" data-mobilesection="email"></p>
-                    <section class="mobile-links-container">
+                    <section class="mobile-links-container" data-mobilelinkcontainer>
                         <div class="mobile-link-container" data-mobilelinkitem></div>
                         <div class="mobile-link-container" data-mobilelinkitem></div>
                         <div class="mobile-link-container" data-mobilelinkitem></div>
@@ -51,12 +51,18 @@
             </foreignObject>
         </svg>
     </aside>
-    <main class="box-section box-padding-full links-profile-container" data-section="tabs">
-        <section data-tabsection="links">
+    <main class="box-section box-padding-full links-profile-sections" data-section="tabs">
+        <section class="links-content-container" data-tabsection="links">
             <h3>Customize your links</h3>
             <h5>Add/edit/remove links below and then share all your profile with the world!</h5>
+            <button class="button-styling">+ Add new link</button>
+            <section class="links-get-started-container">
+                <div class="get-started-container box-section box-padding-full">
+
+                </div>
+            </section>
         </section>
-        <section data-tabsection="profile" hidden>
+        <section class="profile-content-container hidden" data-tabsection="profile">
             <h3>Profile Details</h3>
             <h5>Add your details to create a personal touch to your profile.</h5>
         </section>

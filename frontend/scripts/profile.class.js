@@ -27,9 +27,9 @@ class Profile {
 
         this.#tabSectionNodes.forEach(section => {
             if (section.dataset.tabsection === this.#tabSelected) {
-                section.removeAttribute("hidden");
+                section.classList.remove("hidden");
             } else {
-                section.setAttribute("hidden", "");
+                section.classList.add("hidden");
             }
         });
 

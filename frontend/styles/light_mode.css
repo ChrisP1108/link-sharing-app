@@ -2,7 +2,7 @@
 
 .light-mode {
 
-    background: var(--light_grey);
+    background: var(--light-grey);
 
     & h3 {
         color: var(--dark_grey);

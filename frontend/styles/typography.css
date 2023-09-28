@@ -15,7 +15,7 @@ h3 {
 
 /* Heading S */
 
-h4, .tab-container, button {
+h4, .tab-container, button, .button-styling {
     font-size: min(1rem, 4.5vw);
     font-weight: 600;
 }
