@@ -103,7 +103,7 @@
                 </div>
             </div>
         </section>
-        <section class="profile-content-container hidden" data-tabsection="profile">
+        <section class="profile-content-container box-section box-padding-full hidden" data-tabsection="profile">
             <h3>Profile Details</h3>
             <h5>Add your details to create a personal touch to your profile.</h5>
         </section>
