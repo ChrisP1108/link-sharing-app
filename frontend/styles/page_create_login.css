@@ -3,6 +3,7 @@ body:has(.create-login) {
     place-items: center;
     padding: 24px;
 
+
     & .create-login {
         width: min(29.75rem, 100%);
 
