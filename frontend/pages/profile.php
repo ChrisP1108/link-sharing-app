@@ -102,6 +102,19 @@
                         We're here to help you share your profiles with everyone!</h5>
                 </div>
             </div>
+            <div class="links-fields-container hidden" data-linkfieldssection>
+                <?php
+                    Component::form_field([
+                        'name' => 'password',
+                        'label' => 'Password',
+                        'type' => 'password',
+                        'icon' => 'password',
+                        'placeholder' => 'Enter your password',
+                        'required' => true,
+                        'value' => ''
+                    ]);
+                ?>
+            </div>
         </section>
         <section class="profile-content-container box-section box-padding-full hidden" data-tabsection="profile">
             <h3>Profile Details</h3>

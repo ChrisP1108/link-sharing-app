@@ -8,6 +8,7 @@ class Profile {
     #tabSectionNodes;
     #addNewLinkButtonNode;
     #letsGetYouStartedNode;
+    #linkFieldsSection;
     #formSaveButtonNode;
 
     // Set tab to be active.  Also hides, unhides tab sections
@@ -47,8 +48,10 @@ class Profile {
     #toggleLetsGetYouStarted(active) {
         if (active) {
             this.#letsGetYouStartedNode.classList.remove("hidden");
+            this.#linkFieldsSection.classList.add("hidden");
         } else {
             this.#letsGetYouStartedNode.classList.add("hidden");
+            this.#linkFieldsSection.classList.remove("hidden");
         }
     }
 
@@ -107,6 +110,10 @@ class Profile {
         // Select "Let's get you started" section node
 
         this.#letsGetYouStartedNode = document.querySelector("[data-letsgetyoustarted]");
+
+        // Select links fields section
+
+        this.#linkFieldsSection = document.querySelector("[data-linkfieldssection]");
 
         // Select form save button
 
