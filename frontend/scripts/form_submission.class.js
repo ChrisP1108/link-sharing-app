@@ -51,6 +51,10 @@ class FormHandler {
 
             this.#submissionError = true;
 
+            // Remove background opacity
+
+            document.body.classList.remove("opaque");
+
             const formErrMsg = this.#formNode.querySelector("[data-formerrmsg]");
             formErrMsg.classList.remove("hidden");
             formErrMsg.innerText = errMsg;
@@ -63,6 +67,7 @@ class FormHandler {
                 field.addEventListener('click', () => {
                     formErrMsg.classList.add("hidden", "");
                     formErrMsg.innerText = '';
+                    
                     // Set #submissionError to false
 
                     this.#submissionError = false;

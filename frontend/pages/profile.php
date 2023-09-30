@@ -110,7 +110,7 @@
         <!-- Javascript HTML rendered here from profile class.  Renders either renderLinksHTML() method or renderProfileDetailsHTML() method depending on what user clicks. -->
         <form>
         <section class="save-button-container box-padding-full box-section">
-            <button>Save</button>
+            <button type="submit">Save</button>
         </section>
         </form>
     </main>

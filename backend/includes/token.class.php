@@ -23,7 +23,7 @@ class Token {
 
         if (!$expiration) {
             throw new Exception("Expiration time required.");
-        } else return $first_half_secret . base64_encode($id) . base64_encode($_SERVER['HTTP_USER_AGENT']) . $second_half_secret . base64_encode($role) . base64_encode($expiration);
+        } else return base64_encode($id) . $first_half_secret . base64_encode($expiration) . base64_encode($role) . $second_half_secret;
     }
 
     public static function generate($id = null, $role = null, $expiration = null) {
@@ -56,6 +56,7 @@ class Token {
 
         $token = json_encode([
             'id' => $user_id,
+            'role' => $role,
             'expiration' => $expiration_string,
             'key' => $hash
         ]);
@@ -100,10 +101,14 @@ class Token {
                 return false;
             }
 
+            // Get role
+
+            $decoded_role = $decoded['role'] ?? 'none';
+
             // Verify key
 
             $hashed_key = $decoded['key'];
-            $check = password_verify(self::pre_hash_stringify($decoded_id, $role, $expiration_time), $hashed_key);
+            $check = password_verify(self::pre_hash_stringify($decoded_id, $decoded_role, $expiration_time), $hashed_key);
             
             return $check;
         
