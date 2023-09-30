@@ -51,7 +51,7 @@
             </foreignObject>
         </svg>
     </aside>
-    <form class="links-profile-sections" data-section="tabs">
+    <form class="links-profile-sections" data-section="tabs" data-profileform>
         <section class="links-content-container box-section box-padding-full" data-tabsection="links">
             <h3>Customize your links</h3>
             <h5>Add/edit/remove links below and then share all your profile with the world!</h5>
@@ -119,8 +119,10 @@
     // const userData = { links: ["yes"] }
 </script>
 <script src="/frontend/scripts/profile.class.js"></script>
+<script src="/frontend/scripts/form_submission.class.js"></script>
 <script>
-    const profile = new Profile(userData);
+    new Profile(userData);
+    new FormHandler("[data-profileform]", "profile", "/api/user");
 </script>
 <?php
     Component::footer();
