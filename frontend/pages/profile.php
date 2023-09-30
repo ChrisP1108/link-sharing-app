@@ -41,22 +41,22 @@
                     <h6 class="name-text" data-mobilesection="name"></h6>
                     <p class="email-text" data-mobilesection="email"></p>
                     <section class="mobile-links-container" data-mobilelinkcontainer>
-                        <div class="mobile-link-container" data-mobilelinkitem></div>
-                        <div class="mobile-link-container" data-mobilelinkitem></div>
-                        <div class="mobile-link-container" data-mobilelinkitem></div>
-                        <div class="mobile-link-container" data-mobilelinkitem></div>
-                        <div class="mobile-link-container" data-mobilelinkitem></div>
+                        <div class="mobile-link-container" data-mobilelinkitem index="0"></div>
+                        <div class="mobile-link-container" data-mobilelinkitem index="1"></div>
+                        <div class="mobile-link-container" data-mobilelinkitem index="2"></div>
+                        <div class="mobile-link-container" data-mobilelinkitem index="3"></div>
+                        <div class="mobile-link-container" data-mobilelinkitem index="4"></div>
                     </section>
                 </div>
             </foreignObject>
         </svg>
     </aside>
-    <main class="links-profile-sections" data-section="tabs">
+    <form class="links-profile-sections" data-section="tabs">
         <section class="links-content-container box-section box-padding-full" data-tabsection="links">
             <h3>Customize your links</h3>
             <h5>Add/edit/remove links below and then share all your profile with the world!</h5>
-            <button class="button-styling">+ Add new link</button>
-            <div class="links-get-started-container">
+            <button class="button-styling" type="button" data-buttonaddlink>+ Add new link</button>
+            <div class="links-get-started-container hidden" data-letsgetyoustarted>
                 <div class="get-started-container box-section">
                     <svg viewBox="0 0 250 161" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path opacity="0.3" d="M48.6936 15.4213C23.3786 25.2238 4.59362 50.0679 0.857884 80.1285C-2.26282 105.459 5.19347 133.446 49.0884 141.419C134.494 156.939 222.534 158.754 242.952 116.894C263.369 75.0336 235.427 8.00293 192.079 3.36363C157.683 -0.326546 98.1465 -3.7206 48.6936 15.4213Z" fill="white"/>
@@ -108,16 +108,15 @@
             <h5>Add your details to create a personal touch to your profile.</h5>
         </section>
         <!-- Javascript HTML rendered here from profile class.  Renders either renderLinksHTML() method or renderProfileDetailsHTML() method depending on what user clicks. -->
-        <form>
         <section class="save-button-container box-padding-full box-section">
-            <button type="submit">Save</button>
+            <button type="submit" class="button-disabled" data-formsavebutton>Save</button>
         </section>
-        </form>
-    </main>
+    </form>
 </div>
 
 <script>
     const userData = <?php echo get_user_data(); ?>; 
+    // const userData = { links: ["yes"] }
 </script>
 <script src="/frontend/scripts/profile.class.js"></script>
 <script>

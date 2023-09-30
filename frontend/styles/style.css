@@ -55,3 +55,8 @@ button {
 .hidden {
     display: none !important;
 }
+
+.button-disabled {
+    opacity: 0.25;
+    pointer-events: none;
+}
