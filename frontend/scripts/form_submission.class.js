@@ -61,17 +61,22 @@ class FormHandler {
 
             const formFields = this.#formNode.querySelectorAll(`[data-fieldtype]`);
 
-            // Monitor for click of field with error applied to remove when user clicks
+            // Remove error function after user clicks or types
+
+            function removeErrHandler() {
+                formErrMsg.classList.add("hidden", "");
+                formErrMsg.innerText = '';
+                
+                // Set #submissionError to false
+
+                this.#submissionError = false;
+            }
+
+            // Monitor for click or input of field with error applied to remove when user clicks
 
             formFields.forEach(field => {
-                field.addEventListener('click', () => {
-                    formErrMsg.classList.add("hidden", "");
-                    formErrMsg.innerText = '';
-                    
-                    // Set #submissionError to false
-
-                    this.#submissionError = false;
-                });
+                field.addEventListener('click', removeErrHandler);
+                field.addEventListener('keyup', removeErrHandler);
             });
         }
 
@@ -151,6 +156,10 @@ class FormHandler {
                 // Check if multiple password fields, like on create page and remove all error styling and error text, otherwise remove single field
 
                 fieldNode.addEventListener("click", () => {
+                    this.#fieldErrorRemove(fieldNode);   
+                });
+
+                fieldNode.addEventListener("keyup", () => {
                     this.#fieldErrorRemove(fieldNode);   
                 });
 
