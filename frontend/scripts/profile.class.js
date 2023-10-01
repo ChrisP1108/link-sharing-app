@@ -11,6 +11,7 @@ class Profile {
     #linkFieldsSection;
     #linkFieldHTML;
     #linkFieldsRemovers;
+    #linkOptionsLimit;
     #formSaveButtonNode;
 
     // Set tab to be active.  Also hides, unhides tab sections
@@ -97,19 +98,38 @@ class Profile {
         this.#removeLinkItemHandler();
     }
 
-    // Monitor "+ Add new link" click and add link field
+    // Monitor "+ Add new link" click and add link field.  Prevent adding more fields than there are link options
 
     #addNewLinkHandler() {
         this.#addNewLinkButtonNode.addEventListener("click", () => {
 
-            // Add link field HTML into link fields section.
+            // Makes sure user cannot add more link fields than options available.  Will hide addNewLinkButton node if number of link fields equals number of options
 
-            this.#renderLinkFieldNodes(true);
+            let linkFieldNodes = this.#linkFieldsSection.querySelectorAll("[data-fieldname]");
 
-            // Hide "Let's get you started" section node and enable form save button
+            if (linkFieldNodes.length < this.#linkOptionsLimit) {
 
-            this.#toggleLetsGetYouStarted(false);
-            this.#toggleFormSaveButton(true);
+                // Add link field HTML into link fields section.
+
+                this.#renderLinkFieldNodes(true);
+
+                // Hide "Let's get you started" section node and enable form save button
+
+                this.#toggleLetsGetYouStarted(false);
+                this.#toggleFormSaveButton(true);
+
+                // Make sure addNewLinkButton node is visible
+
+                this.#addNewLinkButtonNode.classList.remove("hidden");
+            } 
+
+            // Check after rendering that once number of link fields equals number of options available, to hit add new link button
+
+            linkFieldNodes = this.#linkFieldsSection.querySelectorAll("[data-fieldname]");
+
+            if (linkFieldNodes.length === this.#linkOptionsLimit) {
+                this.#addNewLinkButtonNode.classList.add("hidden");
+            }
         });
     }
 
@@ -130,6 +150,10 @@ class Profile {
         // Update Remove links
 
         this.#linkFieldsRemovers = document.querySelectorAll("[data-profileform] [data-removelinkbutton]");
+
+        // Makes sure + Add new link button is shows
+
+        this.#addNewLinkButtonNode.classList.remove("hidden");
         
         // Remove link clicked from data and rerender
 
@@ -164,7 +188,7 @@ class Profile {
 
         // Select first tab to set active on page load
 
-        this.#tabSelected = this.#tabLinkNodes[0].dataset.tab ?? null;4
+        this.#tabSelected = this.#tabLinkNodes[0].dataset.tab ?? null;
 
         // Select tab section nodes
 
@@ -191,6 +215,10 @@ class Profile {
         this.#linkFieldHTML = document.querySelector(`[data-fieldtype="link"]`);
         this.#linkFieldHTML = this.#linkFieldHTML.cloneNode(true);
         document.querySelector(`[data-fieldtype="link"]`).remove();
+
+        // Set link on number of links user can add based upon total options
+
+        this.#linkOptionsLimit = this.#linkFieldHTML.querySelectorAll("select option").length;
         
         // Select form save button
 

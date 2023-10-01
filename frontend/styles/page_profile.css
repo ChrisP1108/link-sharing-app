@@ -135,21 +135,35 @@ body:has(.profile-page-container) {
                 margin: 0 auto;
             }
 
-            & .button-styling {
+            & .add-new-link-button-container {
                 width: 100%;
-                margin: 2.25em 0 1.5em;
                 transition: 0.25s;
+                box-sizing: border-box;
+                position: sticky;
+                margin-top: -24px;
+                padding: 24px 0 !important;
+                top: 0px;
+                background: var(--white);
+                z-index: 2;
+
+                & .button-styling {
+                    margin: 0 !important;
+                }
             }
 
             & .links-content-container, .profile-content-container {
                 border-bottom-left-radius: 0px !important;
                 border-bottom-right-radius: 0px !important;
+                flex: 1;
+            }
+
+            & .instructions-text {
+                margin-bottom: 2.5em;
             }
 
             & section, .links-get-started-container, .get-started-container {
                 display: flex;
                 flex-direction: column;
-                height: 100%
             }
 
             & .get-started-container {

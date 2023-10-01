@@ -54,8 +54,10 @@
     <form class="links-profile-sections" data-section="tabs" data-profileform>
         <section class="links-content-container box-section box-padding-full" data-tabsection="links">
             <h3>Customize your links</h3>
-            <h5>Add/edit/remove links below and then share all your profile with the world!</h5>
-            <button class="button-styling" type="button" data-buttonaddlink>+ Add new link</button>
+            <h5 class="instructions-text">Add/edit/remove links below and then share all your profile with the world!</h5>
+            <div class="add-new-link-button-container" data-buttonaddlink>
+                <button class="button-styling" type="button">+ Add new link</button>
+            </div>
             <div class="links-get-started-container hidden" data-letsgetyoustarted>
                 <div class="get-started-container box-section">
                     <svg viewBox="0 0 250 161" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -106,8 +108,6 @@
                 <?php
                     Component::form_field([
                         'type' => 'link',
-                        'icon' => 'password',
-                        'value' => ''
                     ]);
                 ?>
             </div>

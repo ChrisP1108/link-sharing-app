@@ -13,7 +13,11 @@ form {
             & svg {
                 width: 0.875em;
                 height: 0.875em;
-                margin: 0.875em 0 ;
+                margin: 0.875em 0;
+
+                & path {
+                    fill: var(--grey);
+                }
             }
 
             & input, & select, & option {
@@ -36,6 +40,10 @@ form {
                 filter: drop-shadow(0px 0px 16px var(--purple_opaque));
             }
 
+            &:has(select) {
+                margin-bottom: 0.5rem !important;
+            }
+
             & p {
                 color: var(--red);
                 width: max-content;
@@ -53,6 +61,7 @@ form {
         & .link-number-remove-container {
             display: flex;
             justify-content: space-between;
+            margin-bottom: 0.5rem;
 
             & .link-number-container {
                 display: flex;
