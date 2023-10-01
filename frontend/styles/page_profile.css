@@ -173,7 +173,17 @@ body:has(.profile-page-container) {
                 }
             }
 
-            .save-button-container {
+            & .links-fields-container {
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+
+                & .form-field {
+                    margin: 0 !important;
+                }
+            }
+
+            & .save-button-container {
                 background: var(--white);
                 padding-top: 24px !important;
                 padding-bottom: 24px !important;

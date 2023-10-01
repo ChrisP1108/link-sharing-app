@@ -2,6 +2,8 @@
 
     class Component {
 
+        // Get component based upon file path
+
         private static function get_path($component = '', $props = null) {
             include dirname(__DIR__) . '/components/' . $component . '.php';
         }

@@ -9,6 +9,8 @@ class Profile {
     #addNewLinkButtonNode;
     #letsGetYouStartedNode;
     #linkFieldsSection;
+    #linkFieldHTML;
+    #linkFieldsRemovers;
     #formSaveButtonNode;
 
     // Set tab to be active.  Also hides, unhides tab sections
@@ -45,7 +47,7 @@ class Profile {
 
     // Toggle "Let's get you started" section
 
-    #toggleLetsGetYouStarted(active) {
+    #toggleLetsGetYouStarted(active = false) {
         if (active) {
             this.#letsGetYouStartedNode.classList.remove("hidden");
             this.#linkFieldsSection.classList.add("hidden");
@@ -55,10 +57,54 @@ class Profile {
         }
     }
 
+    // Render link section field nodes
+
+    #renderLinkFieldNodes(adding = false) {
+
+        // Add additional link field blank object if additional field link is being added
+
+        if (adding) {
+            const newLinkData = { platform: '', link: '', order: this.#data.links.length + 1  }
+            this.#data.links = [...this.#data.links, newLinkData ];
+        }
+
+        // Re-sort links by order number
+
+        this.#data.links = [...this.#data.links].sort((prev, curr) => {
+            return prev.order > curr.order ? 1 : -1;
+        });
+
+        // Re-number links after sorting
+
+        this.#data.links = this.#data.links.map((link, index) => 
+            ({...link, order: index + 1})
+        );
+
+        // Generate HTML for link fields
+
+        const linkFieldsHTML = this.#data.links.map(link  => {
+            const linkNodeHTML = this.#linkFieldHTML.cloneNode(true);
+            linkNodeHTML.querySelector("[data-linkheading]").innerText = `Link #${link.order}`;
+            linkNodeHTML.querySelector("[data-removelinkbutton]").dataset.linknumber = link.order;
+            return linkNodeHTML.outerHTML;
+
+        }).join("");
+
+        // Render link field(s) into linkFieldsSection node
+
+        this.#linkFieldsSection.innerHTML = linkFieldsHTML;
+
+        this.#removeLinkItemHandler();
+    }
+
     // Monitor "+ Add new link" click and add link field
 
     #addNewLinkHandler() {
         this.#addNewLinkButtonNode.addEventListener("click", () => {
+
+            // Add link field HTML into link fields section.
+
+            this.#renderLinkFieldNodes(true);
 
             // Hide "Let's get you started" section node and enable form save button
 
@@ -69,12 +115,37 @@ class Profile {
 
     // Toggle Form Save Button
 
-    #toggleFormSaveButton(active) {
+    #toggleFormSaveButton(active = false) {
         if (active) {
             this.#formSaveButtonNode .classList.remove("button-disabled");
         } else {
             this.#formSaveButtonNode .classList.add("button-disabled");
         }
+    }
+
+    // Remove link item click handler
+
+    #removeLinkItemHandler() {
+
+        // Update Remove links
+
+        this.#linkFieldsRemovers = document.querySelectorAll("[data-profileform] [data-removelinkbutton]");
+        
+        // Remove link clicked from data and rerender
+
+        this.#linkFieldsRemovers.forEach(remover => {
+            remover.addEventListener("click", () => {
+                this.#data.links = this.#data.links.filter(link => link.order !== Number(remover.dataset.linknumber));
+                this.#renderLinkFieldNodes();
+
+                // If data links is blank, toggle "Let's get you started" back on and disable form save button
+
+                if (!this.#data.links.length) {
+                    this.#toggleLetsGetYouStarted(true);
+                    this.#toggleFormSaveButton(false);
+                }
+            });
+        });
     }
 
     // Instantiate class
@@ -115,6 +186,12 @@ class Profile {
 
         this.#linkFieldsSection = document.querySelector("[data-linkfieldssection]");
 
+        // Select first link field HTML for templating and remove it after saved as a node
+
+        this.#linkFieldHTML = document.querySelector(`[data-fieldtype="link"]`);
+        this.#linkFieldHTML = this.#linkFieldHTML.cloneNode(true);
+        document.querySelector(`[data-fieldtype="link"]`).remove();
+        
         // Select form save button
 
         this.#formSaveButtonNode = document.querySelector("[data-formsavebutton]");
@@ -134,5 +211,9 @@ class Profile {
         } else {
             this.#toggleFormSaveButton(true);
         }
+
+        // Remove click handler
+
+        this.#removeLinkItemHandler();
     }
 }

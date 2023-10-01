@@ -1,4 +1,36 @@
 <?php
+
+    // Single Form Field Component HTML
+
+    if (!function_exists('form_field')) {
+        function form_field($p, $i) {
+            $capitalize_label = ucfirst($p['label']);
+            $icon = $i ? $i : "";
+            $required = $p['required'] ? "true" : "false";
+            $type = $p['type'] === "email" ? "text" : $p['type'];
+            $name = $p['name'];
+            $placeholder = $p['placeholder'];
+            $value = $p['value'] ?? '';
+
+            $html_code = <<<HTML
+                <label for="{$name}">
+                    {$capitalize_label}
+                </label>
+                <div class="input-container" data-inputcontainer>
+                    {$icon}
+                    <input data-required="{$required}" 
+                        type="{$type}" 
+                        name="{$name}" id="{$name}" 
+                        placeholder="{$placeholder}"
+                        value="{$value}"
+                    >
+                </div>
+            HTML;
+
+            return $html_code;
+        }
+    }
+
     // Icon type set
 
     $icon_code = null;
@@ -19,24 +51,21 @@
                 ';
             break;
     }
-
 ?>
 
-<div class="form-field" data-fieldname="<?php echo $props['name']; ?>" data-fieldtype="<?php echo $props['type']; ?>">
+<div class="form-field" data-fieldparent data-fieldname="<?php echo $props['name'] ?? null; ?>" data-fieldtype="<?php echo $props['type']; ?>">
     <?php if ($props['type'] !== 'link'): ?>
-        <label for="<?php echo $props['name']; ?>">
-            <?php echo ucfirst($props['label']); ?>
-        </label>
-        <div class="input-container" data-inputcontainer>
-            <?php echo $icon_code ? $icon_code : ''; ?>
-            <input data-required="<?php echo $props['required'] ? 'true' : 'false'; ?>" 
-                type="<?php echo $props['type'] === 'email' ? 'text' : $props['type']; ?>" 
-                name="<?php echo $props['name']; ?>" id="<?php echo $props['name']; ?>" 
-                placeholder="<?php echo $props['placeholder']; ?>"
-                value="<?php echo $props['value'] ?? ''; ?>"
-            >
-        </div>
+        <?php echo form_field($props, $icon_code); ?>
     <?php else :?>
-
+        <div class="link-number-remove-container">
+            <div class="link-number-container">
+                <svg viewBox="0 0 12 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="12" height="1" fill="var(--grey)"/>
+                    <rect y="5" width="12" height="1" fill="var(--grey)"/>
+                </svg>
+                <h5 data-linkheading></h5>
+            </div>
+            <button data-removelinkbutton type="button" data-linknumber="">Remove</button>
+        </div>
     <?php endif; ?>
 </div>

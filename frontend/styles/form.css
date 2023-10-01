@@ -44,6 +44,40 @@ form {
             }
         }
 
+        &:has(.link-number-remove-container) {
+            background: var(--light-grey);
+            padding: 20px;
+            border-radius: 0.75rem;
+        }
+
+        & .link-number-remove-container {
+            display: flex;
+            justify-content: space-between;
+
+            & .link-number-container {
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+
+                & svg {
+                    height: 0.375rem;
+                    width: 0.75rem;
+                }
+
+                & h5 {
+                    font-weight: 700;
+                }
+            }
+
+            & button {
+                background: transparent !important;
+                color: var(--grey);
+                width: fit-content !important;
+                margin: -0.675rem !important;
+                padding: 0.675rem !important;
+            }
+        }
+
         &.field-error {
 
             & .input-container {

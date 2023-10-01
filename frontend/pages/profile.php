@@ -105,12 +105,8 @@
             <div class="links-fields-container hidden" data-linkfieldssection>
                 <?php
                     Component::form_field([
-                        'name' => 'password',
-                        'label' => 'Password',
-                        'type' => 'password',
+                        'type' => 'link',
                         'icon' => 'password',
-                        'placeholder' => 'Enter your password',
-                        'required' => true,
                         'value' => ''
                     ]);
                 ?>
