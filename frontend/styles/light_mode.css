@@ -32,4 +32,14 @@
         border: 1px var(--border) solid;
     }
 
+    & .selection-dropdown-container li span, .selected-link-item-container span {
+        color: var(--dark-grey);
+    }
+
+    & .profile-page-container {
+
+        & .input-container, .input-container .selection-dropdown-container { 
+            background: var(--white);
+        }
+    } 
 }

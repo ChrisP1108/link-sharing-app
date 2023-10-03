@@ -195,6 +195,10 @@ body:has(.profile-page-container) {
                 & .form-field {
                     margin: 0 !important;
                 }
+
+                & button {
+                    font-weight: 400 !important;
+                }
             }
 
             & .save-button-container {

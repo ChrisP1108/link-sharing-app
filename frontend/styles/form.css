@@ -5,7 +5,7 @@ form {
         & .input-container {
             display: flex;
             align-items: center;
-            border-radius: 0.5em;
+            border-radius: 0.5rem;
             margin-top: 0.25rem;
             padding: 0 min(1rem, 4.5%);
             position: relative;
@@ -13,14 +13,13 @@ form {
             & svg {
                 width: 0.875em;
                 height: 0.875em;
-                margin: 0.875em 0;
 
                 & path {
                     fill: var(--grey);
                 }
             }
 
-            & input, & select, & option {
+            & input, .selection-dropdown-container span, .selected-link-item-container span {
                 background: transparent !important;
                 background-color: transparent !important;
                 border: 0px;
@@ -32,6 +31,39 @@ form {
                 &:focus {
                     outline: none;
                 }
+            }
+
+            & .selected-link-item-container {
+                width: 100%;
+                display: flex;
+                align-items: center;
+            }
+
+            & .selection-dropdown-container {
+                list-style: none;
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                position: absolute;
+                top: calc(100% + 1rem);
+                z-index: 2;
+                border-radius: 0.5rem;
+                filter: drop-shadow(0px 0px 12px var(--drop-shadow));
+
+                & li {
+                    display: flex;
+                    align-items: center;
+                    margin: 0 min(1rem, 4.5%);
+                    cursor: pointer;
+                }
+
+                & li:not(last-child) {
+                    border-bottom: 1px var(--border) solid;
+                }
+            }
+
+            &:has(.selected-link-item-container) {
+                flex-direction: column;
             }
 
             &:has(input:focus) {
@@ -141,5 +173,9 @@ form {
             height: 1.75em !important;
             width: 3.6em !important;
         }
+    }
+
+    & .platform-margin-bottom {
+        margin-bottom: 0.5rem;
     }
 }

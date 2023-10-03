@@ -211,14 +211,16 @@ class Profile {
         this.#linkFieldsSection = document.querySelector("[data-linkfieldssection]");
 
         // Select first link field HTML for templating and remove it after saved as a node
-
+        
         this.#linkFieldHTML = document.querySelector(`[data-fieldtype="link"]`);
+
         this.#linkFieldHTML = this.#linkFieldHTML.cloneNode(true);
+
         document.querySelector(`[data-fieldtype="link"]`).remove();
 
         // Set link on number of links user can add based upon total options
 
-        this.#linkOptionsLimit = this.#linkFieldHTML.querySelectorAll("select option").length;
+        this.#linkOptionsLimit = this.#linkFieldHTML.querySelectorAll("ul li").length;
         
         // Select form save button
 

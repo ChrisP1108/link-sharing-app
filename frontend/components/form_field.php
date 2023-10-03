@@ -58,17 +58,22 @@
                 HTML;
             } else {
 
+            $selected_option = '';
+
             $html_options = "";
 
-            foreach(LINK_OPTIONS as $option) {
+            foreach(LINK_OPTIONS as $index => $option) {
                 $name_lowercase = strtolower($option['name']);
 
                 $html_options .= <<<HTML
-                    <div class="link-option-selection-container">
-                        {$option['icon']} 
-                        <option value="{$name_lowercase}">{$option['name']}</option>
-                    </div>
+                    <li data-value="{$name_lowercase}">{$option['icon']}<span>{$option['name']}</span></li>
                 HTML;
+
+                if ($index === 0) {
+                    $selected_option = <<<HTML
+                        {$option['icon']}<span>{$option['name']}</span>
+                    HTML;
+                }
             }
             
             // Render link option field
@@ -77,10 +82,13 @@
                     <label for="{$name}">
                         {$capitalize_label}
                     </label>
-                    <div class="input-container" data-inputcontainer>
-                        <select name="{$name}" data-required="{$required}" id="{$name}"> 
+                    <div class="input-container platform-margin-bottom" data-inputcontainer>
+                        <div class="selected-link-item-container">
+                            {$selected_option}
+                        </div>
+                        <ul class="selection-dropdown-container hidden" data-name="{$name}" data-required="{$required}" id="{$name}"> 
                             {$html_options}
-                        </select>
+                        </ul>
                     </div>
                 HTML;
 
@@ -111,14 +119,14 @@
             // Output Platform option field for link input
 
             echo form_field(
-            [
-                'label' => 'Platform',
-                'type' => 'link',
-                'name' => 'Platform',
-                'required' => true
-            ]
-
-        ); ?>
+                [
+                    'label' => 'Platform',
+                    'type' => 'link',
+                    'name' => 'Platform',
+                    'required' => true
+                ]
+            ); 
+        ?>
         <?php 
 
             // Set link icon code for link field for link input
@@ -135,7 +143,7 @@
                 'label' => 'Link',
                 'type' => 'text',
                 'name' => 'Link',
-                'required' => 'true',
+                'required' => true,
                 'placeholder' => 'e.g. https://www.github.com/johnappleseed'
             ],
             $icon_code
