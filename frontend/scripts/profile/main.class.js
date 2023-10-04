@@ -19,11 +19,11 @@ export default class Profile {
         this._data.image_url = image_url;
         this._data.links = links;
 
-        // Instantiate Tab Handler Class. Select tab link nodes, Select first tab to set active on page load, Select tab section nodes
+        // Instantiate Tab Handler Class.
 
         this.#tabHandler = new TabHandler(document.querySelectorAll("[data-tab]"), document.querySelectorAll('[data-section="tabs"] [data-tabsection]'));
 
-        // Instantiate Links Hanlder Class.
+        // Instantiate Links Handler Class.
 
         this.#linksHandler = new LinksHandler(this._data.links, document.querySelector("[data-letsgetyoustarted]"), document.querySelector("[data-linkfieldssection]"), document.querySelector(`[data-fieldtype="link"]`), document.querySelector("[data-buttonaddlink]"));
         

@@ -43,11 +43,25 @@ export default class TabHandler {
     // CONSTRUCTOR
 
     constructor(tabLinkNodes = null, tabSectionNodes = null) {
+
+        // Select tab link nodes
+
         this.tabLinkNodes = tabLinkNodes;
+
+        // Select first tab to set active on page load
+
         this.tabSelected = this.tabLinkNodes[0].dataset.tab;
+
+        // Select tab section nodes
+
         this.tabSectionNodes = tabSectionNodes;
 
+        // Run Tab Click Handler On Page Load
+
         this.tabClickHandler();
+
+        // Set Active Tab to tabSelected On Page Load
+        
         this.setTabActive(this.tabSelected);
     }
 }
