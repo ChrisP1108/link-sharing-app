@@ -82,7 +82,7 @@
                     <label for="{$name}">
                         {$capitalize_label}
                     </label>
-                    <div class="input-container platform-margin-bottom" data-inputcontainer>
+                    <div class="input-container platform-input-styling" data-inputcontainer>
                         <div class="selected-link-item-container">
                             {$selected_option}
                         </div>

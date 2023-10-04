@@ -1,4 +1,4 @@
-class FormHandler {
+export default class FormHandler {
 
     // CLASS PROPERTIES
 

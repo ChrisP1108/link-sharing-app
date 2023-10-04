@@ -17,13 +17,13 @@
     color: var(--white);
 }
 
-html, body {
-    overflow-x: hidden;
-}
-
 body {
     min-height: 100vh;
     min-height: 100dvh;
+}
+
+html, body {
+    overflow-x: hidden;
 }
 
 .box-section {

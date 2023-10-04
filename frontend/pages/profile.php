@@ -123,14 +123,11 @@
     </form>
 </div>
 
-<script>
+<script type="module">
+    import Profile from '/frontend/scripts/profile/main.class.js';
     const userData = <?php echo get_user_data(); ?>; 
-    // const userData = { links: ["yes"] }
-</script>
-<script src="/frontend/scripts/profile.class.js"></script>
-<script src="/frontend/scripts/form_submission.class.js"></script>
-<script>
     new Profile(userData);
+    import FormHandler from '/frontend/scripts/form_submission.class.js';
     new FormHandler("[data-profileform]", "profile", "/api/user");
 </script>
 <?php

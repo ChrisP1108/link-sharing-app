@@ -175,7 +175,8 @@ form {
         }
     }
 
-    & .platform-margin-bottom {
+    & .platform-input-styling {
         margin-bottom: 0.5rem;
+        cursor: pointer;
     }
 }
