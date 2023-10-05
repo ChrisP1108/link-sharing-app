@@ -1,19 +1,28 @@
+import Profile from '/frontend/scripts/profile/profile.class.js';
+
 export default class PlatformDropdownHandler {
-    #dropdownOptions = [];
-    #listItemsParentNode;
-    #listItemNode;
 
-    renderDropdown(items) {
-
+    dropdownClickHandler() {
+        
     }
 
-    constructor(dropdownOptions) {
-        const dropdownListHTML = dropdownOptions.querySelectorAll (`ul li`);
-        this.#listItemsParentNode = dropdownOptions.querySelector("ul");
-        this.#listItemNode = this.#listItemsParentNode.querySelector("li");
-        dropdownListHTML.forEach(item => {
-            const listData = { name: item.querySelector("span").innerText, value: item.dataset.value, icon: item.querySelector("svg").outerHTML }
-            this.#dropdownOptions = [ ...this.#dropdownOptions, listData]
+    // Renders dropdown.  Takes an an array of strings for items to show
+
+    renderDropdown(itemsToRender, insertion) {
+        const dropdownHTML = Profile.nodes.linkFieldDropdown.cloneNode(true);
+
+        dropdownHTML.querySelectorAll("li").forEach(item => {
+            if (!itemsToRender.includes(item.dataset.value)) {
+                item.remove();
+            }
         });
+
+        insertion.appendChild(dropdownHTML);
+        
+        this.dropdownClickHandler();
+    }
+
+    constructor() {
+
     }
 }

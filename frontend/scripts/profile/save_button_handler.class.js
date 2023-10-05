@@ -1,8 +1,6 @@
+import Profile from '/frontend/scripts/profile/profile.class.js';
+
 export default class SaveButtonHandler {
-
-    // PROPERTIES
-
-    formSaveButtonNode;
 
     // METHODS
 
@@ -10,18 +8,15 @@ export default class SaveButtonHandler {
 
     toggleFormSaveButton(active = false) {
         if (active) {
-            this.formSaveButtonNode .classList.remove("button-disabled");
+            Profile.nodes.formSaveButton.classList.remove("button-disabled");
         } else {
-            this.formSaveButtonNode .classList.add("button-disabled");
+            Profile.nodes.formSaveButton.classList.add("button-disabled");
         }
     }
 
     // CONSTRUCTOR
 
-    constructor(formSaveButtonNode) {
+    constructor() {
 
-        // Select form save button
-
-        this.formSaveButtonNode = formSaveButtonNode;
     }
 }

@@ -1,10 +1,6 @@
+import Profile from '/frontend/scripts/profile/profile.class.js';
+
 export default class TabHandler {
-
-    // PROPERTIES
-
-    tabLinkNodes;
-    tabSelected;
-    tabSectionNodes;
 
     // METHODS
 
@@ -12,17 +8,17 @@ export default class TabHandler {
 
     setTabActive(tabName) {
 
-        this.tabLinkNodes.forEach(tab => {
+        Profile.nodes.tabLinks.forEach(tab => {
             if (tab.dataset.tab === tabName) {
                 tab.classList.add("tab-active");
-                this.tabSelected = tab.dataset.tab;
+                Profile.tabSelected = tab.dataset.tab;
             } else {
                 tab.classList.remove("tab-active");
             }
         });
 
-        this.tabSectionNodes.forEach(section => {
-            if (section.dataset.tabsection === this.tabSelected) {
+        Profile.nodes.tabSection.forEach(section => {
+            if (section.dataset.tabsection === Profile.tabSelected) {
                 section.classList.remove("hidden");
             } else {
                 section.classList.add("hidden");
@@ -33,7 +29,7 @@ export default class TabHandler {
     // Activate tab click handler to monitor clicking of links, profile details tabs
 
     tabClickHandler() {
-        this.tabLinkNodes.forEach(tab => {
+        Profile.nodes.tabLinks.forEach(tab => {
             tab.addEventListener('click', () => {
                 this.setTabActive(tab.dataset.tab);
             });
@@ -42,19 +38,7 @@ export default class TabHandler {
 
     // CONSTRUCTOR
 
-    constructor(tabLinkNodes = null, tabSectionNodes = null) {
-
-        // Select tab link nodes
-
-        this.tabLinkNodes = tabLinkNodes;
-
-        // Select first tab to set active on page load
-
-        this.tabSelected = this.tabLinkNodes[0].dataset.tab;
-
-        // Select tab section nodes
-
-        this.tabSectionNodes = tabSectionNodes;
+    constructor() {
 
         // Run Tab Click Handler On Page Load
 
@@ -62,6 +46,6 @@ export default class TabHandler {
 
         // Set Active Tab to tabSelected On Page Load
         
-        this.setTabActive(this.tabSelected);
+        this.setTabActive(Profile.tabSelected);
     }
 }

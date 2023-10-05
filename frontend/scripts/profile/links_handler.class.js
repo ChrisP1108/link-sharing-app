@@ -1,18 +1,10 @@
 import Profile from '/frontend/scripts/profile/profile.class.js';
 import SaveButtonHandler from '/frontend/scripts/profile/save_button_handler.class.js';
-import PlatformDropdownHandler from '/frontend/scripts/profile/platform_dropdown_handler.class.js';
 
 export default class LinksHandler {
 
     // PROPERTIES
-    
-    letsGetYouStartedNode;
-    linkFieldsSection;
-    linkFieldHTML;
-    linkFieldDropdown;
-    linkOptionsLimit;
-    addNewLinkButtonNode;
-    linkFieldsRemovers;
+
     #formSaveButtonHandler;
 
     // METHODS
@@ -21,11 +13,11 @@ export default class LinksHandler {
 
     toggleLetsGetYouStarted(active = false) {
         if (active) {
-            this.letsGetYouStartedNode.classList.remove("hidden");
-            this.linkFieldsSection.classList.add("hidden");
+            Profile.nodes.letsGetYouStarted.classList.remove("hidden");
+            Profile.nodes.linkFieldsSection.classList.add("hidden");
         } else {
-            this.letsGetYouStartedNode.classList.add("hidden");
-            this.linkFieldsSection.classList.remove("hidden");
+            Profile.nodes.letsGetYouStarted.classList.add("hidden");
+            Profile.nodes.linkFieldsSection.classList.remove("hidden");
         }
     }
 
@@ -55,16 +47,15 @@ export default class LinksHandler {
         // Generate HTML for link fields
 
         const linkFieldsHTML = Profile.data.links.map(link  => {
-            const linkNodeHTML = this.linkFieldHTML.cloneNode(true);
+            const linkNodeHTML = Profile.nodes.linkFieldHTML.cloneNode(true);
             linkNodeHTML.querySelector("[data-linkheading]").innerText = `Link #${link.order}`;
             linkNodeHTML.querySelector("[data-removelinkbutton]").dataset.linknumber = link.order;
             return linkNodeHTML.outerHTML;
-
         }).join("");
 
         // Render link field(s) into linkFieldsSection node
 
-        this.linkFieldsSection.innerHTML = linkFieldsHTML;
+        Profile.nodes.linkFieldsSection.innerHTML = linkFieldsHTML;
 
         this.removeLinkItemHandler();
     }
@@ -72,13 +63,13 @@ export default class LinksHandler {
     // Monitor "+ Add new link" click and add link field.  Prevent adding more fields than there are link options
 
     addNewLinkHandler() {
-        this.addNewLinkButtonNode.addEventListener("click", () => {
+        Profile.nodes.addNewLinkButtonNode.addEventListener("click", () => {
 
             // Makes sure user cannot add more link fields than options available.  Will hide addNewLinkButton node if number of link fields equals number of options
 
-            let linkFieldNodes = this.linkFieldsSection.querySelectorAll("[data-fieldname]");
+            let linkFieldNodes = Profile.nodes.linkFieldsSection.querySelectorAll("[data-fieldname]");
 
-            if (linkFieldNodes.length < this.linkOptionsLimit) {
+            if (linkFieldNodes.length < Profile.nodes.linkOptionsLimit) {
 
                 // Add link field HTML into link fields section.
 
@@ -91,15 +82,15 @@ export default class LinksHandler {
 
                 // Make sure addNewLinkButton node is visible
 
-                this.addNewLinkButtonNode.classList.remove("hidden");
+                Profile.nodes.addNewLinkButtonNode.classList.remove("hidden");
             } 
 
             // Check after rendering that once number of link fields equals number of options available, to hit add new link button
 
-            linkFieldNodes = this.linkFieldsSection.querySelectorAll("[data-fieldname]");
+            linkFieldNodes = Profile.nodes.linkFieldsSection.querySelectorAll("[data-fieldname]");
 
-            if (linkFieldNodes.length === this.linkOptionsLimit) {
-                this.addNewLinkButtonNode.classList.add("hidden");
+            if (linkFieldNodes.length === Profile.nodes.linkOptionsLimit) {
+                Profile.nodes.addNewLinkButtonNode.classList.add("hidden");
             }
         });
     }
@@ -110,15 +101,15 @@ export default class LinksHandler {
 
         // Update Remove links
 
-        this.linkFieldsRemovers = document.querySelectorAll("[data-profileform] [data-removelinkbutton]");
+        Profile.nodes.linkFieldsRemovers = document.querySelectorAll("[data-profileform] [data-removelinkbutton]");
 
         // Makes sure + Add new link button is shows
 
-        this.addNewLinkButtonNode.classList.remove("hidden");
+        Profile.nodes.addNewLinkButtonNode.classList.remove("hidden");
         
         // Remove link clicked from data and rerender
 
-        this.linkFieldsRemovers.forEach(remover => {
+        Profile.nodes.linkFieldsRemovers.forEach(remover => {
             remover.addEventListener("click", () => {
                 Profile.data.links = Profile.data.links.filter(link => link.order !== Number(remover.dataset.linknumber));
                 this.renderLinkFieldNodes();
@@ -135,32 +126,7 @@ export default class LinksHandler {
 
     // CONSTRUCTOR
 
-    constructor(letsGetYouStartedNode, linkFieldsSection, linkFieldHTML, addNewLinkButtonNode) {
-        
-        // Select "Let's get you started" section node
-
-        this.letsGetYouStartedNode = letsGetYouStartedNode;
-
-        // Select links fields section
-
-        this.linkFieldsSection = linkFieldsSection;
-
-        // Select first link field HTML for templating and remove it after saved as a node
-
-        this.linkFieldHTML = linkFieldHTML.cloneNode(true);
-        linkFieldHTML.remove();
-
-        // Set link field dropdown
-
-        this.linkFieldDropdown = new PlatformDropdownHandler(linkFieldHTML);
-
-        // Set link on number of links user can add based upon total options
-
-        this.linkOptionsLimit = this.linkFieldHTML.querySelectorAll("ul li").length;
-    
-        // Select "+ Add new link" button node
-
-        this.addNewLinkButtonNode = addNewLinkButtonNode;
+    constructor() {
 
         // Activate "+ Add new link" click handler
 
@@ -172,7 +138,7 @@ export default class LinksHandler {
 
         // Instantiate FormSaveButtonHandler
 
-        this.#formSaveButtonHandler = new SaveButtonHandler(document.querySelector("[data-formsavebutton]"));
+        this.#formSaveButtonHandler = new SaveButtonHandler();
 
         // Check if data contains any links and show them.  If not, then show "Let's get you started to show them"
 
