@@ -1,13 +1,15 @@
-import FormSaveButtonHandler from '/frontend/scripts/profile/savebutton.class.js';
+import Profile from '/frontend/scripts/profile/profile.class.js';
+import SaveButtonHandler from '/frontend/scripts/profile/save_button_handler.class.js';
+import PlatformDropdownHandler from '/frontend/scripts/profile/platform_dropdown_handler.class.js';
 
 export default class LinksHandler {
 
     // PROPERTIES
     
-    data;
     letsGetYouStartedNode;
     linkFieldsSection;
     linkFieldHTML;
+    linkFieldDropdown;
     linkOptionsLimit;
     addNewLinkButtonNode;
     linkFieldsRemovers;
@@ -34,25 +36,25 @@ export default class LinksHandler {
         // Add additional link field blank object if additional field link is being added
 
         if (adding) {
-            const newLinkData = { platform: '', link: '', order: this.data.length + 1  }
-            this.data = [...this.data, newLinkData ];
+            const newLinkData = { platform: '', link: '', order: Profile.data.links.length + 1  }
+            Profile.data.links = [...Profile.data.links, newLinkData ];
         }
 
         // Re-sort links by order number
 
-        this.data = [...this.data].sort((prev, curr) => {
+        Profile.data.links = [...Profile.data.links].sort((prev, curr) => {
             return prev.order > curr.order ? 1 : -1;
         });
 
         // Re-number links after sorting
 
-        this.data = this.data.map((link, index) => 
+        Profile.data.links = Profile.data.links.map((link, index) => 
             ({...link, order: index + 1})
         );
 
         // Generate HTML for link fields
 
-        const linkFieldsHTML = this.data.map(link  => {
+        const linkFieldsHTML = Profile.data.links.map(link  => {
             const linkNodeHTML = this.linkFieldHTML.cloneNode(true);
             linkNodeHTML.querySelector("[data-linkheading]").innerText = `Link #${link.order}`;
             linkNodeHTML.querySelector("[data-removelinkbutton]").dataset.linknumber = link.order;
@@ -118,12 +120,12 @@ export default class LinksHandler {
 
         this.linkFieldsRemovers.forEach(remover => {
             remover.addEventListener("click", () => {
-                this.data = this.data.filter(link => link.order !== Number(remover.dataset.linknumber));
+                Profile.data.links = Profile.data.links.filter(link => link.order !== Number(remover.dataset.linknumber));
                 this.renderLinkFieldNodes();
 
                 // If data links is blank, toggle "Let's get you started" back on and disable form save button
 
-                if (!this.data.length) {
+                if (!Profile.data.links.length) {
                     this.toggleLetsGetYouStarted(true);
                     this.#formSaveButtonHandler.toggleFormSaveButton(false);
                 }
@@ -133,11 +135,7 @@ export default class LinksHandler {
 
     // CONSTRUCTOR
 
-    constructor(data, letsGetYouStartedNode, linkFieldsSection, linkFieldHTML, addNewLinkButtonNode) {
-        
-        // Links Data
-
-        this.data = data;
+    constructor(letsGetYouStartedNode, linkFieldsSection, linkFieldHTML, addNewLinkButtonNode) {
         
         // Select "Let's get you started" section node
 
@@ -151,6 +149,10 @@ export default class LinksHandler {
 
         this.linkFieldHTML = linkFieldHTML.cloneNode(true);
         linkFieldHTML.remove();
+
+        // Set link field dropdown
+
+        this.linkFieldDropdown = new PlatformDropdownHandler(linkFieldHTML);
 
         // Set link on number of links user can add based upon total options
 
@@ -170,11 +172,11 @@ export default class LinksHandler {
 
         // Instantiate FormSaveButtonHandler
 
-        this.#formSaveButtonHandler = new FormSaveButtonHandler(document.querySelector("[data-formsavebutton]"));
+        this.#formSaveButtonHandler = new SaveButtonHandler(document.querySelector("[data-formsavebutton]"));
 
         // Check if data contains any links and show them.  If not, then show "Let's get you started to show them"
 
-        if (this.data.length === 0) {
+        if (Profile.data.links.length === 0) {
             this.toggleLetsGetYouStarted(true)
         } else {
             this.#formSaveButtonHandler.toggleFormSaveButton(true);

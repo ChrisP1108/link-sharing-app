@@ -116,7 +116,6 @@
             <h3>Profile Details</h3>
             <h5>Add your details to create a personal touch to your profile.</h5>
         </section>
-        <!-- Javascript HTML rendered here from profile class.  Renders either renderLinksHTML() method or renderProfileDetailsHTML() method depending on what user clicks. -->
         <section class="save-button-container box-padding-full box-section">
             <button type="submit" class="button-disabled" data-formsavebutton>Save</button>
         </section>
@@ -124,10 +123,12 @@
 </div>
 
 <script type="module">
-    import Profile from '/frontend/scripts/profile/main.class.js';
-    const userData = <?php echo get_user_data(); ?>; 
-    new Profile(userData);
+    import Profile from '/frontend/scripts/profile/profile.class.js';
     import FormHandler from '/frontend/scripts/form_submission.class.js';
+
+    const userData = <?php echo get_user_data(); ?>; 
+
+    new Profile(userData);
     new FormHandler("[data-profileform]", "profile", "/api/user");
 </script>
 <?php

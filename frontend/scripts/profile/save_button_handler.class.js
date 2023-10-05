@@ -1,4 +1,4 @@
-export default class FormSaveButtonHandler {
+export default class SaveButtonHandler {
 
     // PROPERTIES
 

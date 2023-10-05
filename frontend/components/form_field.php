@@ -86,7 +86,7 @@
                         <div class="selected-link-item-container">
                             {$selected_option}
                         </div>
-                        <ul class="selection-dropdown-container hidden" data-name="{$name}" data-required="{$required}" id="{$name}"> 
+                        <ul class="selection-dropdown-container hidden" data-name="{$name}" data-required="{$required}"> 
                             {$html_options}
                         </ul>
                     </div>
