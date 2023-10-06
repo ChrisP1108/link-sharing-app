@@ -9,7 +9,7 @@ export default class PlatformDropdownHandler {
     // Renders dropdown.  Takes an an array of strings for items to show
 
     renderDropdown(itemsToRender, insertion) {
-        const dropdownHTML = Profile.nodes.linkFieldDropdown.cloneNode(true);
+        const dropdownHTML = Profile.getNodes().linkFieldDropdown.cloneNode(true);
 
         dropdownHTML.querySelectorAll("li").forEach(item => {
             if (!itemsToRender.includes(item.dataset.value)) {

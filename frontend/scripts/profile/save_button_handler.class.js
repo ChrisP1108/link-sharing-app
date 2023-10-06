@@ -6,17 +6,11 @@ export default class SaveButtonHandler {
 
     // Toggle Form Save Button
 
-    toggleFormSaveButton(active = false) {
+    static toggleFormSaveButton(active = false) {
         if (active) {
-            Profile.nodes.formSaveButton.classList.remove("button-disabled");
+            Profile.getNodes().formSaveButton.classList.remove("button-disabled");
         } else {
-            Profile.nodes.formSaveButton.classList.add("button-disabled");
+            Profile.getNodes().formSaveButton.classList.add("button-disabled");
         }
-    }
-
-    // CONSTRUCTOR
-
-    constructor() {
-
     }
 }
