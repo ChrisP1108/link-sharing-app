@@ -25,6 +25,12 @@ export default class LinksHandler {
 
         if (adding) {
             const newLinkData = { platform: '', link: '', order: Profile.getData().links.length + 1  }
+            const nextPlatformLink = Profile.getPlatformDropdownOptions().find(option => {
+                if (!Profile.getData().links.some(link => link.platform === option.value)) {
+                    return true;
+                }
+            });
+            newLinkData.platform = nextPlatformLink.value;
             Profile.setData('links', [...Profile.getData().links, newLinkData ]);
         }
 
@@ -40,13 +46,44 @@ export default class LinksHandler {
             ({...link, order: index + 1})
         ));
 
+        console.log(Profile.getData().links);
+
         // Generate HTML for link fields
 
         const linkFieldsHTML = Profile.getData().links.map(link  => {
+
+            // Clone linkHTML node
+
             const linkNodeHTML = Profile.getNodes().linkFieldHTML.cloneNode(true);
+
+            // Select Platform field node
+
+            const platformFieldNode = linkNodeHTML.querySelector("[data-linkitemplatformfield]");
+
+            // Get platform name based on link in array map iteration
+
+            const platformFieldData = Profile.getPlatformDropdownOptions().find(option => option.value === link.platform);
+            
+            // Set platform field SVG icon
+            
+            platformFieldNode.querySelector("svg").outerHTML = platformFieldData.iconSVG;
+
+            // Set platform field label text
+
+            platformFieldNode.querySelector("span").innerText = platformFieldData.label;
+
+            // Set Link heading #
+
             linkNodeHTML.querySelector("[data-linkheading]").innerText = `Link #${link.order}`;
+
+            // Set link number data attribute to remove click item
+
             linkNodeHTML.querySelector("[data-removelinkbutton]").dataset.linknumber = link.order;
+
+            // Return link node HTML
+
             return linkNodeHTML.outerHTML;
+            
         }).join("");
 
         // Render link field(s) into linkFieldsSection node

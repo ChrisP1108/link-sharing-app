@@ -83,7 +83,7 @@
                         {$capitalize_label}
                     </label>
                     <div class="input-container platform-input-styling" data-inputcontainer>
-                        <div class="selected-link-item-container">
+                        <div class="selected-link-item-container" data-linkitemplatformfield>
                             {$selected_option}
                         </div>
                         <ul class="selection-dropdown-container hidden" data-name="{$name}" data-required="{$required}"> 

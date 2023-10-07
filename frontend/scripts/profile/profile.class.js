@@ -27,7 +27,7 @@ export default class Profile {
 
     static setData(key, value) {
         Profile.#data[key] = value;
-        Profile.#nodes.formRoot.dataset.fieldsData = Profile.#data;
+        Profile.#nodes.formRoot.data = Profile.#data;
     }
 
     // Nodes
@@ -45,6 +45,12 @@ export default class Profile {
         linkFieldDropdown: null,
         addNewLinkButtonNode: null,
         formSaveButton: null,
+    }
+
+    static #linkDropdownOptions = [];
+
+    static getPlatformDropdownOptions() {
+        return Profile.#linkDropdownOptions;
     }
 
     // Tab Selected
@@ -101,6 +107,12 @@ export default class Profile {
         // Set starting active section tab
 
         Profile.tabSelected = Profile.#nodes.tabLinks[0].dataset.tab;
+
+        // Set platform dropdown options to linkDropdownOptions
+
+        Profile.#nodes.linkFieldDropdown.querySelectorAll('li').forEach(item => {
+            Profile.#linkDropdownOptions.push({ value: item.dataset.value, label: item.querySelector("span").innerText, iconSVG: item.querySelector("svg").outerHTML });
+        });
 
         // Instantiate tab handler class
 

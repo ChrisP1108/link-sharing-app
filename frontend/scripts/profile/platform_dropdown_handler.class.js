@@ -2,13 +2,13 @@ import Profile from '/frontend/scripts/profile/profile.class.js';
 
 export default class PlatformDropdownHandler {
 
-    dropdownClickHandler() {
+    static dropdownClickHandler() {
         
     }
 
     // Renders dropdown.  Takes an an array of strings for items to show
 
-    renderDropdown(itemsToRender, insertion) {
+    static renderPlatformDropdown(itemsToRender, insertion) {
         const dropdownHTML = Profile.getNodes().linkFieldDropdown.cloneNode(true);
 
         dropdownHTML.querySelectorAll("li").forEach(item => {
