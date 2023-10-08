@@ -62,16 +62,19 @@
 
             $html_options = "";
 
+            $platform_name_value = "";
+
             foreach(LINK_OPTIONS as $index => $option) {
                 $name_lowercase = strtolower($option['name']);
 
                 $html_options .= <<<HTML
-                    <li data-value="{$name_lowercase}">{$option['icon']}<span>{$option['name']}</span></li>
+                    <li data-value="{$name_lowercase}">{$option['icon']}<span data-dropdownlistoption>{$option['name']}</span></li>
                 HTML;
 
                 if ($index === 0) {
+                    $platform_name_value = $option['name'];
                     $selected_option = <<<HTML
-                        {$option['icon']}<span>{$option['name']}</span>
+                        {$option['icon']}<span data-platformoptionselected data-value="{$name_lowercase}">{$option['name']}</span>
                     HTML;
                 }
             }
@@ -82,11 +85,11 @@
                     <label for="{$name}">
                         {$capitalize_label}
                     </label>
-                    <div class="input-container platform-input-styling" data-inputcontainer>
-                        <div class="selected-link-item-container" data-linkitemplatformfield>
+                    <div class="input-container platform-input-styling" data-inputcontainer data-linkitemplatformfield data-value="{$platform_name_value}">
+                        <div class="selected-link-item-container">
                             {$selected_option}
                         </div>
-                        <ul class="selection-dropdown-container hidden" data-name="{$name}" data-required="{$required}"> 
+                        <ul class="selection-dropdown-container hidden" data-name="{$name}" data-required="{$required}" data-linkplatformdropdownlist> 
                             {$html_options}
                         </ul>
                     </div>

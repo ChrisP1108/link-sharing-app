@@ -1,38 +1,16 @@
 import Profile from '/frontend/scripts/profile/profile.class.js';
 import SaveButtonHandler from '/frontend/scripts/profile/save_button_handler.class.js';
+import LetsGetYouStartedHandler from '/frontend/scripts/profile/lets_get_you_started_handler.class.js';
+import AddNewLinkButtonHandler from '/frontend/scripts/profile/add_new_link_button_handler.class.js';
+import LinkPlatformDropdownHandler from '/frontend/scripts/profile/link_platform_dropdown_handler.class.js';
 
 export default class LinksHandler {
 
     // METHODS
 
-    // Toggle "Let's get you started" section
-
-    #toggleLetsGetYouStarted(active = false) {
-        if (active) {
-            Profile.getNodes().letsGetYouStarted.classList.remove("hidden");
-            Profile.getNodes().linkFieldsSection.classList.add("hidden");
-        } else {
-            Profile.getNodes().letsGetYouStarted.classList.add("hidden");
-            Profile.getNodes().linkFieldsSection.classList.remove("hidden");
-        }
-    }
-
     // Render link section field nodes
 
-    #renderLinkFieldNodes(adding = false) {
-
-        // Add additional link field blank object if additional field link is being added
-
-        if (adding) {
-            const newLinkData = { platform: '', link: '', order: Profile.getData().links.length + 1  }
-            const nextPlatformLink = Profile.getPlatformDropdownOptions().find(option => {
-                if (!Profile.getData().links.some(link => link.platform === option.value)) {
-                    return true;
-                }
-            });
-            newLinkData.platform = nextPlatformLink.value;
-            Profile.setData('links', [...Profile.getData().links, newLinkData ]);
-        }
+    #renderLinkFieldNodes() {
 
         // Re-sort links by order number
 
@@ -45,8 +23,6 @@ export default class LinksHandler {
         Profile.setData('links', Profile.getData().links.map((link, index) => 
             ({...link, order: index + 1})
         ));
-
-        console.log(Profile.getData().links);
 
         // Generate HTML for link fields
 
@@ -72,6 +48,14 @@ export default class LinksHandler {
 
             platformFieldNode.querySelector("span").innerText = platformFieldData.label;
 
+            // Set dataset value for platform
+
+            platformFieldNode.dataset.value = link.platform;
+
+            // Set order value number for platform
+
+            platformFieldNode.dataset.order = link.order;
+            
             // Set Link heading #
 
             linkNodeHTML.querySelector("[data-linkheading]").innerText = `Link #${link.order}`;
@@ -83,22 +67,20 @@ export default class LinksHandler {
             // Return link node HTML
 
             return linkNodeHTML.outerHTML;
-            
+
         }).join("");
 
         // Render link field(s) into linkFieldsSection node
 
         Profile.getNodes().linkFieldsSection.innerHTML = linkFieldsHTML;
 
+        // Initialize dropdownClickHandler in PlatformDropdownHandler to monitor for clicking of platform fields
+
+        LinkPlatformDropdownHandler.dropdownInitHandler();
+
+        // Reinitialize removeLinkItemHandler for newly rendered link fields
+
         this.#removeLinkItemHandler();
-    }
-
-    // Toggle addNewLinkButton node hidden / visible
-
-    #toggleAddNewLinkButtonNode(active = false) {
-        if (active) {
-            Profile.getNodes().addNewLinkButtonNode.classList.remove("hidden");
-        } else Profile.getNodes().addNewLinkButtonNode.classList.add("hidden");
     }
 
     // Monitor "+ Add new link" click and add link field.  Prevent adding more fields than there are link options
@@ -112,18 +94,35 @@ export default class LinksHandler {
 
             if (linkFieldNodes.length < Profile.getNodes().linkOptionsLimit) {
 
+                // Add additional link field to profile data links prior to rendering to HTML
+
+                const newLinkData = { platform: '', link: '', order: Profile.getData().links.length + 1  }
+                
+                // Makes sure that link field being added adds platform that is not previously listed in another link field
+
+                const nextPlatformLink = Profile.getPlatformDropdownOptions().find(option => {
+                    if (!Profile.getData().links.some(link => link.platform === option.value)) {
+                        return true;
+                    }
+                });
+
+                // Update links data for new link field
+
+                newLinkData.platform = nextPlatformLink.value;
+                Profile.setData('links', [...Profile.getData().links, newLinkData ]);
+
                 // Add link field HTML into link fields section.
 
-                this.#renderLinkFieldNodes(true);
+                this.#renderLinkFieldNodes();
 
                 // Hide "Let's get you started" section node and enable form save button
 
-                this.#toggleLetsGetYouStarted(false);
+                LetsGetYouStartedHandler.toggleLetsGetYouStarted(false);
                 SaveButtonHandler.toggleFormSaveButton(true)
 
                 // Make sure addNewLinkButton node is visible
 
-                this.#toggleAddNewLinkButtonNode(true);
+                AddNewLinkButtonHandler.toggleAddNewLinkButtonNode(true);
             } 
 
             // Check after rendering that once number of link fields equals number of options available, to hit add new link button
@@ -131,7 +130,7 @@ export default class LinksHandler {
             linkFieldNodes = Profile.getNodes().linkFieldsSection.querySelectorAll("[data-fieldname]");
 
             if (linkFieldNodes.length === Profile.getNodes().linkOptionsLimit) {
-                this.#toggleAddNewLinkButtonNode(false);
+                AddNewLinkButtonHandler.toggleAddNewLinkButtonNode(false);
             }
         });
     }
@@ -146,7 +145,7 @@ export default class LinksHandler {
 
         // Makes sure + Add new link button is shows
 
-        this.#toggleAddNewLinkButtonNode(true);
+        AddNewLinkButtonHandler.toggleAddNewLinkButtonNode(true);
         
         // Remove link clicked from data and rerender
 
@@ -158,7 +157,7 @@ export default class LinksHandler {
                 // If data links is blank, toggle "Let's get you started" back on and disable form save button
 
                 if (!Profile.getData().links.length) {
-                    this.#toggleLetsGetYouStarted(true);
+                    LetsGetYouStartedHandler.toggleLetsGetYouStarted(true);
                     SaveButtonHandler.toggleFormSaveButton(false);
                 }
             });
@@ -180,7 +179,7 @@ export default class LinksHandler {
         // Check if data contains any links and show them.  If not, then show "Let's get you started to show them"
 
         if (Profile.getData().links.length === 0) {
-            this.#toggleLetsGetYouStarted(true)
+            LetsGetYouStartedHandler.toggleLetsGetYouStarted(true)
         } else {
             SaveButtonHandler.toggleFormSaveButton(true);
         }

@@ -1,6 +1,5 @@
 import TabHandler from '/frontend/scripts/profile/tab_handler.class.js';
 import LinksHandler from '/frontend/scripts/profile/links_handler.class.js';
-import PlatformDropdownHandler from '/frontend/scripts/profile/platform_dropdown_handler.class.js';
 
 export default class Profile {
 
@@ -122,8 +121,5 @@ export default class Profile {
 
         new LinksHandler();
         
-        // Instantiate link field dropdown
-
-        new PlatformDropdownHandler();
     }
 }
