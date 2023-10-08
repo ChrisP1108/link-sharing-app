@@ -14,6 +14,8 @@ export default class LinkPlatformDropdownHandler {
     static dropdownInitHandler() {
         LinkPlatformDropdownHandler.#linkPlatformFieldNodes = Profile.getNodes().linkFieldsSection.querySelectorAll(`[data-fieldtype="link"] [data-linkitemplatformfield]`);
 
+        // Initialize click handling of platform field to show dropdown
+
         LinkPlatformDropdownHandler.#linkPlatformFieldNodes.forEach(field => {
             field.addEventListener('click', () => {
                 if (!field.querySelector(`[data-linkplatformdropdownlist]`)) {
@@ -28,6 +30,12 @@ export default class LinkPlatformDropdownHandler {
     // Renders dropdown.  Takes an an array of strings for items to show
 
     static #renderPlatformDropdown(platformField) {
+
+        // Makes sure there isn't another dropdown list so user can't open two or more dropdowns simultaneously
+
+        if (document.querySelector(`[data-linkplatformdropdownlist]`)) {
+            document.querySelector(`[data-linkplatformdropdownlist]`).remove();
+        }
 
         // Checks available dropdown Options
 
