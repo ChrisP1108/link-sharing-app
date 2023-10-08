@@ -1,4 +1,5 @@
 import Profile from '/frontend/scripts/profile/profile.class.js';
+import LinksHandler from '/frontend/scripts/profile/links_handler.class.js';
 
 export default class LinkPlatformDropdownHandler {
 
@@ -17,7 +18,14 @@ export default class LinkPlatformDropdownHandler {
         // Initialize click handling of platform field to show dropdown
 
         LinkPlatformDropdownHandler.#linkPlatformFieldNodes.forEach(field => {
+
+            // Disable all link fields that have CSS class of dropdown-active so dropdown arrow points down
             field.addEventListener('click', () => {
+
+                field.classList.remove("dropdown-active");
+
+                // Makes sure another dropdown list isn't already opened.  If so, the existing  one will be removed.
+
                 if (!field.querySelector(`[data-linkplatformdropdownlist]`)) {
                     LinkPlatformDropdownHandler.#renderPlatformDropdown(field);
                 } else {
@@ -30,6 +38,10 @@ export default class LinkPlatformDropdownHandler {
     // Renders dropdown.  Takes an an array of strings for items to show
 
     static #renderPlatformDropdown(platformField) {
+
+        // Add CSS class of dropdown-active for dropdown arrow to point upward on link platform field clicked
+
+        platformField.classList.add("dropdown-active");
 
         // Makes sure there isn't another dropdown list so user can't open two or more dropdowns simultaneously
 
@@ -76,7 +88,7 @@ export default class LinkPlatformDropdownHandler {
 
         // Select dropdown list
 
-        const dropdownList = document.querySelector(`[data-linkplatformdropdownlist]`)
+        const dropdownList = document.querySelector(`[data-linkplatformdropdownlist]`);
 
         // Remove dropdown if user clicks outside dropdown area
 
@@ -93,45 +105,44 @@ export default class LinkPlatformDropdownHandler {
 
         // Monitor click of dropdown item
 
-        dropdownList.addEventListener("click", e => {
-            // Select parent list option node
+        if (dropdownList) {
 
-            const optionNode = e.target.closest("li");
+            dropdownList.addEventListener("click", e => {
+                // Select parent list option node
 
-            // Selected option value
+                const optionNode = e.target.closest("li");
 
-            const optionValueClicked = e.target.closest("li").dataset.value;
+                // Selected option value
 
-            // Select platform field
+                const optionValueClicked = e.target.closest("li").dataset.value;
 
-            const platformFieldNode = optionNode.closest(`[data-linkitemplatformfield]`);
+                // Select platform field
 
-            // Get data corresponding to option clicked
+                const platformFieldNode = optionNode.closest(`[data-linkitemplatformfield]`);
 
-            const clickedOptionData = Profile.getPlatformDropdownOptions().find(option => option.value === optionValueClicked);
-            
-            // Update data to reflect option clicked
+                // Get data corresponding to option clicked
 
-            const linkDataToUpdate = Profile.getData().links.find(link => link.order === Number(platformFieldNode.dataset.order));
+                const clickedOptionData = Profile.getPlatformDropdownOptions().find(option => option.value === optionValueClicked);
+                
+                // Update data to reflect option clicked
 
-            linkDataToUpdate.platform = clickedOptionData.value;
+                const linkDataToUpdate = Profile.getData().links.find(link => link.order === Number(platformFieldNode.dataset.order));
 
-            Profile.setData('links', Profile.getData().links.map(link => 
-                link.order === Number(platformFieldNode.dataset.order) ? linkDataToUpdate : link)
-            );
-            
-            // Set icon of platform field
+                linkDataToUpdate.platform = clickedOptionData.value;
 
-            platformFieldNode.querySelector("svg").outerHTML = clickedOptionData.iconSVG;
+                Profile.setData('links', Profile.getData().links.map(link => 
+                    link.order === Number(platformFieldNode.dataset.order) ? linkDataToUpdate : link)
+                );
+                
+                // Rerender link fields to update change
 
-            // Set label of platform field
+                LinksHandler.renderLinkFieldNodes();
 
-            platformFieldNode.querySelector("span").innerText = clickedOptionData.label;
+                // Remove dropdown
 
-            // Remove dropdown
-
-            dropdownList.remove();
-        });
+                dropdownList.remove();
+            });
+        }
     }
 
 }

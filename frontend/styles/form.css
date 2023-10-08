@@ -10,13 +10,23 @@ form {
             padding: 0 min(1rem, 4.5%);
             position: relative;
 
-            & svg {
-                width: 0.875em;
-                height: 0.875em;
-
+            & svg.platform-icon, svg.link-icon {
                 & path {
                     fill: var(--grey);
                 }
+
+                width: 0.875em;
+                height: 0.875em;
+            }
+
+            & svg.platform-dropdown-arrow {
+                transition: 0.25s;
+                & path {
+                    stroke: var(--purple);
+                }
+
+                width: 0.75em;
+                height: 0.75em;
             }
 
             & input, .selection-dropdown-container span, .selected-link-item-container span {
@@ -88,6 +98,13 @@ form {
             background: var(--light-grey);
             padding: 20px;
             border-radius: 0.75rem;
+        }
+
+        &:has(.dropdown-active) {
+
+            & svg.platform-dropdown-arrow {
+                transform: rotateX(180deg);
+            }
         }
 
         & .link-number-remove-container {

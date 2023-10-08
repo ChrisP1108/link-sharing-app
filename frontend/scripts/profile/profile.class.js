@@ -110,7 +110,37 @@ export default class Profile {
         // Set platform dropdown options to linkDropdownOptions
 
         Profile.#nodes.linkFieldDropdown.querySelectorAll('li').forEach(item => {
-            Profile.#linkDropdownOptions.push({ value: item.dataset.value, label: item.querySelector("span").innerText, iconSVG: item.querySelector("svg").outerHTML });
+            const option = { value: item.dataset.value, label: item.querySelector("span").innerText, iconSVG: item.querySelector("svg").outerHTML }
+            
+            // Set placeholder text based on platform
+
+            const placeholderStartingText = 'e.g. '
+
+            switch(item.dataset.value) {
+                case 'github':
+                    option.placeholder = placeholderStartingText +  'https://www.github.com/johnappleseed';
+                    break;
+                case 'youtube':
+                    option.placeholder = placeholderStartingText + 'https://www.youtube.com/@johnappleseed';
+                    break;
+                case 'linkedin':
+                    option.placeholder = placeholderStartingText + 'https://www.linkedin.com/in/johnappleseed';
+                    break;
+                case 'facebook':
+                    option.placeholder = placeholderStartingText +  'https://www.facebook.com/johnappleseed';
+                    break;
+                case 'x / twitter':
+                    option.placeholder = placeholderStartingText +  'https://twitter.com/johnappleseed';
+                    break;
+                case 'frontend mentor':
+                    option.placeholder = placeholderStartingText +  'https://www.frontendmentor.io/profile/johnappleseed';
+                    break;
+                case 'hashnode':
+                    option.placeholder = placeholderStartingText +  'https://hashnode.com/johnappleseed';
+                    break;
+            }
+            
+            Profile.#linkDropdownOptions.push(option);
         });
 
         // Instantiate tab handler class

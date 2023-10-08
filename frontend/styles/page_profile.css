@@ -187,6 +187,13 @@ body:has(.profile-page-container) {
                 }
             }
 
+            .platform-fields-click-disabled {
+                & .platform-input-styling {
+                    cursor: auto !important;
+                    pointer-events: none !important;
+                }
+            }
+
             & .links-fields-container {
                 display: flex;
                 flex-direction: column;

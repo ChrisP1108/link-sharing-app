@@ -60,3 +60,26 @@ button {
     opacity: 0.25;
     pointer-events: none;
 }
+
+.animate-fade-up {
+    animation-name: fade-in-up;
+    animation-timing-function: linear;
+    animation-duration: 0.15s;
+}
+
+@keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(8px)}
+    to { opacity: 1; transform: translateY(0px)}
+}
+
+.animate-platform-dropdown {
+    animation-name: dropdown-flip-down;
+    animation-timing-function: linear;
+    animation-duration: 0.15s;
+    transform-origin: top;
+}
+
+@keyframes dropdown-flip-down {
+    from { transform: rotateX(90deg)}
+    to { transform: rotateX(0deg)}
+}

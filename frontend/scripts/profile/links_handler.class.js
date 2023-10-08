@@ -10,7 +10,7 @@ export default class LinksHandler {
 
     // Render link section field nodes
 
-    #renderLinkFieldNodes() {
+    static renderLinkFieldNodes(adding = false) {
 
         // Re-sort links by order number
 
@@ -26,7 +26,7 @@ export default class LinksHandler {
 
         // Generate HTML for link fields
 
-        const linkFieldsHTML = Profile.getData().links.map(link  => {
+        const linkFieldsHTML = Profile.getData().links.map((link, index)  => {
 
             // Clone linkHTML node
 
@@ -48,6 +48,34 @@ export default class LinksHandler {
 
             platformFieldNode.querySelector("span").innerText = platformFieldData.label;
 
+            // Set id for link field input
+
+            const linkInputId = `link-item-${link.order}`
+
+            // Select link field parent container (label & input)
+
+            const linkContainer = linkNodeHTML.querySelector(`[data-linkitemcontainer]`);
+            
+            linkContainer.querySelector("label").htmlFor = linkInputId;
+
+            const linkInputField = linkContainer.querySelector(`input`);
+
+            // Set link field input placeholder text
+
+            linkInputField.placeholder = platformFieldData.placeholder;
+
+            // Set link field input name
+
+            linkInputField.name = linkInputId;
+
+            // Set link field input id
+
+            linkInputField.id = linkInputId;
+
+            // Set order number attribute on link field input
+
+            linkInputField.dataset.order = link.order;
+
             // Set dataset value for platform
 
             platformFieldNode.dataset.value = link.platform;
@@ -64,6 +92,12 @@ export default class LinksHandler {
 
             linkNodeHTML.querySelector("[data-removelinkbutton]").dataset.linknumber = link.order;
 
+            // If link field is last in list, add animation class 'animate-fade-up' if link field is added
+
+            if (index + 1 === Profile.getData().links.length && adding) {
+                linkNodeHTML.classList.add("animate-fade-up");
+            }
+
             // Return link node HTML
 
             return linkNodeHTML.outerHTML;
@@ -74,13 +108,23 @@ export default class LinksHandler {
 
         Profile.getNodes().linkFieldsSection.innerHTML = linkFieldsHTML;
 
-        // Initialize dropdownClickHandler in PlatformDropdownHandler to monitor for clicking of platform fields
+        // If total number of link inputs fields equals total number of options available, add CSS class and disable dropdown
 
-        LinkPlatformDropdownHandler.dropdownInitHandler();
+        const linkInputsLength = Profile.getNodes().linkFieldsSection.querySelectorAll(`[data-fieldtype="link"]`).length;
+            
+        if (linkInputsLength === Profile.getPlatformDropdownOptions().length) {
+            Profile.getNodes().linkFieldsSection.classList.add("platform-fields-click-disabled");
+        } else {
+            Profile.getNodes().linkFieldsSection.classList.remove("platform-fields-click-disabled");
+
+            // Initialize dropdownClickHandler in PlatformDropdownHandler to monitor for clicking of platform fields
+
+            LinkPlatformDropdownHandler.dropdownInitHandler();
+        }
 
         // Reinitialize removeLinkItemHandler for newly rendered link fields
 
-        this.#removeLinkItemHandler();
+        LinksHandler.#removeLinkItemHandler();
     }
 
     // Monitor "+ Add new link" click and add link field.  Prevent adding more fields than there are link options
@@ -113,7 +157,7 @@ export default class LinksHandler {
 
                 // Add link field HTML into link fields section.
 
-                this.#renderLinkFieldNodes();
+                LinksHandler.renderLinkFieldNodes(true);
 
                 // Hide "Let's get you started" section node and enable form save button
 
@@ -137,7 +181,7 @@ export default class LinksHandler {
 
     // Remove link item click handler
 
-    #removeLinkItemHandler() {
+    static #removeLinkItemHandler() {
 
         // Update Remove links
 
@@ -152,7 +196,7 @@ export default class LinksHandler {
         Profile.getNodes().linkFieldsRemovers.forEach(remover => {
             remover.addEventListener("click", () => {
                 Profile.setData('links', Profile.getData().links.filter(link => link.order !== Number(remover.dataset.linknumber)));
-                this.#renderLinkFieldNodes();
+                LinksHandler.renderLinkFieldNodes();
 
                 // If data links is blank, toggle "Let's get you started" back on and disable form save button
 
@@ -174,7 +218,7 @@ export default class LinksHandler {
 
         // Remove click handler
 
-        this.#removeLinkItemHandler();
+        LinksHandler.#removeLinkItemHandler();
 
         // Check if data contains any links and show them.  If not, then show "Let's get you started to show them"
 
