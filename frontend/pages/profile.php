@@ -126,7 +126,25 @@
     import Profile from '/frontend/scripts/profile/profile.class.js';
     import FormHandler from '/frontend/scripts/form_submission.class.js';
 
-    const userData = <?php echo get_user_data(); ?>; 
+    // const userData = <?php echo get_user_data(); ?>; 
+
+    const userData = { links: [
+        {
+            platform: 'github',
+            link: 'https://www.github.com/ChrisP1108',
+            order: 1
+        },
+        {
+            platform: 'youtube',
+            link: 'https://www.youtube.com/ChrisP1108',
+            order: 2
+        },
+        {
+            platform: 'linkedin',
+            link: 'https://www.linkedin.com/ChrisP1108',
+            order: 3
+        },
+    ]}; 
 
     new Profile(userData);
     new FormHandler("[data-profileform]", "profile", "/api/user");

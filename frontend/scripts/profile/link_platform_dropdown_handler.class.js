@@ -134,11 +134,9 @@ export default class LinkPlatformDropdownHandler {
                     link.order === Number(platformFieldNode.dataset.order) ? linkDataToUpdate : link)
                 );
                 
-                // Rerender link fields to update change
+                // Rerender link platform field to update change
 
-                LinksHandler.renderLinkFieldNodes();
-
-                // Remove dropdown
+                LinksHandler.updatePlatformField(platformFieldNode, linkDataToUpdate);
 
                 dropdownList.remove();
             });

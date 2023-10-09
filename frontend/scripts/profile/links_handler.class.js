@@ -22,6 +22,28 @@ export default class LinksHandler {
         })
     }
 
+    // Update Platform Field
+
+    static updatePlatformField(node, data) {
+
+        // Select platform field text
+
+        const platformLabelField = node.querySelector("[data-platformoptionselected]");
+
+        const clickedOptionData = Profile.getPlatformDropdownOptions().find(option => option.value === data.platform);
+
+        // Rerender link platform field icon
+
+        node.querySelector("svg.platform-icon").outerHTML = clickedOptionData.iconSVG;
+
+        platformLabelField.innerText = clickedOptionData.label;
+
+        // Set dataset value
+
+        platformLabelField.dataset.value = clickedOptionData.value;
+
+    }
+
     // Render link section field nodes
 
     static renderLinkFieldNodes(adding = false) {
@@ -54,15 +76,7 @@ export default class LinksHandler {
 
             const platformFieldData = Profile.getPlatformDropdownOptions().find(option => option.value === link.platform);
             
-            // Set platform field SVG icon
-            
-            platformFieldNode.querySelector("svg").outerHTML = platformFieldData.iconSVG;
-
-            // Set platform field label text
-
-            platformFieldNode.querySelector("span").innerText = platformFieldData.label;
-
-            // Set id for link field input
+            LinksHandler.updatePlatformField(platformFieldNode, link);
 
             const linkInputId = `link-item-${link.order}`
 
@@ -250,6 +264,8 @@ export default class LinksHandler {
         if (Profile.getData().links.length === 0) {
             LetsGetYouStartedHandler.toggleLetsGetYouStarted(true)
         } else {
+            LinksHandler.renderLinkFieldNodes();
+            LetsGetYouStartedHandler.toggleLetsGetYouStarted(false);
             SaveButtonHandler.toggleFormSaveButton(true);
         }
     }
