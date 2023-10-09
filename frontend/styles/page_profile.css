@@ -191,6 +191,10 @@ body:has(.profile-page-container) {
                 & .platform-input-styling {
                     cursor: auto !important;
                     pointer-events: none !important;
+
+                    & svg.platform-dropdown-arrow {
+                        display: none;
+                    }
                 }
             }
 

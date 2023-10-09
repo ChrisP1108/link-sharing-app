@@ -8,6 +8,20 @@ export default class LinksHandler {
 
     // METHODS
 
+    // Monitor link input change
+
+    static #linkFieldChangeUpdate() {
+        const linkInputs = Profile.getNodes().linkFieldsSection.querySelectorAll(`input`);
+
+        linkInputs.forEach(input => {
+            input.addEventListener('input', () => {
+                Profile.setData('links', [...Profile.getData().links].map(link => 
+                    link.order === Number(input.dataset.order) ? {...link, link: input.value } : link
+                ));
+            });
+        })
+    }
+
     // Render link section field nodes
 
     static renderLinkFieldNodes(adding = false) {
@@ -108,6 +122,13 @@ export default class LinksHandler {
 
         Profile.getNodes().linkFieldsSection.innerHTML = linkFieldsHTML;
 
+        // Add link field values after rendering based upon links data
+
+        Profile.getData().links.forEach(link => {
+            const input = Profile.getNodes().linkFieldsSection.querySelector(`input[data-order="${link.order}"]`);
+            input.value = link.link;
+        })
+
         // If total number of link inputs fields equals total number of options available, add CSS class and disable dropdown
 
         const linkInputsLength = Profile.getNodes().linkFieldsSection.querySelectorAll(`[data-fieldtype="link"]`).length;
@@ -125,6 +146,10 @@ export default class LinksHandler {
         // Reinitialize removeLinkItemHandler for newly rendered link fields
 
         LinksHandler.#removeLinkItemHandler();
+
+        // Monitor change of link input fields and rerender on input change
+
+        LinksHandler.#linkFieldChangeUpdate()
     }
 
     // Monitor "+ Add new link" click and add link field.  Prevent adding more fields than there are link options
