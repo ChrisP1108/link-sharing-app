@@ -27,6 +27,17 @@ export default class Profile {
     static setData(key, value) {
         Profile.#data[key] = value;
         Profile.#nodes.formRoot.data = Profile.#data;
+
+        // Update link fields collapsed in local Storage
+
+        const linkCollapseData = JSON.parse(localStorage.getItem(Profile.linkCollapseLocalDataName));
+
+        if (linkCollapseData) {
+            const updatedLinkCollapsedData = linkCollapseData.filter(link => Profile.getData().links.some(l => l.platform === link.platform));
+            if (linkCollapseData.length !== updatedLinkCollapsedData) {
+                localStorage.setItem(Profile.linkCollapseLocalDataName, JSON.stringify(updatedLinkCollapsedData));
+            }
+        }
     }
 
     // Nodes
@@ -51,6 +62,10 @@ export default class Profile {
     static getPlatformDropdownOptions() {
         return Profile.#linkDropdownOptions;
     }
+
+    // Link collapse local storage name
+
+    static linkCollapseLocalDataName = "link-field-collapsed-data";
 
     // Tab Selected
 

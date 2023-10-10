@@ -39,6 +39,8 @@ export default class LinkPlatformDropdownHandler {
 
     static #renderPlatformDropdown(platformField) {
 
+        LinkPlatformDropdownHandler.#resetDropdownArrows();
+
         // Add CSS class of dropdown-active for dropdown arrow to point upward on link platform field clicked
 
         platformField.classList.add("dropdown-active");
@@ -82,6 +84,16 @@ export default class LinkPlatformDropdownHandler {
 
     }
 
+    // Set all link platform field arrows back to down position
+
+    static #resetDropdownArrows() {
+        Profile.getNodes().linkFieldsSection
+            .querySelectorAll("[data-linkitemplatformfield]")
+            .forEach(link => {
+                link.classList.remove("dropdown-active");
+            });
+    }
+
     // Monitor clicking item in dropdown once it is rendered
 
     static #dropdownClickHandler() {
@@ -90,7 +102,7 @@ export default class LinkPlatformDropdownHandler {
 
         const dropdownList = document.querySelector(`[data-linkplatformdropdownlist]`);
 
-        // Remove dropdown if user clicks outside dropdown area
+        // Remove dropdown if user clicks outside dropdown area and set all dropdown arrows
 
         const outsideAreaHandler = window.addEventListener("click", e => {
             const clickedOnDropdown = e.target.closest("[data-linkitemplatformfield]") !== null
@@ -99,6 +111,7 @@ export default class LinkPlatformDropdownHandler {
                 if (dropdownList) {
                     dropdownList.remove();
                 }
+                LinkPlatformDropdownHandler.#resetDropdownArrows();
                 window.removeEventListener("click", outsideAreaHandler, true);
             }
         });
@@ -138,7 +151,13 @@ export default class LinkPlatformDropdownHandler {
 
                 LinksHandler.updatePlatformField(platformFieldNode, linkDataToUpdate);
 
+                // Remove dropdown
+
                 dropdownList.remove();
+
+                // Set platform field arrows back to down position
+
+                LinkPlatformDropdownHandler.#resetDropdownArrows();
             });
         }
     }

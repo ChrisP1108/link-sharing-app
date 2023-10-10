@@ -3,6 +3,7 @@ import SaveButtonHandler from '/frontend/scripts/profile/save_button_handler.cla
 import LetsGetYouStartedHandler from '/frontend/scripts/profile/lets_get_you_started_handler.class.js';
 import AddNewLinkButtonHandler from '/frontend/scripts/profile/add_new_link_button_handler.class.js';
 import LinkPlatformDropdownHandler from '/frontend/scripts/profile/link_platform_dropdown_handler.class.js';
+import LinkFieldCollapseHandler from '/frontend/scripts/profile/link_field_collapse_handler.class.js'
 
 export default class LinksHandler {
 
@@ -164,6 +165,10 @@ export default class LinksHandler {
         // Monitor change of link input fields and rerender on input change
 
         LinksHandler.#linkFieldChangeUpdate()
+
+        // Monitor click of link field collapse icon
+
+        LinkFieldCollapseHandler.initLinkCollapseHandler();
     }
 
     // Monitor "+ Add new link" click and add link field.  Prevent adding more fields than there are link options
