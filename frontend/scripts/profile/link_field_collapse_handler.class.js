@@ -16,10 +16,8 @@ export default class LinkFieldCollapseHandler {
 
             // Check for existing link collapsed data and apply settings
 
-            const existingLinkCollapseData = JSON.parse(localStorage.getItem(Profile.linkCollapseLocalDataName));
-
-            if (existingLinkCollapseData) {
-                existingLinkCollapseData.forEach(link => {
+            if (Profile.getLinkCollapseData()) {
+                Profile.getLinkCollapseData().forEach(link => {
                     if (link.platform === field.querySelector(`[data-linkitemplatformfield]`).dataset.value && link.collapsed) {
                         field.classList.add("link-field-collapsed");
                     }
@@ -50,7 +48,7 @@ export default class LinkFieldCollapseHandler {
 
                 // Update local storage
 
-                localStorage.setItem(Profile.linkCollapseLocalDataName, JSON.stringify(localData));
+                Profile.setLinkCollapseData(localData);
             });
         });
     }

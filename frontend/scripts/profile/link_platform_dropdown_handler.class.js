@@ -64,12 +64,21 @@ export default class LinkPlatformDropdownHandler {
 
         const dropdownHTML = Profile.getNodes().linkFieldDropdown.cloneNode(true);
         
-        // Remove any platform items that are currently listed in a link field
+        // Loop through dropdown list items and remove any items already listed and hightlight current item corresponding to platform field
 
         dropdownHTML.querySelectorAll("li").forEach(item => {
+            
+            // Remove any platform items that are currently listed in a link field
+            
             if (!LinkPlatformDropdownHandler.#availablePlatformOptions.some(platform => platform.value === item.dataset.value) && item.dataset.value !== platformField.dataset.value) {
                 item.remove();
-            } 
+            }
+            
+             // Highlight dropdown list item that corresponds to platform currently shown in platform field by adding CSS class
+        
+            if (item.dataset.value === platformField.dataset.value) {
+                item.classList.add("active-dropdown-item");
+            }
         });
 
         // Remove hidden class to make dropdown visible
@@ -132,6 +141,10 @@ export default class LinkPlatformDropdownHandler {
                 // Select platform field
 
                 const platformFieldNode = optionNode.closest(`[data-linkitemplatformfield]`);
+
+                // Set dataset value for parent platformFieldNode
+
+                platformFieldNode.dataset.value = optionValueClicked;
 
                 // Get data corresponding to option clicked
 

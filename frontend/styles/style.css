@@ -83,3 +83,10 @@ button {
     from { transform: rotateX(90deg)}
     to { transform: rotateX(0deg)}
 }
+
+/* Platform dropdown list item icon hover animation */
+
+@keyframes dropdown-icon-hover-pulse {
+    from { transform: scale(1) }
+    to { transform: scale(1.4) }
+}

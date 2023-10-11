@@ -28,15 +28,10 @@ export default class Profile {
         Profile.#data[key] = value;
         Profile.#nodes.formRoot.data = Profile.#data;
 
-        // Update link fields collapsed in local Storage
+        // Update link fields collapsed in local Storage if a field was added or deleted
 
-        const linkCollapseData = JSON.parse(localStorage.getItem(Profile.linkCollapseLocalDataName));
-
-        if (linkCollapseData) {
-            const updatedLinkCollapsedData = linkCollapseData.filter(link => Profile.getData().links.some(l => l.platform === link.platform));
-            if (linkCollapseData.length !== updatedLinkCollapsedData) {
-                localStorage.setItem(Profile.linkCollapseLocalDataName, JSON.stringify(updatedLinkCollapsedData));
-            }
+        if (Profile.getLinkCollapseData().length !== Profile.getData().links.length) {
+            Profile.setLinkCollapseData(Profile.getLinkCollapseData().filter(link => Profile.getData().links.some(l => l.platform === link.platform)));
         }
     }
 
@@ -63,9 +58,28 @@ export default class Profile {
         return Profile.#linkDropdownOptions;
     }
 
-    // Link collapse local storage name
+    // Link collapse local storage data
 
-    static linkCollapseLocalDataName = "link-field-collapsed-data";
+    static #linkCollapseLocalData = [];
+
+    // Get link collapse local storage data
+
+    static getLinkCollapseData() {
+        const getLocalData = JSON.parse(localStorage.getItem("link-field-collapsed-data"));
+
+        if (getLocalData && getLocalData.length) {
+            Profile.#linkCollapseLocalData = getLocalData;
+        } else Profile.#linkCollapseLocalData = [];
+        
+        return Profile.#linkCollapseLocalData;
+    }
+
+    // Set local storage link collapse data
+
+    static setLinkCollapseData(array) {
+        Profile.#linkCollapseLocalData = array;
+        localStorage.setItem("link-field-collapsed-data", JSON.stringify(array))
+    }
 
     // Tab Selected
 

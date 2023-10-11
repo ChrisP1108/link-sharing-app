@@ -65,6 +65,24 @@ form {
                     align-items: center;
                     margin: 0 min(1rem, 4.5%);
                     cursor: pointer;
+
+                    &:hover:not(.active-dropdown-item) svg {
+                        animation-name: dropdown-icon-hover-pulse;
+                        animation-duration: 0.4s;
+                        animation-timing-function: linear;
+                        animation-iteration-count: infinite;
+                        animation-direction: alternate;
+                    }
+
+                    &.active-dropdown-item {
+                        & svg path {
+                            fill: var(--purple) !important;
+                        }
+
+                        & span {
+                            color: var(--purple) !important;
+                        }
+                    }
                 }
 
                 & li:not(last-child) {
