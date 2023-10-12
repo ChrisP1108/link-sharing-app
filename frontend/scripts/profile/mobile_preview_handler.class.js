@@ -21,11 +21,24 @@ export default class MobilePreviewHandler {
             // Clear link node back to filler to ensure deleted links get cleared
 
             node.innerHTML = '';
+            node.style.background = '';
+
+            // Get link data
 
             const linkData = Profile.getData().links.find(link => link.order === Number(node.dataset.order));
-        
+
+            // If corresponding link data found, get option data and render.
+
             if (linkData) {
-                node.innerHTML = `<h4>${linkData.platform}</h4>`;
+
+                // Get option data corresponding to link data
+
+                const optionData = Profile.getPlatformDropdownOptions().find(option => option.value === linkData.platform);
+            
+                if (linkData) {
+                    node.style.background = optionData.color;
+                    node.innerHTML = `<h4>${optionData.label}</h4>`;
+                }
             }
         });
     }

@@ -109,10 +109,14 @@ body:has(.profile-page-container) {
                             margin-top: 56px;
 
                             & .mobile-link-container {
+                                display: flex;
+                                align-items: center;
+                                justify-content: space-between;
                                 width: 100%;
                                 min-height: 44px;
                                 border-radius: 0.5em; 
                                 background: var(--unfilled);
+                                color: var(--white);
                             }
                         }
                     }
