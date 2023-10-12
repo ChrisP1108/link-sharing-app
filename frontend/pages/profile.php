@@ -40,12 +40,12 @@
                     </div>
                     <h6 class="name-text" data-mobilesection="name"></h6>
                     <p class="email-text" data-mobilesection="email"></p>
-                    <section class="mobile-links-container" data-mobilelinkcontainer>
-                        <div class="mobile-link-container" data-mobilelinkitem index="0"></div>
-                        <div class="mobile-link-container" data-mobilelinkitem index="1"></div>
-                        <div class="mobile-link-container" data-mobilelinkitem index="2"></div>
-                        <div class="mobile-link-container" data-mobilelinkitem index="3"></div>
-                        <div class="mobile-link-container" data-mobilelinkitem index="4"></div>
+                    <section class="mobile-links-container" data-mobilesection="links">
+                        <div class="mobile-link-container" data-mobilelinkitem data-order="1"></div>
+                        <div class="mobile-link-container" data-mobilelinkitem data-order="2"></div>
+                        <div class="mobile-link-container" data-mobilelinkitem data-order="3"></div>
+                        <div class="mobile-link-container" data-mobilelinkitem data-order="4"></div>
+                        <div class="mobile-link-container" data-mobilelinkitem data-order="5"></div>
                     </section>
                 </div>
             </foreignObject>

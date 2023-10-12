@@ -70,7 +70,7 @@
                 $name_lowercase = strtolower($option['name']);
 
                 $html_options .= <<<HTML
-                    <li data-value="{$name_lowercase}">{$option['icon']}<span data-dropdownlistoption>{$option['name']}</span></li>
+                    <li data-value="{$name_lowercase}" data-placeholder="{$option['placeholder']}" data-color="{$option['color']}">{$option['icon']}<span data-dropdownlistoption>{$option['name']}</span></li>
                 HTML;
 
                 if ($index === 0) {

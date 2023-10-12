@@ -1,5 +1,6 @@
 import TabHandler from '/frontend/scripts/profile/tab_handler.class.js';
 import LinksHandler from '/frontend/scripts/profile/links_handler.class.js';
+import MobilePreviewHandler from '/frontend/scripts/profile/mobile_preview_handler.class.js';
 
 export default class Profile {
 
@@ -28,6 +29,10 @@ export default class Profile {
         Profile.#data[key] = value;
         Profile.#nodes.formRoot.data = Profile.#data;
 
+        // Render mobile preview
+
+        MobilePreviewHandler.renderMobilePreview();
+
         // Update link fields collapsed in local Storage if a field was added or deleted
 
         if (Profile.getLinkCollapseData().length !== Profile.getData().links.length) {
@@ -50,6 +55,13 @@ export default class Profile {
         linkFieldDropdown: null,
         addNewLinkButtonNode: null,
         formSaveButton: null,
+        mobileSection: {
+            main: null,
+            image: null,
+            name: null,
+            email: null,
+            linksSection: null
+        }
     }
 
     static #linkDropdownOptions = [];
@@ -123,6 +135,11 @@ export default class Profile {
         Profile.#nodes.linkFieldDropdown = Profile.#nodes.linkFieldHTML.querySelector("ul");
         Profile.#nodes.addNewLinkButtonNode = document.querySelector(`[data-buttonaddlink]`);
         Profile.#nodes.formSaveButton = document.querySelector(`[data-formsavebutton]`);
+        Profile.#nodes.mobileSection.main = document.querySelector(`[data-section="mobile-preview"]`);
+        Profile.#nodes.mobileSection.image = Profile.#nodes.mobileSection.main.querySelector(`[data-mobilesection="image"]`);
+        Profile.#nodes.mobileSection.name = Profile.#nodes.mobileSection.main.querySelector(`[data-mobilesection="name"]`);
+        Profile.#nodes.mobileSection.email = Profile.#nodes.mobileSection.main.querySelector(`[data-mobilesection="email"]`);
+        Profile.#nodes.mobileSection.linksSection = Profile.#nodes.mobileSection.main.querySelector(`[data-mobilesection="links"]`);
 
         // Remove initial linkFieldHTML Node after being cloned
 
@@ -139,34 +156,13 @@ export default class Profile {
         // Set platform dropdown options to linkDropdownOptions
 
         Profile.#nodes.linkFieldDropdown.querySelectorAll('li').forEach(item => {
-            const option = { value: item.dataset.value, label: item.querySelector("span").innerText, iconSVG: item.querySelector("svg").outerHTML }
-            
-            // Set placeholder text based on platform
 
-            const placeholderStartingText = 'e.g. '
-
-            switch(item.dataset.value) {
-                case 'github':
-                    option.placeholder = placeholderStartingText +  'https://www.github.com/johnappleseed';
-                    break;
-                case 'youtube':
-                    option.placeholder = placeholderStartingText + 'https://www.youtube.com/@johnappleseed';
-                    break;
-                case 'linkedin':
-                    option.placeholder = placeholderStartingText + 'https://www.linkedin.com/in/johnappleseed';
-                    break;
-                case 'facebook':
-                    option.placeholder = placeholderStartingText +  'https://www.facebook.com/johnappleseed';
-                    break;
-                case 'x / twitter':
-                    option.placeholder = placeholderStartingText +  'https://twitter.com/johnappleseed';
-                    break;
-                case 'frontend mentor':
-                    option.placeholder = placeholderStartingText +  'https://www.frontendmentor.io/profile/johnappleseed';
-                    break;
-                case 'hashnode':
-                    option.placeholder = placeholderStartingText +  'https://hashnode.com/johnappleseed';
-                    break;
+            const option = { 
+                value: item.dataset.value, 
+                label: item.querySelector("span").innerText, 
+                iconSVG: item.querySelector("svg").outerHTML,
+                placeholder: 'e.g. ' + item.dataset.placeholder,
+                color: item.dataset.color 
             }
             
             Profile.#linkDropdownOptions.push(option);
@@ -179,6 +175,9 @@ export default class Profile {
         // Instantiate links 
 
         new LinksHandler();
-        
+
+        // Render mobile preview
+
+        MobilePreviewHandler.renderMobilePreview();
     }
 }
