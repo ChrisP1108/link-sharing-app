@@ -3,7 +3,8 @@ import SaveButtonHandler from '/frontend/scripts/profile/save_button_handler.cla
 import LetsGetYouStartedHandler from '/frontend/scripts/profile/lets_get_you_started_handler.class.js';
 import AddNewLinkButtonHandler from '/frontend/scripts/profile/add_new_link_button_handler.class.js';
 import LinkPlatformDropdownHandler from '/frontend/scripts/profile/link_platform_dropdown_handler.class.js';
-import LinkFieldCollapseHandler from '/frontend/scripts/profile/link_field_collapse_handler.class.js'
+import LinkFieldCollapseHandler from '/frontend/scripts/profile/link_field_collapse_handler.class.js';
+import LinkItem from '/frontend/scripts/profile/link_item.class.js';
 
 export default class LinksHandler {
 
@@ -63,73 +64,13 @@ export default class LinksHandler {
 
         // Generate HTML for link fields
 
-        const linkFieldsHTML = Profile.getData().links.map((link, index)  => {
+        const linkFieldsHTML = Profile.getData().links.map((link, index) => {
 
-            // Clone linkHTML node
+            // Instantiate link item
 
-            const linkNodeHTML = Profile.getNodes().linkFieldHTML.cloneNode(true);
+            const linkItem = new LinkItem(link, index, adding);
 
-            // Select Platform field node
-
-            const platformFieldNode = linkNodeHTML.querySelector("[data-linkitemplatformfield]");
-
-            // Get platform name based on link in array map iteration
-
-            const platformFieldData = Profile.getPlatformDropdownOptions().find(option => option.value === link.platform);
-            
-            LinksHandler.updatePlatformField(platformFieldNode, link);
-
-            const linkInputId = `link-item-${link.order}`
-
-            // Select link field parent container (label & input)
-
-            const linkContainer = linkNodeHTML.querySelector(`[data-linkitemcontainer]`);
-            
-            linkContainer.querySelector("label").htmlFor = linkInputId;
-
-            const linkInputField = linkContainer.querySelector(`input`);
-
-            // Set link field input placeholder text
-
-            linkInputField.placeholder = platformFieldData.placeholder;
-
-            // Set link field input name
-
-            linkInputField.name = linkInputId;
-
-            // Set link field input id
-
-            linkInputField.id = linkInputId;
-
-            // Set order number attribute on link field input
-
-            linkInputField.dataset.order = link.order;
-
-            // Set dataset value for platform
-
-            platformFieldNode.dataset.value = link.platform;
-
-            // Set order value number for platform
-
-            platformFieldNode.dataset.order = link.order;
-            
-            // Set Link heading #
-
-            linkNodeHTML.querySelector("[data-linkheading]").innerText = `Link #${link.order}`;
-
-            // Set link number data attribute to remove click item
-
-            linkNodeHTML.querySelector("[data-removelinkbutton]").dataset.linknumber = link.order;
-
-            // If link field is last in list, add animation class 'animate-fade-up' if link field is added
-
-            if (index + 1 === Profile.getData().links.length && adding) {
-                linkNodeHTML.classList.add("animate-fade-up");
-            }
-
-            // Return link node HTML
-
-            return linkNodeHTML.outerHTML;
+            return linkItem.html();
 
         }).join("");
 
@@ -142,7 +83,7 @@ export default class LinksHandler {
         Profile.getData().links.forEach(link => {
             const input = Profile.getNodes().linkFieldsSection.querySelector(`input[data-order="${link.order}"]`);
             input.value = link.link;
-        })
+        });
 
         // If total number of link inputs fields equals total number of options available, add CSS class and disable dropdown
 
