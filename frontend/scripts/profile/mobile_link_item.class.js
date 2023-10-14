@@ -28,6 +28,8 @@ export default class MobileLinkItem {
         }
     }
 
+    // Check if link data found
+
     #linkDataFound() {
         return this.#data !== null;
     }

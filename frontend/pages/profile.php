@@ -114,7 +114,7 @@
         </section>
         <section class="profile-content-container box-section box-padding-full hidden" data-tabsection="profile">
             <h3>Profile Details</h3>
-            <h5>Add your details to create a personal touch to your profile.</h5>
+            <h5 class="instructions-text">Add your details to create a personal touch to your profile.</h5>
         </section>
         <section class="save-button-container box-padding-full box-section">
             <button type="submit" class="button-disabled" data-formsavebutton>Save</button>

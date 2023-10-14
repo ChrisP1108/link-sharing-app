@@ -171,7 +171,7 @@ body:has(.profile-page-container) {
             }
 
             & .instructions-text {
-                margin-bottom: 2.5em;
+                margin: 0.375em 0 2.5em 0 ;
             }
 
             & section, .links-get-started-container, .get-started-container {
