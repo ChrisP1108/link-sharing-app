@@ -7,16 +7,12 @@ form {
             align-items: center;
             border-radius: 0.5rem;
             margin-top: 0.25rem;
-            padding: 0 min(1rem, 4.5%);
             position: relative;
 
             & svg.platform-icon, svg.link-icon {
                 & path {
                     fill: var(--grey);
                 }
-
-                width: 0.875em;
-                height: 0.875em;
             }
 
             & svg.platform-dropdown-arrow {

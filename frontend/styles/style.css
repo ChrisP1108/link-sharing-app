@@ -90,3 +90,17 @@ button {
     from { transform: scale(1) }
     to { transform: scale(1.4) }
 }
+
+/* Platform icon global styling */
+
+svg.platform-icon, svg.link-icon, svg.link-arrow {
+    width: 0.875em;
+    height: 0.875em;
+    stroke: transparent !important;
+}
+
+/* Form Input padding, mobile links padding */
+
+form .input-container, .mobile-click-link {
+    padding: 0 min(1rem, 4.5vw);
+}

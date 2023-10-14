@@ -22,14 +22,14 @@ h4, .tab-container, button, .button-styling {
 
 /* Body M */
 
-h5, .input-container, a {
+h5, .input-container, .mobile-link-container, a, .mobile-click-link {
     font-size: min(1rem, 4.5vw);
     font-weight: 400;
 }
 
 /* Body S */
 
-p, label, .mobile-link-container {
+p, label, .mobile-link-text {
     font-size: min(0.75rem, 4vw);
     font-weight: 400;
 }
