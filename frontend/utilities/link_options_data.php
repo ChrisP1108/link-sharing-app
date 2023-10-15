@@ -10,7 +10,8 @@
                 </svg>
                 ',
             'placeholder' => 'https://www.github.com/johnappleseed',
-            'color' => '#1F2328'
+            'color' => '#1F2328',
+            'required_text' => 'https://www.github.com/'
         ],
         [
             'name' => 'YouTube',
@@ -20,7 +21,8 @@
                 ',
             'placeholder' => 'https://www.youtube.com/@johnappleseed',
 
-            'color' => '#EE3939'
+            'color' => '#EE3939',
+            'required_text' => 'https://www.youtube.com/'
         ],
         [
             'name' => 'LinkedIn',
@@ -29,7 +31,8 @@
                 </svg>
                 ',
             'placeholder' => 'https://www.linkedin.com/in/johnappleseed',
-            'color' => '#0a66c2'
+            'color' => '#0a66c2',
+            'required_text' => 'https://www.linkedin.com/in/'
         ],
         [
             'name' => 'Facebook',
@@ -38,13 +41,15 @@
                 </svg>
                 ',
             'placeholder' => 'https://www.facebook.com/johnappleseed',
-            'color' => '#0866FF'
+            'color' => '#0866FF',
+            'required_text' => 'https://www.facebook.com/'
         ],
         [
             'name' => 'X / Twitter',
             'icon' => '<svg class="platform-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>',
             'placeholder' => 'https://twitter.com/johnappleseed',
-            'color' => '#0f1419'
+            'color' => '#0f1419',
+            'required_text' => 'https://twitter.com/'
         ],
         [
             'name' => 'Frontend Mentor',
@@ -55,7 +60,8 @@
                 </svg>
                 ',
             'placeholder' => 'https://www.frontendmentor.io/profile/johnappleseed',
-            'color' => '#3F54A3'
+            'color' => '#3F54A3',
+            'required_text' => 'https://www.frontendmentor.io/profile/'
         ],
         [
             'name' => 'Hashnode',
@@ -71,6 +77,7 @@
                 </svg>
                 ',
             'placeholder' => 'https://hashnode.com/johnappleseed',
-            'color' => '#2962FF'
+            'color' => '#2962FF',
+            'required_text' => 'https://hashnode.com/'
         ]
     ]);

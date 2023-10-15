@@ -54,7 +54,7 @@ export default class LinksHandler {
 
         Profile.setData('links', [...Profile.getData().links].sort((prev, curr) => 
             prev.order > curr.order ? 1 : -1
-        ));
+        ), false);
 
         // Re-number links after sorting
 
@@ -110,6 +110,7 @@ export default class LinksHandler {
         // Monitor click of link field collapse icon
 
         LinkFieldCollapseHandler.initLinkCollapseHandler();
+
     }
 
     // Monitor "+ Add new link" click and add link field.  Prevent adding more fields than there are link options
@@ -138,7 +139,7 @@ export default class LinksHandler {
                 // Update links data for new link field
 
                 newLinkData.platform = nextPlatformLink.value;
-                Profile.setData('links', [...Profile.getData().links, newLinkData ]);
+                Profile.setData('links', [...Profile.getData().links, newLinkData ], false);
 
                 // Add link field HTML into link fields section.
 
@@ -180,7 +181,7 @@ export default class LinksHandler {
 
         Profile.getNodes().linkFieldsRemovers.forEach(remover => {
             remover.addEventListener("click", () => {
-                Profile.setData('links', Profile.getData().links.filter(link => link.order !== Number(remover.dataset.linknumber)));
+                Profile.setData('links', Profile.getData().links.filter(link => link.order !== Number(remover.dataset.linknumber)), false);
                 LinksHandler.renderLinkFieldNodes();
 
                 // If data links is blank, toggle "Let's get you started" back on and disable form save button
@@ -191,6 +192,32 @@ export default class LinksHandler {
                 }
             });
         });
+    }
+
+    // Check if link input field url is valid
+
+    static linkUrlValid(platform) {
+
+        if (!platform) {
+            return false
+        }
+
+        const linkData =  Profile.getData().links.find(link => link.platform === platform.toLowerCase());
+
+        // If link data found, link field will be checked if input matches input requirement for platform.  If no corresponding link data found, false will be returned
+
+        if (linkData) {
+            
+            const optionData = Profile.getPlatformDropdownOptions().find(option => option.value === linkData.platform);
+                
+            // Get corresponding link input field node
+
+            const getLinkFieldNode = Profile.getNodes().linkFieldsSection.querySelector(`[data-inputcontainer] input[data-order="${linkData.order}"]`)
+
+            if (getLinkFieldNode) {
+                return getLinkFieldNode.value.includes(optionData.requiredText);
+            } else return false;
+        } else return false;
     }
 
     // CONSTRUCTOR

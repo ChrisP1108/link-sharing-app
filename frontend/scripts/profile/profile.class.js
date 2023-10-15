@@ -25,18 +25,21 @@ export default class Profile {
 
     // Data setter
 
-    static setData(key, value) {
+    static setData(key, value, rerender = true) {
         Profile.#data[key] = value;
         Profile.#nodes.formRoot.data = Profile.#data;
 
-        // Render mobile preview
+        // Render mobile preview if rerender needed and update links collapse local storage data
 
-        MobilePreviewHandler.renderMobilePreview();
+        if (rerender) {
 
-        // Update link fields collapsed in local Storage if a field was added or deleted
+            MobilePreviewHandler.renderMobilePreview();
 
-        if (Profile.getLinkCollapseData().length !== Profile.getData().links.length) {
-            Profile.setLinkCollapseData(Profile.getLinkCollapseData().filter(link => Profile.getData().links.some(l => l.platform === link.platform)));
+            // Update link fields collapsed in local Storage if a field was added or deleted
+
+            if (Profile.getLinkCollapseData().length !== Profile.getData().links.length) {
+                Profile.setLinkCollapseData(Profile.getLinkCollapseData().filter(link => Profile.getData().links.some(l => l.platform === link.platform)));
+            }
         }
     }
 
@@ -162,7 +165,8 @@ export default class Profile {
                 label: item.querySelector("span").innerText, 
                 iconSVG: item.querySelector("svg").outerHTML,
                 placeholder: 'e.g. ' + item.dataset.placeholder,
-                color: item.dataset.color 
+                color: item.dataset.color,
+                requiredText: item.dataset.requiredtext 
             }
             
             Profile.#linkDropdownOptions.push(option);

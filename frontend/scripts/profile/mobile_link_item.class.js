@@ -1,4 +1,5 @@
 import Profile from '/frontend/scripts/profile/profile.class.js';
+import LinksHandler from '/frontend/scripts/profile/links_handler.class.js';
 
 export default class MobileLinkItem {
 
@@ -16,10 +17,14 @@ export default class MobileLinkItem {
     // Render HTML
 
     html() {
+
         if (this.#linkDataFound()) {
+
+            console.log(LinksHandler.linkUrlValid(this.#data.value));
+
             this.#node.style.background = this.#data.color;
             this.#node.innerHTML = `
-                <a class="mobile-click-link" ${this.#data.link ? `href="${this.#data.link}"` : ``} target="_blank" rel="nofollow">
+                <a class="mobile-click-link" ${LinksHandler.linkUrlValid(this.#data.value) ? `href="${this.#data.link}"` : ``} target="_blank" rel="nofollow">
                     ${this.#data.iconSVG}
                     <span class="mobile-link-text">${this.#data.label}</span>
                     ${this.#linkArrowSVG}
@@ -62,6 +67,7 @@ export default class MobileLinkItem {
                 label: optionData.label,
                 color: optionData.color,
                 iconSVG: optionData.iconSVG,
+                requiredText: optionData.requiredText,
                 link: linkData.link,
                 order: linkData.order,
             }
