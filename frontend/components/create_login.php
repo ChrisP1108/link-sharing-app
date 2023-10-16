@@ -82,7 +82,6 @@
                     ]);
                 }
             ?>
-
             <h5 class="form-err-msg" data-formerrmsg></h5>
             <button type="submit"><?php echo $props['page'] === 'create' ? 'Create new account' : 'Login'?></button>
         </form>

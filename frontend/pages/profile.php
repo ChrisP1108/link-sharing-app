@@ -115,6 +115,21 @@
         <section class="profile-content-container box-section box-padding-full hidden" data-tabsection="profile">
             <h3>Profile Details</h3>
             <h5 class="instructions-text">Add your details to create a personal touch to your profile.</h5>
+            <div class="picture-name-email-container" data-picturenameemail>
+                <?php
+
+                    // Profile picture field
+
+                    Component::form_field([
+                        'type' => 'file',
+                        'name' => 'profile_picture',
+                        'label' => 'Profile picture',
+                        'note' => 'Image must be below 1024x1024px. Use JPG or WEBP format.',
+                        'required' => true,
+                        'value' => ''
+                    ]);
+                ?>
+            </div>
         </section>
         <section class="save-button-container box-padding-full box-section">
             <button type="submit" class="button-disabled" data-formsavebutton>Save</button>

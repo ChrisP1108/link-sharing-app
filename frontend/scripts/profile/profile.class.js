@@ -33,7 +33,7 @@ export default class Profile {
 
         if (rerender) {
 
-            MobilePreviewHandler.renderMobilePreview();
+            MobilePreviewHandler.renderMobilePreview(key);
 
             // Update link fields collapsed in local Storage if a field was added or deleted
 
@@ -179,9 +179,5 @@ export default class Profile {
         // Instantiate links 
 
         new LinksHandler();
-
-        // Render mobile preview
-
-        MobilePreviewHandler.renderMobilePreview();
     }
 }

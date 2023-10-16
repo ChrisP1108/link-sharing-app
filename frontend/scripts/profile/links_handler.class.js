@@ -5,6 +5,7 @@ import AddNewLinkButtonHandler from '/frontend/scripts/profile/add_new_link_butt
 import LinkPlatformDropdownHandler from '/frontend/scripts/profile/link_platform_dropdown_handler.class.js';
 import LinkFieldCollapseHandler from '/frontend/scripts/profile/link_field_collapse_handler.class.js';
 import LinkItem from '/frontend/scripts/profile/link_item.class.js';
+import MobilePreviewHandler from '/frontend/scripts/profile/mobile_preview_handler.class.js';
 
 export default class LinksHandler {
 
@@ -111,6 +112,9 @@ export default class LinksHandler {
 
         LinkFieldCollapseHandler.initLinkCollapseHandler();
 
+        // Render mobile preview
+
+        MobilePreviewHandler.renderMobilePreview('links');
     }
 
     // Monitor "+ Add new link" click and add link field.  Prevent adding more fields than there are link options
@@ -213,9 +217,15 @@ export default class LinksHandler {
             // Get corresponding link input field node
 
             const getLinkFieldNode = Profile.getNodes().linkFieldsSection.querySelector(`[data-inputcontainer] input[data-order="${linkData.order}"]`)
-
+            
             if (getLinkFieldNode) {
-                return getLinkFieldNode.value.includes(optionData.requiredText);
+
+                // Returns true or false if required text is filled plus at least one additional character
+
+                const requiredTextFilled = getLinkFieldNode.value.includes(optionData.requiredText);
+
+                return requiredTextFilled && getLinkFieldNode.value.length > optionData.requiredText.length;
+
             } else return false;
         } else return false;
     }

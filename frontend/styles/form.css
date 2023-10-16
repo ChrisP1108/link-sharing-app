@@ -109,10 +109,14 @@ form {
             }
         }
 
-        &:has(.link-number-remove-container) {
+        &:has(.input-type-link, .input-type-file) {
             background: var(--light-grey);
             padding: 20px;
             border-radius: 0.75rem;
+        }
+
+        &:has(.input-type-file) {
+            display: flex;
         }
 
         &:has(.dropdown-active) {
@@ -222,7 +226,7 @@ form {
         }
     }
 
-    & .platform-input-styling {
+    & .input-type-link {
         margin-bottom: 0.5rem;
         cursor: pointer;
     }

@@ -32,9 +32,10 @@
             $icon = $i ? $i : "";
             $required = $p['required'] ? "true" : "false";
             $type = $p['type'] === "email" ? "text" : $p['type'];
-            $name = $p['name'];
+            $name = $p['name'] ?? '';
             $placeholder = $p['placeholder'] ?? '';
             $value = $p['value'] ?? '';
+            $note = $p['note'] ?? '';
 
             $html_code = '';
 
@@ -43,21 +44,32 @@
             if ($type !== 'link') {
 
                 $html_code = <<<HTML
-                    <div data-linkitemcontainer>
-                        <label for="{$name}">
-                            {$capitalize_label}
-                        </label>
-                        <div class="input-container" data-inputcontainer data-linkitemlinkfield>
-                            {$icon}
-                            <input data-required="{$required}" 
-                                type="{$type}" 
-                                name="{$name}" id="{$name}" 
-                                placeholder="{$placeholder}"
-                                value="{$value}"
-                            >
-                        </div>
+                    <label for="{$name}">
+                        {$capitalize_label}
+                    </label>
+                    <div class="input-container input-type-{$type}" data-inputcontainer>
+                        {$icon}
+                        <input data-required="{$required}" 
+                            type="{$type}" 
+                            name="{$name}" id="{$name}" 
+                            placeholder="{$placeholder}"
+                            value="{$value}"
+                        >
                     </div>
                 HTML;
+
+                // Add note text if note parameter passed in.  Used in picture only
+
+                if ($note) {
+                    $html_code = $html_code . "<p>{$note}</p>";
+                }
+
+                // Add div with linkitemcontainer data attribute if type is a link url field
+
+                if ($name && $name === 'Link') {
+                    $html_code = '<div data-linkitemcontainer>' . $html_code . '</div>';
+                }
+
             } else {
 
             $selected_option = '';
@@ -92,7 +104,7 @@
                     <label for="{$name}">
                         {$capitalize_label}
                     </label>
-                    <div class="input-container platform-input-styling" data-inputcontainer data-linkitemplatformfield data-value="{$platform_name_value}">
+                    <div class="input-container input-container input-type-{$type}" data-inputcontainer data-linkitemplatformfield data-value="{$platform_name_value}">
                         <div class="selected-link-item-container">
                             {$selected_option}
                         </div>
@@ -150,15 +162,16 @@
                 // Output Link option field for link input
 
                 echo form_field(
-                [
-                    'label' => 'Link',
-                    'type' => 'text',
-                    'name' => 'Link',
-                    'required' => true,
-                    'placeholder' => 'e.g. https://www.github.com/johnappleseed'
-                ],
-                $icon_code
-            ); ?>
+                    [
+                        'label' => 'Link',
+                        'type' => 'text',
+                        'name' => 'Link',
+                        'required' => true,
+                        'placeholder' => 'e.g. https://www.github.com/johnappleseed'
+                    ],
+                    $icon_code
+                ); 
+            ?>
         </div>
     <?php endif; ?>
 </div>

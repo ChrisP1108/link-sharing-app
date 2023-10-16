@@ -10,7 +10,7 @@ export default class MobilePreviewHandler {
 
     // Clear existing mobile link items to prevent errors when adding/removing links
 
-    static #clearExistingMobileItems() {
+    static #clearExistingMobileLinkItems() {
 
         // Select All link node fillers
         
@@ -74,15 +74,26 @@ export default class MobilePreviewHandler {
 
     // Render data to mobile preview 
 
-    static renderMobilePreview() {
+    static renderMobilePreview(type) {
 
-        // Clear existing mobile link items to prevent errors when adding/removing links
+        // Determines section of mobile preview to rerender based upon data that was updated
 
-        MobilePreviewHandler.#clearExistingMobileItems();
+        switch(type) {
 
-        // Render link items.  Fills in any blank gray mobile items fillers with linkn
+            // Render link items
 
-        MobilePreviewHandler.#renderLinkItems();
+            case 'links':
+
+                // Clear existing mobile link items to prevent errors when adding/removing links
+
+                MobilePreviewHandler.#clearExistingMobileLinkItems();
+
+                // Render link items.  Fills in any blank gray mobile items fillers with linkn
+
+                MobilePreviewHandler.#renderLinkItems();
+
+                break;
+        }
 
     }
 }

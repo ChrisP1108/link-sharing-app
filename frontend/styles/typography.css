@@ -22,7 +22,7 @@ h4, .tab-container, button, .button-styling {
 
 /* Body M */
 
-h5, .input-container, .mobile-link-container, a, .mobile-click-link {
+h5, .input-container, .mobile-link-container, a, .mobile-click-link, .form-field:has(.input-type-file) label {
     font-size: min(1rem, 4.5vw);
     font-weight: 400;
 }

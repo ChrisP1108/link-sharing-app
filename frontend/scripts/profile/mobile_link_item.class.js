@@ -20,8 +20,6 @@ export default class MobileLinkItem {
 
         if (this.#linkDataFound()) {
 
-            console.log(LinksHandler.linkUrlValid(this.#data.value));
-
             this.#node.style.background = this.#data.color;
             this.#node.innerHTML = `
                 <a class="mobile-click-link" ${LinksHandler.linkUrlValid(this.#data.value) ? `href="${this.#data.link}"` : ``} target="_blank" rel="nofollow">

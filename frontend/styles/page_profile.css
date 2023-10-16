@@ -201,7 +201,7 @@ body:has(.profile-page-container) {
             }
 
             .platform-fields-click-disabled {
-                & .platform-input-styling {
+                & .input-type-link {
                     cursor: auto !important;
                     pointer-events: none !important;
 
