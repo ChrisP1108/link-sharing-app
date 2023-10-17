@@ -121,7 +121,7 @@
                     // Profile picture field
 
                     Component::form_field([
-                        'type' => 'file',
+                        'type' => 'image',
                         'name' => 'profile_picture',
                         'label' => 'Profile picture',
                         'note' => 'Image must be below 1024x1024px. Use JPG or WEBP format.',
