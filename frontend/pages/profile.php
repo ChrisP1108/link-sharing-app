@@ -117,7 +117,6 @@
             <h5 class="instructions-text">Add your details to create a personal touch to your profile.</h5>
             <div class="picture-name-email-container" data-picturenameemail>
                 <?php
-
                     // Profile picture field
 
                     Component::form_field([

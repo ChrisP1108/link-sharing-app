@@ -42,4 +42,10 @@
             background: var(--white);
         }
     } 
+
+    & form .image-field {
+        & label, p {
+            color: var(--grey) !important;
+        }
+    }
 }

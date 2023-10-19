@@ -15,6 +15,12 @@ form {
                 }
             }
 
+            & svg.devto-icon {
+                & .alter {
+                    fill: var(--white);
+                }
+            }
+
             & svg.platform-dropdown-arrow {
                 transition: 0.25s;
                 & path {
@@ -77,6 +83,12 @@ form {
 
                         & span {
                             color: var(--purple) !important;
+                        }
+
+                        & svg.devto-icon {
+                            & .alter {
+                                fill: var(--white) !important;
+                            }
                         }
                     }
                 }
