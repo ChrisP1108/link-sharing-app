@@ -24,11 +24,11 @@ export default class LinkItem {
         
         // Set platform field label text
 
-        this.#platformFieldLabel.innerText = this.#platformData.label
+        this.#platformFieldLabel.innerText = this.#platformData.label;
 
         // Set platform field label value dataset
 
-        this.#platformFieldLabel.dataset.value = this.#platformData.value
+        this.#platformFieldLabel.dataset.value = this.#platformData.value;
     }
 
     html() {
@@ -39,7 +39,7 @@ export default class LinkItem {
 
         // Declare id to be set
 
-        const linkInputId = `link-item-${this.#renderData.order}`
+        const linkInputId = `link-item-${this.#renderData.order}`;
 
         // Select link field parent container (label & input)
 

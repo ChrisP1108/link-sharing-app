@@ -150,6 +150,12 @@ export default class LinkPlatformDropdownHandler {
 
                 const clickedOptionData = Profile.getPlatformDropdownOptions().find(option => option.value === optionValueClicked);
                 
+                // Set placeholder text on link field corresponding to option clicked
+
+                const linkInput = platformFieldNode.closest(`[data-fieldtype="link"]`).querySelector(`[data-inputcontainer] input`);
+
+                linkInput.placeholder = clickedOptionData.placeholder;
+
                 // Update data to reflect option clicked
 
                 const linkDataToUpdate = Profile.getData().links.find(link => link.order === Number(platformFieldNode.dataset.order));
