@@ -65,7 +65,7 @@
                     </svg>
                 ';
 
-                $image_placeholder = '<h4>+ Upload Image</h4><img data-inputfileimage class="input-file-image">';
+                $image_placeholder = '<h4 data-imageplaceholdertext data-uploadimage="+ Upload Image" data-changeimage="Change Image">+ Upload Image</h4><img data-inputfileimage class="input-file-image">';
             }
 
             $html_code = '';

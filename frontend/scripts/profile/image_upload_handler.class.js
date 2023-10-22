@@ -4,7 +4,6 @@ export default class ImageUploadHandler {
 
     static #fileData;
     static #imageTagNode;
-    static #staticPlaceholderTextNode;
 
     // Render uploaded image to image field and mobile image preview
 
@@ -13,6 +12,10 @@ export default class ImageUploadHandler {
         // Remove error styling from any previous file upload error attempt
 
         Profile.getNodes().imageSection.main.classList.remove("image-upload-error");
+
+        // Set placeholder text to change image
+
+        Profile.getNodes().imageSection.placeholderText.innerText = Profile.getNodes().imageSection.placeholderText.dataset.changeimage;
 
         // Clear input background
 
@@ -33,15 +36,12 @@ export default class ImageUploadHandler {
 
             // Render image to background of image input
 
-            console.log(Profile.getNodes().imageSection.imageContainerNode);
-
             Profile.getNodes().imageSection.imageRenderNode.src = fileReader.result;
 
         };
 
         fileReader.readAsDataURL(ImageUploadHandler.#fileData);
 
-        // console.log(ImageUploadHandler.#imageUrl);
     }
 
     // Handles file when first uploaded
@@ -62,22 +62,29 @@ export default class ImageUploadHandler {
 
         // Performs tests on file uploaded to make sure it is of an acceptable file type and if passed, typeValid is set to true
 
-        if (ImageUploadHandler.#fileData.type && ImageUploadHandler.#fileData.type.includes("/")) {
+        if (ImageUploadHandler.#fileData && ImageUploadHandler.#fileData.type && ImageUploadHandler.#fileData.type.includes("/")) {
             const uploadedFileType = ImageUploadHandler.#fileData.type.split("/")[1].toLowerCase();
             if (acceptableFileTypes.includes(uploadedFileType)) {
                 typeValid = true;
             }
         }
 
-        // Render uploaded image if tests passed.  Otherwise, remove any pre-existing image and show error message styling
+        // Render uploaded image if tests passed and update data.  Otherwise, remove any pre-existing image and show error message styling
 
         if (typeValid) {
             ImageUploadHandler.#renderUploadedImage();
+            Profile.setData('image_upload', ImageUploadHandler.#fileData);
         } else {
+
+            // Set error styling and clear any existing upload
+
             Profile.getNodes().imageSection.main.classList.add("image-upload-error");
             Profile.getNodes().mobileSection.image.classList.remove("show-rendered-image");
             Profile.getNodes().imageSection.imageContainerNode.classList.remove("show-rendered-image");
             Profile.getNodes().imageSection.imageRenderNode.src = '';
+            Profile.setData('image_upload', null);
+            Profile.getNodes().imageSection.placeholderText.innerText = Profile.getNodes().imageSection.placeholderText.dataset.uploadimage;
+            console.log(Profile.getData());
         }
     }
 
@@ -88,6 +95,8 @@ export default class ImageUploadHandler {
         // Select image tag node in mobile image container
 
         ImageUploadHandler.#imageTagNode = Profile.getNodes().mobileSection.image.querySelector(`[data-mobileimage]`);
+
+        // Monitor upload and run uploadFileHandler
 
         Profile.getNodes().imageSection.imageNode.addEventListener("change", () => {
             ImageUploadHandler.#fileData = Profile.getNodes().imageSection.imageNode.files[0];

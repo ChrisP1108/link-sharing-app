@@ -15,6 +15,7 @@ export default class Profile {
         last_name: null, 
         email: null, 
         image_url: null, 
+        image_upload: null,
         links: []
     };
 
@@ -70,7 +71,8 @@ export default class Profile {
             main: null,
             imageContainerNode: null,
             imageNode: null,
-            imageRenderNode: null
+            imageRenderNode: null,
+            placeholderText: null
         }
     }
 
@@ -154,6 +156,7 @@ export default class Profile {
         Profile.#nodes.imageSection.imageContainerNode = Profile.#nodes.imageSection.main.querySelector(`[data-inputcontainer]`);
         Profile.#nodes.imageSection.imageNode = Profile.#nodes.imageSection.main.querySelector(`input[type="file"]`);
         Profile.#nodes.imageSection.imageRenderNode = Profile.#nodes.imageSection.main.querySelector(`img[data-inputfileimage]`);
+        Profile.#nodes.imageSection.placeholderText = Profile.#nodes.imageSection.main.querySelector(`[data-imageplaceholdertext]`);
 
         // Remove initial linkFieldHTML Node after being cloned
 
