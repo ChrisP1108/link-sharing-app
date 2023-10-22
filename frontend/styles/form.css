@@ -123,15 +123,20 @@ form {
                 aspect-ratio: 1 / 1;
                 flex: 0 0 min(12.0625rem, 53vw);
                 padding: 2rem min(2rem, 6vw);
+                overflow: hidden;
 
                 & input[type="file"] {
                     opacity: 0;
                     position: absolute;
                     width: 100%;
                     height: 100%;
+                    z-index: 4;
+                    cursor: pointer;
                 }
 
                 & svg.image-upload-icon {
+
+                    z-index: 3;
 
                     width: 2em;
                     height: 1.75em;
@@ -142,8 +147,45 @@ form {
                 }
 
                 & h4 {
+                    z-index: 3;
                     color: var(--purple);
                     margin-top: 0.75em;
+                }
+
+                & .input-file-image {
+                    position: absolute;
+                    inset: -2%;
+                    margin: auto;
+                    width: 102%;
+                    height: 102%;
+                    object-fit: cover;
+                    object-position: center;
+                    pointer-events: none;
+                    z-index: 1;
+                }
+
+                &.show-rendered-image {
+
+                    & svg.image-upload-icon {
+                        & path {
+                            fill: var(--white) !important;
+                        }
+                    }
+
+                    & h4 {
+                        color: var(--white) !important;
+                    }
+
+                    &::before {
+                        content: '';
+                        position: absolute;
+                        width: 100%;
+                        height: 100%;
+                        top: 0;
+                        background: var(--image-darken-overlay);
+                        z-index: 2;
+                        pointer-events: none;
+                    }
                 }
             }
 
@@ -193,11 +235,34 @@ form {
             }
         }
 
+        &.image-upload-error {
+
+            & h4, p {
+                color: var(--red) !important;
+            }
+
+            & p {
+                font-weight: 700;
+            }
+
+            & .input-type-file {
+                border: 1px var(--red) solid;
+
+                & .image-upload-icon path {
+                    fill: var(--red) !important;
+                }
+            }
+        }
+
         &:has(.dropdown-active) {
 
             & svg.platform-dropdown-arrow {
                 transform: rotateX(180deg);
             }
+
+            position: sticky;
+            top: 5.625rem;
+            z-index: 100;
         }
 
         & .link-number-remove-container {

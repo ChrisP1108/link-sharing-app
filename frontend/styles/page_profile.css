@@ -82,7 +82,16 @@ body:has(.profile-page-container) {
                                 border-radius: 50%;
                                 width: 100%;
                                 height: 100%;
+                                object-fit: cover;
+                                object-position: center;
                                 display: none;
+                            }
+
+                            &.show-rendered-image {
+                                & img {
+                                    display: block !important;
+                                    border: 4px var(--purple) solid;
+                                }
                             }
                         }
 

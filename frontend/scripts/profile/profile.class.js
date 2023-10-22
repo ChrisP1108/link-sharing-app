@@ -1,6 +1,7 @@
 import TabHandler from '/frontend/scripts/profile/tab_handler.class.js';
 import LinksHandler from '/frontend/scripts/profile/links_handler.class.js';
 import MobilePreviewHandler from '/frontend/scripts/profile/mobile_preview_handler.class.js';
+import ImageUploadHandler from '/frontend/scripts/profile/image_upload_handler.class.js';
 
 export default class Profile {
 
@@ -64,6 +65,12 @@ export default class Profile {
             name: null,
             email: null,
             linksSection: null
+        },
+        imageSection: {
+            main: null,
+            imageContainerNode: null,
+            imageNode: null,
+            imageRenderNode: null
         }
     }
 
@@ -143,6 +150,10 @@ export default class Profile {
         Profile.#nodes.mobileSection.name = Profile.#nodes.mobileSection.main.querySelector(`[data-mobilesection="name"]`);
         Profile.#nodes.mobileSection.email = Profile.#nodes.mobileSection.main.querySelector(`[data-mobilesection="email"]`);
         Profile.#nodes.mobileSection.linksSection = Profile.#nodes.mobileSection.main.querySelector(`[data-mobilesection="links"]`);
+        Profile.#nodes.imageSection.main = document.querySelector(`[data-fieldtype="image"]`);
+        Profile.#nodes.imageSection.imageContainerNode = Profile.#nodes.imageSection.main.querySelector(`[data-inputcontainer]`);
+        Profile.#nodes.imageSection.imageNode = Profile.#nodes.imageSection.main.querySelector(`input[type="file"]`);
+        Profile.#nodes.imageSection.imageRenderNode = Profile.#nodes.imageSection.main.querySelector(`img[data-inputfileimage]`);
 
         // Remove initial linkFieldHTML Node after being cloned
 
@@ -179,5 +190,9 @@ export default class Profile {
         // Instantiate links 
 
         new LinksHandler();
+
+        // Initialize ImageUploadHandler
+
+        ImageUploadHandler.initImageUploadHandler();
     }
 }
