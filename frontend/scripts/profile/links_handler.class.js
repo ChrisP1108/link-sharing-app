@@ -120,7 +120,7 @@ export default class LinksHandler {
     // Monitor "+ Add new link" click and add link field.  Prevent adding more fields than there are link options
 
     #addNewLinkHandler() {
-        Profile.getNodes().addNewLinkButtonNode.addEventListener("click", () => {
+        Profile.getNodes().addNewLinkButton.addEventListener("click", () => {
 
             // Makes sure user cannot add more link fields than options available.  Will hide addNewLinkButton node if number of link fields equals number of options
 
@@ -156,7 +156,7 @@ export default class LinksHandler {
 
                 // Make sure addNewLinkButton node is visible
 
-                AddNewLinkButtonHandler.toggleAddNewLinkButtonNode(true);
+                AddNewLinkButtonHandler.toggleaddNewLinkButton(true);
             } 
 
             // Check after rendering that once number of link fields equals number of options available, to hit add new link button
@@ -164,7 +164,7 @@ export default class LinksHandler {
             linkFieldNodes = Profile.getNodes().linkFieldsSection.querySelectorAll("[data-fieldname]");
 
             if (linkFieldNodes.length === Profile.getNodes().linkOptionsLimit) {
-                AddNewLinkButtonHandler.toggleAddNewLinkButtonNode(false);
+                AddNewLinkButtonHandler.toggleaddNewLinkButton(false);
             }
         });
     }
@@ -179,7 +179,7 @@ export default class LinksHandler {
 
         // Makes sure + Add new link button is shows
 
-        AddNewLinkButtonHandler.toggleAddNewLinkButtonNode(true);
+        AddNewLinkButtonHandler.toggleaddNewLinkButton(true);
         
         // Remove link clicked from data and rerender
 

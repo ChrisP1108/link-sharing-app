@@ -6,9 +6,9 @@ export default class AddNewLinkButtonHandler {
 
     // Toggle addNewLinkButton node hidden / visible
 
-    static toggleAddNewLinkButtonNode(active = false) {
+    static toggleaddNewLinkButton(active = false) {
         if (active) {
-            Profile.getNodes().addNewLinkButtonNode.classList.remove("hidden");
-        } else Profile.getNodes().addNewLinkButtonNode.classList.add("hidden");
+            Profile.getNodes().addNewLinkButton.classList.remove("hidden");
+        } else Profile.getNodes().addNewLinkButton.classList.add("hidden");
     }
 }

@@ -48,4 +48,10 @@
             color: var(--grey) !important;
         }
     }
+
+    & form .name-fields-container .form-field label {
+        @media(min-width: 768px) {
+            color: var(--grey) !important;
+        }
+    }
 }

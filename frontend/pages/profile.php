@@ -128,6 +128,34 @@
                         'value' => ''
                     ]);
                 ?>
+                <div class="name-fields-container" data-namefieldscontainer>
+                    <?php
+
+                        // First name Field
+
+                        Component::form_field([
+                            'name' => 'first_name',
+                            'label' => 'First name*',
+                            'type' => 'text',
+                            'icon' => '',
+                            'placeholder' => 'e.g. John',
+                            'required' => true,
+                            'value' => ''
+                        ]);
+
+                        // Last name Field
+
+                        Component::form_field([
+                            'name' => 'last_name',
+                            'label' => 'Last name*',
+                            'type' => 'text',
+                            'icon' => '',
+                            'placeholder' => 'e.g. Appleseed',
+                            'required' => true,
+                            'value' => ''
+                        ]);
+                    ?>
+                </div>
             </div>
         </section>
         <section class="save-button-container box-padding-full box-section">
@@ -155,7 +183,7 @@
         },
         {
             platform: 'linkedin',
-            link: 'https://www.linkedin.com/ChrisP1108',
+            link: 'https://www.linkedin.com/in/ChrisP1108',
             order: 3
         },
     ]}; 

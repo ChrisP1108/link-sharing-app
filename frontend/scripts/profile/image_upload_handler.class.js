@@ -84,7 +84,6 @@ export default class ImageUploadHandler {
             Profile.getNodes().imageSection.imageRenderNode.src = '';
             Profile.setData('image_upload', null);
             Profile.getNodes().imageSection.placeholderText.innerText = Profile.getNodes().imageSection.placeholderText.dataset.uploadimage;
-            console.log(Profile.getData());
         }
     }
 

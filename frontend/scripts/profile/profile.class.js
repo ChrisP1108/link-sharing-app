@@ -2,6 +2,7 @@ import TabHandler from '/frontend/scripts/profile/tab_handler.class.js';
 import LinksHandler from '/frontend/scripts/profile/links_handler.class.js';
 import MobilePreviewHandler from '/frontend/scripts/profile/mobile_preview_handler.class.js';
 import ImageUploadHandler from '/frontend/scripts/profile/image_upload_handler.class.js';
+import NameFieldsHandler from '/frontend/scripts/profile/name_fields_handler.class.js';
 
 export default class Profile {
 
@@ -58,7 +59,7 @@ export default class Profile {
         linkOptionsLimit: null,
         linkFieldsRemovers: null,
         linkFieldDropdown: null,
-        addNewLinkButtonNode: null,
+        addNewLinkButton: null,
         formSaveButton: null,
         mobileSection: {
             main: null,
@@ -73,6 +74,11 @@ export default class Profile {
             imageNode: null,
             imageRenderNode: null,
             placeholderText: null
+        },
+        nameSection: {
+            main: null,
+            firstName: null,
+            lastName: null
         }
     }
 
@@ -145,7 +151,7 @@ export default class Profile {
         Profile.#nodes.linkOptionsLimit = Profile.#nodes.linkFieldHTML.querySelectorAll("ul li").length;
         Profile.#nodes.linkFieldsRemovers = Profile.#nodes.linkFieldHTML.querySelectorAll(`[data-fieldtype="link"] [data-removelinkbutton]`);
         Profile.#nodes.linkFieldDropdown = Profile.#nodes.linkFieldHTML.querySelector("ul");
-        Profile.#nodes.addNewLinkButtonNode = document.querySelector(`[data-buttonaddlink]`);
+        Profile.#nodes.addNewLinkButton = document.querySelector(`[data-buttonaddlink]`);
         Profile.#nodes.formSaveButton = document.querySelector(`[data-formsavebutton]`);
         Profile.#nodes.mobileSection.main = document.querySelector(`[data-section="mobile-preview"]`);
         Profile.#nodes.mobileSection.image = Profile.#nodes.mobileSection.main.querySelector(`[data-mobilesection="image"]`);
@@ -157,6 +163,9 @@ export default class Profile {
         Profile.#nodes.imageSection.imageNode = Profile.#nodes.imageSection.main.querySelector(`input[type="file"]`);
         Profile.#nodes.imageSection.imageRenderNode = Profile.#nodes.imageSection.main.querySelector(`img[data-inputfileimage]`);
         Profile.#nodes.imageSection.placeholderText = Profile.#nodes.imageSection.main.querySelector(`[data-imageplaceholdertext]`);
+        Profile.#nodes.nameSection.main = document.querySelector(`[data-namefieldscontainer]`);
+        Profile.#nodes.nameSection.firstName = Profile.#nodes.nameSection.main.querySelector(`[data-fieldname="first_name"]`);
+        Profile.#nodes.nameSection.lastName = Profile.#nodes.nameSection.main.querySelector(`[data-fieldname="last_name"]`);
 
         // Remove initial linkFieldHTML Node after being cloned
 
@@ -197,5 +206,9 @@ export default class Profile {
         // Initialize ImageUploadHandler
 
         ImageUploadHandler.initImageUploadHandler();
+
+        // Initialize NameFieldsHandler
+
+        NameFieldsHandler.initNameFieldsHandler();
     }
 }

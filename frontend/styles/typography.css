@@ -22,9 +22,24 @@ h4, .tab-container, button, .button-styling {
 
 /* Body M */
 
-h5, .input-container, .mobile-link-container, a, .mobile-click-link, .form-field:has(.input-type-file) label {
-    font-size: min(1rem, 4.5vw);
-    font-weight: 400;
+:root {
+    --body-m-text: min(1rem, 4.5vw);
+    --body-m-weight: 400;
+}
+
+h5, .input-container, .mobile-link-container, a, 
+    .mobile-click-link, .form-field:has(.input-type-file) label {
+    font-size: var(--body-m-text);
+    font-weight: var(--body-m-weight);
+}
+
+/* Name Fields */
+
+.name-fields-container label  {
+    @media(min-width: 768px) {
+        font-size: var(--body-m-text);
+        font-weight: var(--body-m-weight);
+    }
 }
 
 /* Body S */
