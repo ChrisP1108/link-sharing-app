@@ -96,17 +96,29 @@ body:has(.profile-page-container) {
                             }
                         }
 
+                        & .show-text {
+                            background: transparent !important;
+                        }
+
                         & h6 {
                             margin: 1.25rem 0 0.75rem;
                             min-width: 160px;
                             min-height: 16px;
                             flex-shrink: 0;
+
+                            &.show-text {
+                                margin-bottom: 0.675rem;
+                            }
                         }
 
                         & p {
                             min-width: 72px;
                             min-height: 8px;
                             flex-shrink: 0;
+
+                            &.show-text {
+                                margin-top: 0rem;
+                            }
                         }
 
                         & h6, p {

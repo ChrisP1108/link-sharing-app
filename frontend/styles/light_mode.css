@@ -12,8 +12,12 @@
         color: var(--grey);
     }
 
-    & p, & label, & input, & select, & option {
+    & p:not(p.email-text), & label, & input, & select, & option {
         color: var(--dark-grey);
+    }
+
+    & p.email-text {
+        color: var(--grey);
     }
 
     & a {

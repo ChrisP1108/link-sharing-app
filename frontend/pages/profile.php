@@ -154,6 +154,18 @@
                             'required' => true,
                             'value' => ''
                         ]);
+
+                        // Email Field
+
+                        Component::form_field([
+                            'name' => 'email',
+                            'label' => 'Email',
+                            'type' => 'text',
+                            'icon' => '',
+                            'placeholder' => 'e.g. email@example.com',
+                            'required' => false,
+                            'value' => ''
+                        ]);
                     ?>
                 </div>
             </div>

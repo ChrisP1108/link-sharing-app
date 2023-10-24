@@ -2,7 +2,7 @@ import TabHandler from '/frontend/scripts/profile/tab_handler.class.js';
 import LinksHandler from '/frontend/scripts/profile/links_handler.class.js';
 import MobilePreviewHandler from '/frontend/scripts/profile/mobile_preview_handler.class.js';
 import ImageUploadHandler from '/frontend/scripts/profile/image_upload_handler.class.js';
-import NameFieldsHandler from '/frontend/scripts/profile/name_fields_handler.class.js';
+import UserInfoFieldsHandler from '/frontend/scripts/profile/user_info_fields_handler.class.js';
 
 export default class Profile {
 
@@ -207,8 +207,8 @@ export default class Profile {
 
         ImageUploadHandler.initImageUploadHandler();
 
-        // Initialize NameFieldsHandler
+        // Initialize UserInfoFieldsHandler
 
-        NameFieldsHandler.initNameFieldsHandler();
+        UserInfoFieldsHandler.initUserInfoFieldsHandler();
     }
 }

@@ -1,48 +1,9 @@
 import Profile from '/frontend/scripts/profile/profile.class.js';
+import MobilePreviewHandler from '/frontend/scripts/profile/mobile_preview_handler.class.js';
 
 export default class ImageUploadHandler {
 
     static #fileData;
-    static #imageTagNode;
-
-    // Render uploaded image to image field and mobile image preview
-
-    static #renderUploadedImage() {
-
-        // Remove error styling from any previous file upload error attempt
-
-        Profile.getNodes().imageSection.main.classList.remove("image-upload-error");
-
-        // Set placeholder text to change image
-
-        Profile.getNodes().imageSection.placeholderText.innerText = Profile.getNodes().imageSection.placeholderText.dataset.changeimage;
-
-        // Clear input background
-
-        Profile.getNodes().imageSection.imageRenderNode.src = '';
-
-        // Add overlay styling for input image viewing
-
-        Profile.getNodes().imageSection.imageContainerNode.classList.add("show-rendered-image");
-
-        const fileReader = new FileReader();
-
-        fileReader.onload = () => { 
-
-            // Render image to mobile preview
-
-            ImageUploadHandler.#imageTagNode.src = fileReader.result;
-            Profile.getNodes().mobileSection.image.classList.add("show-rendered-image");
-
-            // Render image to background of image input
-
-            Profile.getNodes().imageSection.imageRenderNode.src = fileReader.result;
-
-        };
-
-        fileReader.readAsDataURL(ImageUploadHandler.#fileData);
-
-    }
 
     // Handles file when first uploaded
 
@@ -72,28 +33,18 @@ export default class ImageUploadHandler {
         // Render uploaded image if tests passed and update data.  Otherwise, remove any pre-existing image and show error message styling
 
         if (typeValid) {
-            ImageUploadHandler.#renderUploadedImage();
             Profile.setData('image_upload', ImageUploadHandler.#fileData);
         } else {
 
-            // Set error styling and clear any existing upload
+            // Set error styling and clear any existing upload for image upload error
 
-            Profile.getNodes().imageSection.main.classList.add("image-upload-error");
-            Profile.getNodes().mobileSection.image.classList.remove("show-rendered-image");
-            Profile.getNodes().imageSection.imageContainerNode.classList.remove("show-rendered-image");
-            Profile.getNodes().imageSection.imageRenderNode.src = '';
-            Profile.setData('image_upload', null);
-            Profile.getNodes().imageSection.placeholderText.innerText = Profile.getNodes().imageSection.placeholderText.dataset.uploadimage;
+            MobilePreviewHandler.clearImage();
         }
     }
 
     // Monitor change of input file field
 
     static initImageUploadHandler() {
-
-        // Select image tag node in mobile image container
-
-        ImageUploadHandler.#imageTagNode = Profile.getNodes().mobileSection.image.querySelector(`[data-mobileimage]`);
 
         // Monitor upload and run uploadFileHandler
 

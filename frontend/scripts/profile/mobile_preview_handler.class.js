@@ -72,6 +72,94 @@ export default class MobilePreviewHandler {
         }
     }
 
+    // Render Uploaded Image
+
+    static #renderUploadedImage() {
+
+        // Remove error styling from any previous file upload error attempt
+
+        Profile.getNodes().imageSection.main.classList.remove("image-upload-error");
+
+        // Set placeholder text to change image
+
+        Profile.getNodes().imageSection.placeholderText.innerText = Profile.getNodes().imageSection.placeholderText.dataset.changeimage;
+
+        // Clear input background
+
+        Profile.getNodes().imageSection.imageRenderNode.src = '';
+
+        // Add overlay styling for input image viewing
+
+        Profile.getNodes().imageSection.imageContainerNode.classList.add("show-rendered-image");
+
+        const fileReader = new FileReader();
+
+        fileReader.onload = () => { 
+
+            // Render image to mobile preview
+
+            const imageTagNode = Profile.getNodes().mobileSection.image.querySelector(`[data-mobileimage]`);
+
+            imageTagNode.src = fileReader.result;
+            Profile.getNodes().mobileSection.image.classList.add("show-rendered-image");
+
+            // Render image to background of image input
+
+            Profile.getNodes().imageSection.imageRenderNode.src = fileReader.result;
+
+        };
+
+        fileReader.readAsDataURL(Profile.getNodes().imageSection.imageNode.files[0]);
+
+    }
+
+    // Set error styling and clear any existing upload for image upload error
+
+    static clearImage() {
+        Profile.setData('image_upload', null);
+        Profile.getNodes().imageSection.main.classList.add("image-upload-error");
+        Profile.getNodes().mobileSection.image.classList.remove("show-rendered-image");
+        Profile.getNodes().imageSection.imageContainerNode.classList.remove("show-rendered-image");
+        Profile.getNodes().imageSection.imageRenderNode.src = '';
+        Profile.getNodes().imageSection.placeholderText.innerText = Profile.getNodes().imageSection.placeholderText.dataset.uploadimage;
+    }
+
+    // Render user name and email
+
+    static #renderUserNameEmail(type) {
+        
+        // Render by type
+
+        if (type === 'first_name' || type === 'last_name') {
+            Profile.getNodes().mobileSection.name.classList.add("show-text");
+            Profile.getNodes().mobileSection.name.innerText = `${Profile.getData().first_name ? Profile.getData().first_name : ''} ${Profile.getData().last_name ? Profile.getData().last_name : ''}`;
+        }
+
+        if (type === 'email') {
+            Profile.getNodes().mobileSection.email.classList.add("show-text");
+            Profile.getNodes().mobileSection.email.innerText = Profile.getData().email ? Profile.getData().email : '';
+        }
+
+        // If data string is empty on any fields, run clearNameEmailField handler
+
+        if (!Profile.getData()[type]) {
+            MobilePreviewHandler.#clearNameEmailField();
+        }
+    }
+
+    // Clear user name or email field if the field(s) are blank
+
+    static #clearNameEmailField() {
+
+        if (!Profile.getData().last_name && !Profile.getData().last_name) {
+            Profile.getNodes().mobileSection.name.classList.remove("show-text");
+        }
+
+        if (!Profile.getData().email) {
+            Profile.getNodes().mobileSection.email.classList.remove("show-text");
+        }
+    }
+
     // Render data to mobile preview 
 
     static renderMobilePreview(type) {
@@ -92,6 +180,47 @@ export default class MobilePreviewHandler {
 
                 MobilePreviewHandler.#renderLinkItems();
 
+                break;
+
+            // Render image
+
+            case 'image_upload':
+
+                // Run renderUploadedImage if data is not blank
+
+                if (Profile.getData().image_upload) {
+
+                    MobilePreviewHandler.#renderUploadedImage();
+
+                }
+
+                break;
+
+            // Render first name
+
+            case 'first_name':
+
+                MobilePreviewHandler.#renderUserNameEmail(type);
+                
+                break;
+
+            // Render last name
+
+            case 'last_name':
+
+                MobilePreviewHandler.#renderUserNameEmail(type);
+
+                break;
+
+            // Render email
+
+            case 'email':
+
+                MobilePreviewHandler.#renderUserNameEmail(type);
+
+                break;
+
+            default:
                 break;
         }
 
