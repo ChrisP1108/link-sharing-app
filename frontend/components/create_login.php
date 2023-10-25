@@ -93,6 +93,6 @@
 </main>
 
 <script type="module">
-    import FormHandler from '/frontend/scripts/form_submission.class.js';
-    new FormHandler(`[data-formtype="<?php echo $props['page']; ?>"]`, "<?php echo $props['page']; ?>", "<?php echo $props['page'] === 'create' ? '/api/user' : '/api/user/login'; ?>");
+    import FormSubmission from '/frontend/scripts/form_submission/form_submission.class.js';
+    new FormSubmission(`[data-formtype="<?php echo $props['page']; ?>"]`, "<?php echo $props['page']; ?>", "<?php echo $props['page'] === 'create' ? '/api/user' : '/api/user/login'; ?>");
 </script>

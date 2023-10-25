@@ -195,13 +195,13 @@ export default class Profile {
             Profile.#linkDropdownOptions.push(option);
         });
 
-        // Instantiate tab handler class
+        // Initialize Tab Handler
 
-        new TabHandler();
+        TabHandler.initTabHandler();
 
-        // Instantiate links 
+        // Initialize Links Handler
 
-        new LinksHandler();
+        LinksHandler.initAddNewLinkHandler();
 
         // Initialize ImageUploadHandler
 

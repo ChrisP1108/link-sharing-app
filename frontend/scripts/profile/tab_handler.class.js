@@ -6,7 +6,7 @@ export default class TabHandler {
 
     // Set tab to be active.  Also hides, unhides tab sections
 
-    #setTabActive(tabName) {
+    static #setTabActive(tabName) {
 
         Profile.getNodes().tabLinks.forEach(tab => {
             if (tab.dataset.tab === tabName) {
@@ -28,7 +28,7 @@ export default class TabHandler {
 
     // Activate tab click handler to monitor clicking of links, profile details tabs
 
-    #tabClickHandler() {
+    static #tabClickHandler() {
         Profile.getNodes().tabLinks.forEach(tab => {
             tab.addEventListener('click', () => {
                 this.#setTabActive(tab.dataset.tab);
@@ -36,16 +36,16 @@ export default class TabHandler {
         });
     }
 
-    // CONSTRUCTOR
+    // Initialize Tab Handler
 
-    constructor() {
+    static initTabHandler() {
 
         // Run Tab Click Handler On Page Load
 
-        this.#tabClickHandler();
+        TabHandler.#tabClickHandler();
 
         // Set Active Tab to tabSelected On Page Load
         
-        this.#setTabActive(Profile.tabSelected);
+        TabHandler.#setTabActive(Profile.tabSelected);
     }
 }

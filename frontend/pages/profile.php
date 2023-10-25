@@ -178,7 +178,7 @@
 
 <script type="module">
     import Profile from '/frontend/scripts/profile/profile.class.js';
-    import FormHandler from '/frontend/scripts/form_submission.class.js';
+    import FormSubmission from '/frontend/scripts/form_submission/form_submission.class.js';
 
     // const userData = <?php echo get_user_data(); ?>; 
 
@@ -201,7 +201,7 @@
     ]}; 
 
     new Profile(userData);
-    new FormHandler("[data-profileform]", "profile", "/api/user");
+    new FormSubmission("[data-profileform]", "profile", "/api/user");
 </script>
 <?php
     Component::footer();

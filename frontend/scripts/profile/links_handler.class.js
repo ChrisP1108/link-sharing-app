@@ -119,7 +119,7 @@ export default class LinksHandler {
 
     // Monitor "+ Add new link" click and add link field.  Prevent adding more fields than there are link options
 
-    #addNewLinkHandler() {
+    static #addNewLinkHandler() {
         Profile.getNodes().addNewLinkButton.addEventListener("click", () => {
 
             // Makes sure user cannot add more link fields than options available.  Will hide addNewLinkButton node if number of link fields equals number of options
@@ -230,13 +230,13 @@ export default class LinksHandler {
         } else return false;
     }
 
-    // CONSTRUCTOR
+    // Initialize Add New Link Handler
 
-    constructor() {
+    static initAddNewLinkHandler() {
 
         // Activate "+ Add new link" click handler
 
-        this.#addNewLinkHandler();
+        LinksHandler.#addNewLinkHandler();
 
         // Remove click handler
 
