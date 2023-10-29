@@ -30,7 +30,7 @@ export default class Profile {
 
     static setData(key, value, rerender = true) {
         Profile.#data[key] = value;
-        Profile.#nodes.formRoot.data = Profile.#data;
+        Profile.#nodes.formRoot.value = Profile.#data;
 
         // Render mobile preview if rerender needed and update links collapse local storage data
 

@@ -8,6 +8,8 @@ export default class SubmissionCheckHandler {
 
     static async formSubmitCheck(e) {
 
+        console.log(FormSubmission.formData);
+
         // Gather form data and input nodes
 
         const formData = new FormData(e.target);
@@ -93,7 +95,7 @@ export default class SubmissionCheckHandler {
             }
         });
 
-        if(!formError) {
+        if (!formError) {
             fieldNodes.forEach(field => {
                 const fieldNode = FormSubmission.formNode.querySelector(`[data-fieldname="${field.name}"]`);
                 FormErrorHandler.fieldErrorRemove(FormSubmission.formNode, fieldNode);

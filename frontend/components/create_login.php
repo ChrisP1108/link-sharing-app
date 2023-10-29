@@ -93,6 +93,9 @@
 </main>
 
 <script type="module">
+    import CreateLogin from '/frontend/scripts/create_login/create_login.class.js';
+    new CreateLogin(`[data-formtype="<?php echo $props['page']; ?>"]`);
+
     import FormSubmission from '/frontend/scripts/form_submission/form_submission.class.js';
     new FormSubmission(`[data-formtype="<?php echo $props['page']; ?>"]`, "<?php echo $props['page']; ?>", "<?php echo $props['page'] === 'create' ? '/api/user' : '/api/user/login'; ?>");
 </script>

@@ -5,6 +5,7 @@ export default class FormSubmission {
     // CLASS PROPERTIES
 
         static formNode;
+        static formData;
         static formButtonNode;
         static formButtonText;
         static formType;
@@ -37,6 +38,7 @@ export default class FormSubmission {
 
             FormSubmission.formNode.addEventListener("submit", e => {
                 e.preventDefault();
+                FormSubmission.formData = FormSubmission.formNode.value;
                 if (!FormSubmission.submitting) {
                     SubmissionCheckHandler.formSubmitCheck(e);
                 }
