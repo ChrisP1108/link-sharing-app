@@ -32,8 +32,7 @@ form {
             }
 
             & input, .selection-dropdown-container span, .selected-link-item-container span {
-                background: transparent !important;
-                background-color: transparent !important;
+                
                 border: 0px;
                 padding: 0.75em;
                 width: 100%;
@@ -42,6 +41,11 @@ form {
 
                 &:focus {
                     outline: none;
+                }
+
+                &:internal-autofill-selector {
+                    background: transparent !important;
+                    background-color: transparent !important;
                 }
             }
 
