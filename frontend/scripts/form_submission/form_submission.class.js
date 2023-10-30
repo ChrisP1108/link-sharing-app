@@ -22,46 +22,73 @@ export default class FormSubmission {
 
         static setFormDataNodes() {
             Object.entries(FormSubmission.formData).forEach(([key, value]) => {
-                const node = FormSubmission.formNode.querySelector(`[name="${key}"]`);
-                let required = true;
-                if (node && node.dataset.required) {
-                    if (node.dataset.required === 'false') {
-                        required = false;
-                    }
-                }
-                
-                // Handles links since it is an array
 
-                if (value && value.length && key === 'links') {
-                    FormSubmission.formDataNodes[key] = FormSubmission.formData[key].map(item => {
-                        return {
-                            value: {
-                                platform: item.platform,
-                                link: item.link,
-                                order: item.order
-                            },
-                            node: {
-                                platform: FormSubmission.formNode.querySelector(`[data-platformoptionselected][data-value="${item.platform}"]`),
-                                link: FormSubmission.formNode.querySelector(`[name="link-item-${item.order}"]`),
-                            },
-                            required,
-                            linkValid: LinksHandler.linkUrlValid(item.platform)
+                // Filter out any unnecessary keys
+
+                const notApplicableKeys = ['id', 'image_url'];
+
+                // Check for any keys in which the name doesn't match the node name, such as image upload
+
+                const differingKeys = [{
+                    key: 'image_upload',
+                    nodeName: 'profile_picture'
+                }];
+
+                if (!notApplicableKeys.includes(key)) {
+                    let node = null; 
+                    if (differingKeys.some(k => k.key === key)) {
+                        const nodeName = differingKeys.find(k => k.key === key).nodeName
+                        node = FormSubmission.formNode.querySelector(`[name="${nodeName}"]`);
+                    } else node = FormSubmission.formNode.querySelector(`[name="${key}"]`);
+                    let required = true;
+                    if (node && node.dataset.required) {
+                        if (node.dataset.required === 'false') {
+                            required = false;
                         }
-                    });
+                    }
+                    
+                    // Handles links since it is an array
 
-                } else {
+                    if (value && value.length && key === 'links') {
+                        FormSubmission.formDataNodes[key] = FormSubmission.formData[key].map(item => {
+                            return {
+                                value: {
+                                    platform: item.platform,
+                                    link: item.link,
+                                    order: item.order
+                                },
+                                node: {
+                                    platform: FormSubmission.formNode.querySelector(`[data-platformoptionselected][data-value="${item.platform}"]`),
+                                    link: FormSubmission.formNode.querySelector(`[name="link-item-${item.order}"]`),
+                                },
+                                required,
+                                linkValid: LinksHandler.linkUrlValid(item.platform),
+                                type: FormSubmission.formNode.querySelector(`[data-platformoptionselected][data-value="${item.platform}"]`).closest("[data-fieldparent]").dataset.fieldtype
+                            }
+                        });
 
-                // Handles individual fields
+                    } else {
 
-                    FormSubmission.formDataNodes[key] = {
-                        value,
-                        node,
-                        required
+                    // Handles individual fields
+
+                        FormSubmission.formDataNodes[key] = {
+                            value,
+                            node,
+                            required,
+                            type: node ? node.closest("[data-fieldparent]").dataset.fieldtype : null
+                        }
                     }
                 }
             });
+        }
 
-            console.log(FormSubmission.formDataNodes);
+        // Direct to url
+
+        static directToUrl(url) {
+
+            // Perform redirect
+
+            window.location.href = window.location.origin + '/' + url;
         }
 
     // CONSTRUCTOR
@@ -95,15 +122,5 @@ export default class FormSubmission {
                 }
             });
         }
-
-    // METHODS
-
-        // Direct to url
-
-        static directToUrl(url) {
-
-            // Perform redirect
-
-            window.location.href = window.location.origin + '/' + url;
-        }
+ 
 }

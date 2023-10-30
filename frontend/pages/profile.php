@@ -160,7 +160,7 @@
                         Component::form_field([
                             'name' => 'email',
                             'label' => 'Email',
-                            'type' => 'text',
+                            'type' => 'email',
                             'icon' => '',
                             'placeholder' => 'e.g. email@example.com',
                             'required' => false,
