@@ -24,9 +24,14 @@ export default class SubmissionCheckHandler {
 
         let formError = false;
 
-        // Loop through input nodes
+        const fieldValues = Object.values(FormSubmission.formDataNodes).flat(1).map(f => {
+            return f.type === 'link' ? {...f, value: f.value.link ? f.value.link : '', node: f.node.link, name: f.value.platform, parentNode: f.node.link.closest("[data-fieldparent]").querySelector("[data-linkitemcontainer]") } 
+            : {...f, value: f.value ? f.value : '', name: f.node.id, parentNode: f.node.closest("[data-fieldparent]") }
+        });
+
+        // Loop through fieldsValues
         
-        fieldNodes.forEach(field => {
+        fieldValues.forEach(field => {
 
             // Used for determining errors
 
@@ -34,17 +39,13 @@ export default class SubmissionCheckHandler {
 
             let fieldError = false;
 
-            // Select field node
-
-            const fieldNode = FormSubmission.formNode.querySelector(`[data-fieldname="${field.name}"]`);
-
             // Select Error text node
 
             let inputErrMsg = '';
 
             // Set error if required field blank
 
-            if (field.value === '' && field.dataset.required === 'true') {
+            if (!field.value && field.required) {
                 requiredBlank = true;
                 fieldError = true;
                 formError = true;
@@ -55,7 +56,7 @@ export default class SubmissionCheckHandler {
 
             if (!requiredBlank) {
 
-                switch(field.dataset.type) {
+                switch(field.type) {
                     case 'email':
                         const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
                         if (!emailRegex.test(field.value)) {
@@ -89,14 +90,13 @@ export default class SubmissionCheckHandler {
             // Handle error on fields if error found.  Applies red border and red text, and removes when user clicks afterward
 
             if (fieldError) {            
-                FormErrorHandler.fieldErrorSet(fieldNode, inputErrMsg);
+                FormErrorHandler.fieldErrorSet(field.parentNode, inputErrMsg);
             }
         });
 
         if (!formError) {
-            fieldNodes.forEach(field => {
-                const fieldNode = FormSubmission.formNode.querySelector(`[data-fieldname="${field.name}"]`);
-                FormErrorHandler.fieldErrorRemove(FormSubmission.formNode, fieldNode);
+            fieldValues.forEach(f => {
+                FormErrorHandler.fieldErrorRemove(FormSubmission.formNode, f.parentNode);
             });
             PostRequestHandler.formPostRequest(formData);
         }
