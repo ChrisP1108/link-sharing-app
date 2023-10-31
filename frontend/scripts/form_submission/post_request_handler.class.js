@@ -1,11 +1,12 @@
 import FormSubmission from '/frontend/scripts/form_submission/form_submission.class.js';
 import FormErrorHandler from '/frontend/scripts/form_submission/form_error_handler.class.js';
+import DirectToUrlHandler from '/frontend/scripts/form_submission/direct_to_url_handler.class.js';
 
 export default class PostRequestHandler {
 
     // API POST Request Handler
 
-    static async apiPostRequest(data = []) {
+    static async #apiPostRequest(data = []) {
 
         let requestResolved = false;
 
@@ -20,7 +21,7 @@ export default class PostRequestHandler {
         // Make request to API
 
         try {
-            const res = await fetch(FormSubmission.apiRoute, {
+            const res = await fetch(FormSubmission.getAPIRoute(), {
                 method: 'POST',
                 headers: {
                     'content-type': 'application/json'
@@ -50,7 +51,7 @@ export default class PostRequestHandler {
 
         // Set submitting to true to prevent form submission during API call
 
-        FormSubmission.submitting = true;
+        FormSubmission.setSubmitting(true);
 
         // Set window to be opaque during request
 
@@ -58,13 +59,13 @@ export default class PostRequestHandler {
 
         // Load Spinner in submit button
 
-        FormSubmission.formButtonNode.innerHTML = `<span>${FormSubmission.formButtonText}</span>` + FormSubmission.spinnerSVG;
+        FormSubmission.getFormButtonNode().innerHTML = `<span>${FormSubmission.getFormButtonText()}</span>` + FormSubmission.getLoadingSpinner();
 
         // Checks for error
         
         // Submission handle by type
 
-        switch(FormSubmission.formType) {
+        switch(FormSubmission.getFormType()) {
 
             // Create user handler
 
@@ -73,13 +74,13 @@ export default class PostRequestHandler {
                 delete formData.create_password;
                 delete formData.confirm_password;
 
-                const createRequest = await PostRequestHandler.apiPostRequest(formData);
+                const createRequest = await PostRequestHandler.#apiPostRequest(formData);
 
                 if (createRequest.ok) {
-                    FormSubmission.directToUrl('profile');
+                    DirectToUrlHandler.directToUrl('profile');
                 } else {
                     if (createRequest.msg.includes('same email already exists')) {
-                        FormErrorHandler.fieldErrorSet(FormSubmission.formNode.querySelector(`[data-fieldtype="email"]`), 'Email already exists');
+                        FormErrorHandler.fieldErrorSet(FormSubmission.getFormNode().querySelector(`[data-fieldtype="email"]`), 'Email already exists');
                     } else {
                         FormErrorHandler.formErrSet(createRequest.msg);
                     }
@@ -89,15 +90,15 @@ export default class PostRequestHandler {
             // Login user handler
 
             case 'login':
-                const loginRequest = await PostRequestHandler.apiPostRequest(formData);
+                const loginRequest = await PostRequestHandler.#apiPostRequest(formData);
 
                 if (loginRequest.ok) {
-                    FormSubmission.directToUrl('profile');
+                    DirectToUrlHandler.directToUrl('profile');
                 } else {
                     if (loginRequest.msg.includes("Invalid user email")) {
-                        FormErrorHandler.fieldErrorSet(FormSubmission.formNode.querySelector(`[data-fieldtype="email"]`), 'Invalid email');
+                        FormErrorHandler.fieldErrorSet(FormSubmission.getFormNode().querySelector(`[data-fieldtype="email"]`), 'Invalid email');
                     } else if (loginRequest.msg.includes("Invalid password")) {
-                        FormErrorHandler.fieldErrorSet(FormSubmission.formNode.querySelector(`[data-fieldtype="password"]`), 'Invalid password');
+                        FormErrorHandler.fieldErrorSet(FormSubmission.getFormNode().querySelector(`[data-fieldtype="password"]`), 'Invalid password');
                     } else {
                         FormErrorHandler.formErrSet(loginRequest.msg);
                     }
@@ -106,10 +107,10 @@ export default class PostRequestHandler {
 
         // Set set button text back from spinner if error found and window to full opacity and submitting to false
         
-        if (FormSubmission.submissionError) {
-            FormSubmission.formButtonNode.innerHTML = FormSubmission.formButtonText;
+        if (FormSubmission.getSubmissionError()) {
+            FormSubmission.getFormButtonNode().innerHTML = FormSubmission.getFormButtonText();
         }
 
-        FormSubmission.submitting = false;
+        FormSubmission.setSubmitting(false);
     }
 }

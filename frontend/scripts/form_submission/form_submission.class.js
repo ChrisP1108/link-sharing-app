@@ -1,94 +1,99 @@
 import SubmissionCheckHandler from '/frontend/scripts/form_submission/submission_check_handler.class.js';
-import LinksHandler from '/frontend/scripts/profile/links_handler.class.js';
+import NodeDataHandler from '/frontend/scripts/form_submission/node_data_handler.class.js';
 
 export default class FormSubmission {
 
     // CLASS PROPERTIES
 
-        static formNode;
-        static formData = {};
-        static formDataNodes = {};
-        static formButtonNode;
-        static formButtonText;
-        static formType;
-        static submitting = false;
-        static submissionError = false;
-        static apiRoute;
-        static spinnerSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="6 6 12 12"><circle cx="4" cy="12" r="0"><animate begin="0;h.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="0;3" fill="freeze"></animate><animate begin="b.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="4;12" fill="freeze"></animate><animate begin="d.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="12;20" fill="freeze"></animate><animate id="g" begin="f.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="3;0" fill="freeze"></animate><animate id="h" begin="g.end" attributeName="cx" dur="0.001s" values="20;4" fill="freeze"></animate></circle><circle cx="4" cy="12" r="3"><animate begin="0;h.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="4;12" fill="freeze"></animate><animate begin="b.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="12;20" fill="freeze"></animate><animate id="e" begin="d.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="3;0" fill="freeze"></animate><animate id="f" begin="e.end" attributeName="cx" dur="0.001s" values="20;4" fill="freeze"></animate><animate begin="f.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="0;3" fill="freeze"></animate></circle><circle cx="12" cy="12" r="3"><animate begin="0;h.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="12;20" fill="freeze"></animate><animate id="c" begin="b.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="3;0" fill="freeze"></animate><animate id="d" begin="c.end" attributeName="cx" dur="0.001s" values="20;4" fill="freeze"></animate><animate begin="d.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="0;3" fill="freeze"></animate><animate begin="f.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="4;12" fill="freeze"></animate></circle><circle cx="20" cy="12" r="3"><animate id="a" begin="0;h.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="3;0" fill="freeze"></animate><animate id="b" begin="a.end" attributeName="cx" dur="0.001s" values="20;4" fill="freeze"></animate><animate begin="b.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="0;3" fill="freeze"></animate><animate id="e" begin="d.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="4;12" fill="freeze"></animate><animate begin="f.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="12;20" fill="freeze"></animate></circle></svg>`;
+        static #formNode;
+        static #formData = {};
+        static #formNodesData;
+        static #formButtonNode;
+        static #formButtonText;
+        static #formType;
+        static #submitting = false;
+        static #submissionError = false;
+        static #apiRoute;
+        static #spinnerSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="6 6 12 12"><circle cx="4" cy="12" r="0"><animate begin="0;h.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="0;3" fill="freeze"></animate><animate begin="b.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="4;12" fill="freeze"></animate><animate begin="d.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="12;20" fill="freeze"></animate><animate id="g" begin="f.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="3;0" fill="freeze"></animate><animate id="h" begin="g.end" attributeName="cx" dur="0.001s" values="20;4" fill="freeze"></animate></circle><circle cx="4" cy="12" r="3"><animate begin="0;h.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="4;12" fill="freeze"></animate><animate begin="b.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="12;20" fill="freeze"></animate><animate id="e" begin="d.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="3;0" fill="freeze"></animate><animate id="f" begin="e.end" attributeName="cx" dur="0.001s" values="20;4" fill="freeze"></animate><animate begin="f.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="0;3" fill="freeze"></animate></circle><circle cx="12" cy="12" r="3"><animate begin="0;h.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="12;20" fill="freeze"></animate><animate id="c" begin="b.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="3;0" fill="freeze"></animate><animate id="d" begin="c.end" attributeName="cx" dur="0.001s" values="20;4" fill="freeze"></animate><animate begin="d.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="0;3" fill="freeze"></animate><animate begin="f.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="4;12" fill="freeze"></animate></circle><circle cx="20" cy="12" r="3"><animate id="a" begin="0;h.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="3;0" fill="freeze"></animate><animate id="b" begin="a.end" attributeName="cx" dur="0.001s" values="20;4" fill="freeze"></animate><animate begin="b.end" attributeName="r" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="0;3" fill="freeze"></animate><animate id="e" begin="d.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="4;12" fill="freeze"></animate><animate begin="f.end" attributeName="cx" calcMode="spline" dur="0.5s" keySplines=".36,.6,.31,1" values="12;20" fill="freeze"></animate></circle></svg>`;
 
-    // METHOD
+    // METHODS
 
-        // Bind form data to nodes for submission checking/error handling
+        // Get form node
 
-        static setFormDataNodes() {
-            Object.entries(FormSubmission.formData).forEach(([key, value]) => {
-
-                // Filter out any unnecessary keys
-
-                const notApplicableKeys = ['id', 'image_url'];
-
-                // Check for any keys in which the name doesn't match the node name, such as image upload
-
-                const differingKeys = [{
-                    key: 'image_upload',
-                    nodeName: 'profile_picture'
-                }];
-
-                if (!notApplicableKeys.includes(key)) {
-                    let node = null; 
-                    if (differingKeys.some(k => k.key === key)) {
-                        const nodeName = differingKeys.find(k => k.key === key).nodeName
-                        node = FormSubmission.formNode.querySelector(`[name="${nodeName}"]`);
-                    } else node = FormSubmission.formNode.querySelector(`[name="${key}"]`);
-                    let required = true;
-                    if (node && node.dataset.required) {
-                        if (node.dataset.required === 'false') {
-                            required = false;
-                        }
-                    }
-                    
-                    // Handles links since it is an array
-
-                    if (value && value.length && key === 'links') {
-                        FormSubmission.formDataNodes[key] = FormSubmission.formData[key].map(item => {
-                            return {
-                                value: {
-                                    platform: item.platform,
-                                    link: item.link,
-                                    order: item.order
-                                },
-                                node: {
-                                    platform: FormSubmission.formNode.querySelector(`[data-platformoptionselected][data-value="${item.platform}"]`),
-                                    link: FormSubmission.formNode.querySelector(`[name="link-item-${item.order}"]`),
-                                },
-                                required,
-                                linkValid: LinksHandler.linkUrlValid(item.platform),
-                                type: FormSubmission.formNode.querySelector(`[data-platformoptionselected][data-value="${item.platform}"]`).closest("[data-fieldparent]").dataset.fieldtype
-                            }
-                        });
-
-                    } else {
-
-                    // Handles individual fields
-
-                        FormSubmission.formDataNodes[key] = {
-                            value,
-                            node,
-                            required,
-                            type: node ? node.closest("[data-fieldparent]").dataset.fieldtype : null
-                        }
-                    }
-                }
-            });
+        static getFormNode() {
+            return FormSubmission.#formNode;
         }
 
-        // Direct to url
+        // Get form data
 
-        static directToUrl(url) {
+        static getFormData() {
+            return FormSubmission.#formData;
+        }
 
-            // Perform redirect
+        // Get form nodes data
 
-            window.location.href = window.location.origin + '/' + url;
+        static getFormNodesData() {
+            return FormSubmission.#formNodesData;
+        }
+
+        // Set form nodes data
+
+        static setFormNodesData(data) {
+            FormSubmission.#formNodesData = data;
+        }
+
+        // Get form button node
+
+        static getFormButtonNode() {
+            return FormSubmission.#formButtonNode
+        }
+
+        // Get form button text
+
+        static getFormButtonText() {
+            return FormSubmission.#formButtonText;
+        }
+
+        // Get form type
+
+        static getFormType() {
+            return FormSubmission.#formType;
+        }
+
+        // Get submitting
+
+        static getSubmitting() {
+            return FormSubmission.#submitting
+        }
+
+        // Set submitting to true or false
+
+        static setSubmitting(value) {
+            FormSubmission.#submitting = value ? true : false;
+        }
+
+        // Get submission error
+
+        static getSubmissionError() {
+            return FormSubmission.#submissionError;
+        }
+
+        // Set submission error to true or false
+
+        static setSubmissionError(value) {
+            FormSubmission.#submissionError = value ? true : false;
+        }
+
+        // Get API Route
+
+        static getAPIRoute() {
+            return FormSubmission.#apiRoute;
+        }
+
+        // Get loading spinner
+
+        static getLoadingSpinner() {
+            return FormSubmission.#spinnerSVG;
         }
 
     // CONSTRUCTOR
@@ -99,28 +104,27 @@ export default class FormSubmission {
                 throw new Error("Form node, form type, and API route must be passed in on FormSubmission class instantiation.")
             }
 
-            FormSubmission.formNode = document.querySelector(formNode);
-            FormSubmission.formButtonNode = FormSubmission.formNode.querySelector("button");
-            FormSubmission.formButtonText = FormSubmission.formButtonNode.innerText;
-            FormSubmission.formType = formType;
-            FormSubmission.apiRoute = apiRoute;
+            FormSubmission.#formNode = document.querySelector(formNode);
+            FormSubmission.#formButtonNode = FormSubmission.#formNode.querySelector("button");
+            FormSubmission.#formButtonText = FormSubmission.#formButtonNode.innerText;
+            FormSubmission.#formType = formType;
+            FormSubmission.#apiRoute = apiRoute;
 
             // Set loading spinner if custom SVG HTML passed in.
 
             if (spinnerSVG) {
-                FormSubmission.spinnerSVG = spinnerSVG;
+                FormSubmission.#spinnerSVG = spinnerSVG;
             }
 
             // Set event listener on form submit.  Prevent default submission, update data and form node binding and run #formSubmitCheck method if not currently in submitting process
 
-            FormSubmission.formNode.addEventListener("submit", e => {
+            FormSubmission.#formNode.addEventListener("submit", e => {
                 e.preventDefault();
-                FormSubmission.formData = FormSubmission.formNode.value;
-                FormSubmission.setFormDataNodes();
-                if (!FormSubmission.submitting) {
+                FormSubmission.#formData = FormSubmission.#formNode.value;
+                NodeDataHandler.setFormDataNodes();
+                if (!FormSubmission.#submitting) {
                     SubmissionCheckHandler.formSubmitCheck(e);
                 }
             });
         }
- 
 }

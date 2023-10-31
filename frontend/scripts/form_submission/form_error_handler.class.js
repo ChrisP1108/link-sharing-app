@@ -8,22 +8,20 @@ export default class FormErrorHandler {
 
         // Set #submissionError to true
 
-        FormSubmission.submissionError = true;
+        FormSubmission.setSubmissionError(true);
 
         // Remove background opacity
 
         document.body.classList.remove("opaque");
 
-        const formErrMsg = FormSubmission.formNode.querySelector("[data-formerrmsg]");
+        const formErrMsg = FormSubmission.getFormNode().querySelector("[data-formerrmsg]");
         formErrMsg.classList.remove("hidden");
         formErrMsg.innerText = errMsg;
-
-        const formFields = formNode.querySelectorAll(`[data-fieldtype]`);
 
         // Remove error function after user clicks or types
 
         function removeErrHandler() {
-            formErrMsg.classList.add("hidden", "");
+            formErrMsg.classList.add("hidden");
             formErrMsg.innerText = '';
             
             // Set #submissionError to false
@@ -33,9 +31,9 @@ export default class FormErrorHandler {
 
         // Monitor for click or input of field with error applied to remove when user clicks
 
-        formFields.forEach(field => {
-            field.addEventListener('click', removeErrHandler);
-            field.addEventListener('keyup', removeErrHandler);
+        FormSubmission.getFormNodesData().forEach(field => {
+            field.parentNode.addEventListener('click', removeErrHandler);
+            field.parentNode.addEventListener('keyup', removeErrHandler);
         });
     }
 
@@ -45,7 +43,7 @@ export default class FormErrorHandler {
 
         const inputErrMsg = fieldNode.querySelector('[data-errormsg]');
 
-        const multiplePasswordFields = FormSubmission.formNode.querySelectorAll(`[data-fieldtype="password"]`);
+        const multiplePasswordFields = FormSubmission.getFormNode().querySelectorAll(`[data-fieldtype="password"]`);
 
         // Apply if multiple password fields and field is type password, such as create page
 
@@ -73,7 +71,7 @@ export default class FormErrorHandler {
 
         // Set submissionError to false
 
-        FormSubmission.submissionError = false;
+        FormSubmission.setSubmissionError(false);
     }
 
     // Set field error handler
@@ -82,7 +80,7 @@ export default class FormErrorHandler {
 
         // Set submissionError to true
 
-        FormSubmission.submissionError = true;
+        FormSubmission.setSubmissionError(true);
 
         // Remove background opacity
 

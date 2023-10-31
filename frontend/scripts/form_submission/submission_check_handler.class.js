@@ -7,31 +7,14 @@ export default class SubmissionCheckHandler {
     // Form submission field check.  Makes sure there are no error prior to submission
 
     static async formSubmitCheck(e) {
-
-        // Gather form data and input nodes
-
-        const formData = new FormData(e.target);
-
-        const fieldNodes = [];
-        
-        for (let i = 0; e.target.length - 1 > i; i++) {
-            const item = e.target[i];
-            formData[item.name] = item.value;
-            fieldNodes.push(item);
-        }    
         
         // Used to determine if error was found
 
         let formError = false;
 
-        const fieldValues = Object.values(FormSubmission.formDataNodes).flat(1).map(f => {
-            return f.type === 'link' ? {...f, value: f.value.link ? f.value.link : '', node: f.node.link, name: f.value.platform, parentNode: f.node.link.closest("[data-fieldparent]").querySelector("[data-linkitemcontainer]") } 
-            : {...f, value: f.value ? f.value : '', name: f.node.id, parentNode: f.node.closest("[data-fieldparent]") }
-        });
-
-        // Loop through fieldsValues
+        // Loop through form nodes data
         
-        fieldValues.forEach(field => {
+        FormSubmission.getFormNodesData().forEach(field => {
 
             // Used for determining errors
 
@@ -70,8 +53,8 @@ export default class SubmissionCheckHandler {
 
             // Check on create page for passwords matching
 
-            if (FormSubmission.formType === 'create') {
-                const passwordFields = fieldNodes.filter(field => field.type === "password");
+            if (FormSubmission.getFormType() === 'create') {
+                const passwordFields = FormSubmission.getFormNodesData().filter(field => field.type === "password");
                 const passwords = passwordFields.map(i => i.value);
                 if (field.type === 'password' && field.value.length < 8) {
                     fieldError = true;
@@ -95,10 +78,10 @@ export default class SubmissionCheckHandler {
         });
 
         if (!formError) {
-            fieldValues.forEach(f => {
-                FormErrorHandler.fieldErrorRemove(FormSubmission.formNode, f.parentNode);
+            FormSubmission.getFormNodesData().forEach(f => {
+                FormErrorHandler.fieldErrorRemove(FormSubmission.getFormNode(), f.parentNode);
             });
-            PostRequestHandler.formPostRequest(formData);
+            PostRequestHandler.formPostRequest(FormSubmission.getFormData());
         }
     }
 }
