@@ -237,21 +237,22 @@ form {
             }
         }
 
-        &.image-upload-error {
-
-            & h4, p {
-                color: var(--red) !important;
-            }
-
-            & p {
-                font-weight: 700;
-            }
+        &.image-field.field-error {
 
             & .input-type-file {
                 border: 1px var(--red) solid;
 
                 & .image-upload-icon path {
                     fill: var(--red) !important;
+                }
+
+                & h4, p {
+                    color: var(--red) !important;
+                }
+
+                & p {
+                    margin-top: 1em;
+                    font-weight: 700;
                 }
             }
         }
@@ -323,9 +324,9 @@ form {
                 margin-bottom: 2rem;
             }
 
-            & label {
+            /* & label {
                 color: var(--red) !important;
-            }
+            } */
         }
 
         &.link-field-collapsed {

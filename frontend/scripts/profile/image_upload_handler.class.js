@@ -38,7 +38,7 @@ export default class ImageUploadHandler {
 
             // Set error styling and clear any existing upload for image upload error
 
-            MobilePreviewHandler.clearImage();
+            MobilePreviewHandler.setImageUploadError();
         }
     }
 

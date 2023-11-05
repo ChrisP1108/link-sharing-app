@@ -1,5 +1,6 @@
 import Profile from '/frontend/scripts/profile/profile.class.js';
 import MobileLinkItem from '/frontend/scripts/profile/mobile_link_item.class.js';
+import FormErrorHandler from '/frontend/scripts/form_submission/form_error_handler.class.js';
 
 export default class MobilePreviewHandler {
 
@@ -78,7 +79,7 @@ export default class MobilePreviewHandler {
 
         // Remove error styling from any previous file upload error attempt
 
-        Profile.getNodes().imageSection.main.classList.remove("image-upload-error");
+        Profile.getNodes().imageSection.main.classList.remove("field-error");
 
         // Set placeholder text to change image
 
@@ -113,11 +114,12 @@ export default class MobilePreviewHandler {
 
     }
 
-    // Set error styling and clear any existing upload for image upload error
+    // Set error styling, add error message and clear any existing upload for image upload error
 
-    static clearImage() {
+    static setImageUploadError() {
         Profile.setData('image_upload', null);
-        Profile.getNodes().imageSection.main.classList.add("image-upload-error");
+        Profile.getNodes().imageSection.main.classList.add("field-error");
+        FormErrorHandler.fieldErrorSet(Profile.getNodes().imageSection.main, "Invalid file format");
         Profile.getNodes().mobileSection.image.classList.remove("show-rendered-image");
         Profile.getNodes().imageSection.imageContainerNode.classList.remove("show-rendered-image");
         Profile.getNodes().imageSection.imageRenderNode.src = '';

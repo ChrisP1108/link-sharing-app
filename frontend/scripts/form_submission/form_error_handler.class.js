@@ -86,6 +86,16 @@ export default class FormErrorHandler {
 
         document.body.classList.remove("opaque");
 
+        // Adjust for image field going from "Can't be empty" to "Invalid file format" and vice versa
+
+        if (fieldNode.dataset.fieldtype === 'image') {
+            const imageErrMsg = fieldNode.querySelector("[data-errormsg]");
+
+            if (imageErrMsg) {
+                imageErrMsg.remove();
+            }
+        }
+
         // Check if there is an existing error message to avoid duplicates
 
         const existingErrMsg = fieldNode.querySelector("[data-errormsg]") !== null;
@@ -112,14 +122,16 @@ export default class FormErrorHandler {
 
             // Check if multiple password fields, like on create page and remove all error styling and error text, otherwise remove single field
 
-            fieldNode.addEventListener("click", () => {
-                FormErrorHandler.fieldErrorRemove(fieldNode);   
-            });
+            if (fieldNode.dataset.fieldtype !== 'image') {
 
-            fieldNode.addEventListener("keyup", () => {
-                FormErrorHandler.fieldErrorRemove(fieldNode);  
-            });
+                fieldNode.addEventListener("click", () => {
+                    FormErrorHandler.fieldErrorRemove(fieldNode);   
+                });
 
+                fieldNode.addEventListener("keyup", () => {
+                    FormErrorHandler.fieldErrorRemove(fieldNode);  
+                });
+            }
         }
     }
 }
