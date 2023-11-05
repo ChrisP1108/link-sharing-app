@@ -40,14 +40,26 @@ export default class SubmissionCheckHandler {
             if (!requiredBlank) {
 
                 switch(field.type) {
+
+                    // Check that email is valid
+
                     case 'email':
                         const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
                         if (!emailRegex.test(field.value)) {
                             fieldError = true;
                             formError = true;
-                            inputErrMsg = "Invalid email"
+                            inputErrMsg = "Invalid email";
                         } 
                         break;
+
+                    // Check that profile link url is valid based upon platform selected
+
+                    case 'link':
+                        if (!field.linkValid) {
+                            fieldError = true;
+                            formError = true;
+                            inputErrMsg = "Please check the URL";
+                        }
                 }
             }
 

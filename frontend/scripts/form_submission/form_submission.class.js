@@ -105,7 +105,7 @@ export default class FormSubmission {
             }
 
             FormSubmission.#formNode = document.querySelector(formNode);
-            FormSubmission.#formButtonNode = FormSubmission.#formNode.querySelector("button");
+            FormSubmission.#formButtonNode = FormSubmission.#formNode.querySelector(`button[type="submit"]`);
             FormSubmission.#formButtonText = FormSubmission.#formButtonNode.innerText;
             FormSubmission.#formType = formType;
             FormSubmission.#apiRoute = apiRoute;

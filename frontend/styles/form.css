@@ -303,32 +303,6 @@ form {
             margin-top: 0.5rem;
         }
 
-        &.field-error {
-
-            & .input-container {
-                border: 1px var(--red) solid !important;
-
-                & p {
-                    transform: translateY(calc(100% + 0.25rem));
-                    position: absolute;
-
-                    @media(min-width: 401px) {
-                        position: relative;
-                        align-self: center;
-                        transform: translateY(0);
-                    }
-                }
-            }
-
-            @media(max-width: 400px) {
-                margin-bottom: 2rem;
-            }
-
-            /* & label {
-                color: var(--red) !important;
-            } */
-        }
-
         &.link-field-collapsed {
 
             & .platform-link-fields-container {
@@ -337,6 +311,29 @@ form {
                 margin: 0 !important;
             }
         }
+    }
+
+    & .field-error {
+
+        & .input-container {
+            border: 1px var(--red) solid !important;
+
+            & p {
+                transform: translateY(calc(100% + 0.25rem));
+                position: absolute;
+
+                @media(min-width: 401px) {
+                    position: relative;
+                    align-self: center;
+                    transform: translateY(0);
+                }
+            }
+        }
+
+        @media(max-width: 400px) {
+            margin-bottom: 2rem;
+        }
+
     }
 
     .form-err-msg {

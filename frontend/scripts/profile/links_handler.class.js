@@ -206,7 +206,7 @@ export default class LinksHandler {
             return false
         }
 
-        const linkData =  Profile.getData().links.find(link => link.platform === platform.toLowerCase());
+        const linkData =  Profile.getData().links.find(link => link.platform.toLowerCase() === platform.toLowerCase());
 
         // If link data found, link field will be checked if input matches input requirement for platform.  If no corresponding link data found, false will be returned
 

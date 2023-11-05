@@ -131,7 +131,7 @@
                 <div class="name-fields-container" data-namefieldscontainer>
                     <?php
 
-                        // First name Field
+                        // First Name Field
 
                         Component::form_field([
                             'name' => 'first_name',
@@ -143,7 +143,7 @@
                             'value' => ''
                         ]);
 
-                        // Last name Field
+                        // Last Name Field
 
                         Component::form_field([
                             'name' => 'last_name',
@@ -182,23 +182,28 @@
 
     // const userData = <?php echo get_user_data(); ?>; 
 
-    const userData = { links: [
-        {
-            platform: 'github',
-            link: 'https://www.github.com/ChrisP1108',
-            order: 1
-        },
-        {
-            platform: 'youtube',
-            link: 'https://www.youtube.com/ChrisP1108',
-            order: 2
-        },
-        {
-            platform: 'linkedin',
-            link: 'https://www.linkedin.com/in/ChrisP1108',
-            order: 3
-        },
-    ]}; 
+    const userData = { 
+        links: [
+            {
+                platform: 'github',
+                link: 'https://www.github.com/ChrisP1108',
+                order: 1
+            },
+            {
+                platform: 'youtube',
+                link: 'https://www.youtube.com/ChrisP1108',
+                order: 2
+            },
+            {
+                platform: 'linkedin',
+                link: 'https://www.linkedin.com/in/ChrisP1108',
+                order: 3
+            }
+        ],
+        first_name: 'Chris',
+        last_name: 'Paschall',
+        email: 'ChrisP1108@gmail.com'
+    }; 
 
     new Profile(userData);
     new FormSubmission("[data-profileform]", "profile", "/api/user");

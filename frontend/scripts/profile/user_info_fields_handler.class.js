@@ -4,11 +4,21 @@ export default class UserInfoFieldsHandler {
 
     static #nameInputs;
 
+    // Populates user input values if existing user data existed on page load
+
+    static #populateExistingData() {
+        UserInfoFieldsHandler.#nameInputs.forEach(input => {
+            const existingFieldData = Profile.getData()[input.name];
+            if (existingFieldData) {
+                input.value = existingFieldData;
+                UserInfoFieldsHandler.#userInputHandler(input);
+            }
+        });
+    }
+
     // Updates profile data and mobile view text
 
     static #userInputHandler(input) {
-
-        // Update data
 
         // Select parent container to get field name
         
@@ -19,7 +29,6 @@ export default class UserInfoFieldsHandler {
         // Set data which will trigger MobilePreviewHandler render handling
 
         Profile.setData(fieldName, input.value);
-
     }
 
     static initUserInfoFieldsHandler() {
@@ -28,6 +37,10 @@ export default class UserInfoFieldsHandler {
 
         UserInfoFieldsHandler.#nameInputs = Profile.getNodes().nameSection.main.querySelectorAll("input");
 
+        // Populate user fields if existing data exists on page load
+
+        UserInfoFieldsHandler.#populateExistingData();
+        
         // Set event listeners in input and apply nameInputHandler when user types
 
         UserInfoFieldsHandler.#nameInputs.forEach(input => {
