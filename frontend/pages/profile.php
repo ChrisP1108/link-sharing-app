@@ -123,7 +123,7 @@
                         'type' => 'image',
                         'name' => 'profile_picture',
                         'label' => 'Profile picture',
-                        'note' => 'Image must be below 1024x1024px. Use JPG or WEBP format.',
+                        'note' => 'Image must be below 1024x1024px and 750KB in size or less. Use JPG or WEBP format.',
                         'required' => true,
                         'value' => ''
                     ]);

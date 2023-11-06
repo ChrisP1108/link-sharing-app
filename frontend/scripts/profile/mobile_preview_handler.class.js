@@ -107,7 +107,7 @@ export default class MobilePreviewHandler {
             // Render image to background of image input
 
             Profile.getNodes().imageSection.imageRenderNode.src = fileReader.result;
-
+            Profile.setData('image_upload', fileReader.result, false);
         };
 
         fileReader.readAsDataURL(Profile.getNodes().imageSection.imageNode.files[0]);

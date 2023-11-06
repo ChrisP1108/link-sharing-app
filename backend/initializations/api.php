@@ -54,7 +54,7 @@
     });
 
     // @desc    Add user data
-    // @route   POST /api/users
+    // @route   POST /api/user
     // @access  Public
 
     API::post('user', function($req) {
@@ -151,8 +151,8 @@
         }
     });
 
-    // @desc    Update user data by id
-    // @route   PUT /api/users/{id}
+    // @desc    Update user data
+    // @route   PUT /api/user
     // @access  User and Admin
 
     API::put('user', function($req) {
@@ -169,11 +169,11 @@
 
             // Check authentication.  Return 500 error if unable to get all users or 401 if token is invalid
 
-            $all_users =  DATABASE->get_table_data();
+            $all_users = DATABASE->get_table_data();
 
             if ($all_users !== false && !empty($all_users)) {
                 if (!authorized_user($all_users)) {
-                    return  unauthorized_bad_token();
+                    return unauthorized_bad_token();
                 }
             } else {
                 return error_authentication();
@@ -184,6 +184,57 @@
 
         $body = $req['body'] ?? null;
 
+        // Separate image upload if found in body and assign to $image_upload
+
+        $image_upload = null;
+
+        if ($body['image_upload']) {
+            $image_upload = $body['image_upload'];
+            unset($body['image_upload']);
+        }
+
+        // Handle image file upload.  Makes sure file format is actually jpg, jpeg, or webp
+
+        if ($image_upload) {
+            $file_name = $image_upload['name'];
+            $file_extension = explode(".", $file_name);
+            $file_extension = strtolower(end($file_extension));
+            $file_size = $image_upload['size'];
+
+            $allowed_extensions = array("jpeg", "jpg", "webp");
+
+            if (in_array($file_extension, $allowed_extensions)) {
+
+                if ($file_size > 750000) {
+                    return [
+                        'status' => 400,
+                        'msg' => 'Uploaded images must be 750KB in size or less.'
+                    ];
+                }
+
+                $upload_directory = 'user_uploaded_images/' . $file_name;
+
+                file_put_contents($upload_directory, $image_upload);
+
+                // Get image uploaded url to store in MySql
+
+                $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https://" : "http://";
+
+                $domain = $_SERVER['HTTP_HOST'];
+
+                $body['image_url'] = $protocol . $domain . $upload_directory;
+
+            } else {
+
+                // Return 400 status to indicate that improper file type was uploaded
+
+                return [
+                    'status' => 400,
+                    'msg' => 'An image upload must be in either jpg, jpeg, or webp format.'
+                ];
+            }
+        }
+
         // Get Id from token
 
         $id = token_id() ?? null;
@@ -192,9 +243,11 @@
 
         $sanitized_data = Sanitize::sanitize_data($body);
 
-        // Hash password
+        // Hash password if password is being updated
 
-        $sanitized_data['password'] = hash_password($body['password']);
+        if ($body['password']) {
+            $sanitized_data['password'] = hash_password($body['password']);
+        }
 
         // Set updated time stamp
 

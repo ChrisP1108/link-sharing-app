@@ -6,7 +6,7 @@ export default class PostRequestHandler {
 
     // API POST Request Handler
 
-    static async #apiPostRequest(data = []) {
+    static async #apiRequestHandler(type, data = []) {
 
         let requestResolved = false;
 
@@ -22,7 +22,7 @@ export default class PostRequestHandler {
 
         try {
             const res = await fetch(FormSubmission.getAPIRoute(), {
-                method: 'POST',
+                method: type,
                 headers: {
                     'content-type': 'application/json'
                 },
@@ -47,15 +47,11 @@ export default class PostRequestHandler {
 
     // Send data to API via a POST Request
 
-    static async formPostRequest(formData) {
+    static async formSubmitRequest(formData) {
 
         // Set submitting to true to prevent form submission during API call
 
         FormSubmission.setSubmitting(true);
-
-        // Set window to be opaque during request
-
-        document.body.classList.add("opaque");
 
         // Load Spinner in submit button
 
@@ -74,7 +70,7 @@ export default class PostRequestHandler {
                 delete formData.create_password;
                 delete formData.confirm_password;
 
-                const createRequest = await PostRequestHandler.#apiPostRequest(formData);
+                const createRequest = await PostRequestHandler.#apiRequestHandler('POST', formData);
 
                 if (createRequest.ok) {
                     DirectToUrlHandler.directToUrl('profile');
@@ -90,7 +86,7 @@ export default class PostRequestHandler {
             // Login user handler
 
             case 'login':
-                const loginRequest = await PostRequestHandler.#apiPostRequest(formData);
+                const loginRequest = await PostRequestHandler.#apiRequestHandler('POST', formData);
 
                 if (loginRequest.ok) {
                     DirectToUrlHandler.directToUrl('profile');
@@ -103,6 +99,27 @@ export default class PostRequestHandler {
                         FormErrorHandler.formErrSet(loginRequest.msg);
                     }
                 }
+            break;
+
+            // Profile user update
+
+            case 'profile':
+            
+                const profileUpdateRequest = await PostRequestHandler.#apiRequestHandler('PUT', formData);
+
+                if (profileUpdateRequest.ok) {
+                    FormSubmission.getFormButtonNode().innerHTML = FormSubmission.getFormButtonText();
+                } else {
+                    if (profileUpdateRequest.status === 401) {
+                        window.location.reload();
+                    } else if (profileUpdateRequest.msg.includes("Uploaded images must be 750KB") || profileUpdateRequest.msg.includes("An image upload must be")) {
+                        FormErrorHandler.fieldErrorSet(FormSubmission.getFormNode().querySelector(`[data-fieldtype="image"]`), profileUpdateRequest.msg);
+                    } else {
+                        FormErrorHandler.formErrSet(profileUpdateRequest.msg);
+                    }
+                }
+                FormSubmission.setSubmitting(false);
+            break;
         }
 
         // Set set button text back from spinner if error found and window to full opacity and submitting to false
@@ -110,7 +127,5 @@ export default class PostRequestHandler {
         if (FormSubmission.getSubmissionError()) {
             FormSubmission.getFormButtonNode().innerHTML = FormSubmission.getFormButtonText();
         }
-
-        FormSubmission.setSubmitting(false);
     }
 }

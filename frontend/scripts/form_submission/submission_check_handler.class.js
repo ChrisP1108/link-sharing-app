@@ -93,7 +93,7 @@ export default class SubmissionCheckHandler {
             FormSubmission.getFormNodesData().forEach(f => {
                 FormErrorHandler.fieldErrorRemove(FormSubmission.getFormNode(), f.parentNode);
             });
-            PostRequestHandler.formPostRequest(FormSubmission.getFormData());
+            PostRequestHandler.formSubmitRequest(FormSubmission.getFormData());
         }
     }
 }

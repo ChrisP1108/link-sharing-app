@@ -66,10 +66,24 @@ export default class FormSubmission {
             return FormSubmission.#submitting
         }
 
-        // Set submitting to true or false
+        // Set submitting to true or false and make window opaque
 
         static setSubmitting(value) {
-            FormSubmission.#submitting = value ? true : false;
+            const output = value ? true : false;
+            FormSubmission.#submitting = output;
+
+            if (output) {
+
+                // Set window to be opaque during request
+
+                document.body.classList.add("opaque");
+
+            } else {
+
+                // Remove window opaque when no longer submitting
+
+                document.body.classList.remove("opaque");
+            }
         }
 
         // Get submission error
