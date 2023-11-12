@@ -276,7 +276,11 @@ body:has(.profile-page-container) {
 
             & .save-button-container {
                 position: sticky;
+                display: flex;
+                flex-direction: row;
+                align-items: center !important;
                 bottom: 0px;
+                gap: 2rem;
                 background: var(--white);
                 padding-top: 24px !important;
                 padding-bottom: 24px !important;
@@ -287,11 +291,20 @@ body:has(.profile-page-container) {
                 flex: 0 !important;
 
                 & button {
-                    margin: 0 !important;
+                    margin: 0 0 0 auto !important;
                     width: 100%;
 
-                    @media(min-width: 40rem) {
+                    @media(min-width: 640px) {
                         width: fit-content;
+                    }
+                }
+
+                @media(max-width: 639px) {
+                    flex-direction: column;
+                    align-items: stretch !important;
+
+                    & .form-err-msg {
+                        text-align: center;
                     }
                 }
             }

@@ -338,7 +338,6 @@ form {
 
     .form-err-msg {
         color: var(--red);
-        margin-bottom: 1.25em;
     }
 
     & button {

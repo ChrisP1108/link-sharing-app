@@ -36,6 +36,10 @@ body:has(.create-login) {
             }
         }
 
+        .form-err-msg {
+            margin-bottom: 1.25em;
+        }
+
         .logo-container {
             margin-bottom: 2rem;
             font-size: min(2.25rem, 11vw) !important;
