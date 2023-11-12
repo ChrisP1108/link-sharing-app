@@ -19,10 +19,20 @@ export default class NodeDataHandler {
 
             // Check for any keys in which the name doesn't match the node name, such as image upload
 
-            const differingKeys = [{
-                key: 'image_upload',
-                nodeName: 'profile_picture'
-            }];
+            const differingKeys = [
+                {
+                    key: 'image_upload_data',
+                    nodeName: 'profile_picture'
+                },
+                {
+                    key: 'image_upload_format',
+                    nodeName: 'profile_picture'
+                },
+                {
+                    key: 'image_upload_size',
+                    nodeName: 'profile_picture'
+                }
+            ];
 
             if (!notApplicableKeys.includes(key)) {
                 let node = null; 

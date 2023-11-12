@@ -21,10 +21,14 @@ export default class ImageUploadHandler {
 
         let typeValid = false;
 
+        // Used to parse image format type
+
+        let uploadedFileType = null;
+
         // Performs tests on file uploaded to make sure it is of an acceptable file type and if passed, typeValid is set to true
 
         if (ImageUploadHandler.#fileData && ImageUploadHandler.#fileData.type && ImageUploadHandler.#fileData.type.includes("/")) {
-            const uploadedFileType = ImageUploadHandler.#fileData.type.split("/")[1].toLowerCase();
+            uploadedFileType = ImageUploadHandler.#fileData.type.split("/")[1].toLowerCase();
             if (acceptableFileTypes.includes(uploadedFileType)) {
                 typeValid = true;
             }
@@ -33,7 +37,17 @@ export default class ImageUploadHandler {
         // Render uploaded image if tests passed and update data.  Otherwise, remove any pre-existing image and show error message styling
 
         if (typeValid) {
-            Profile.setData('image_upload', ImageUploadHandler.#fileData);
+            Profile.setData('image_upload_size', ImageUploadHandler.#fileData.size, false);
+            Profile.setData('image_upload_format', uploadedFileType, false);
+
+            const fileReader = new FileReader();
+
+            fileReader.onload = () => {
+                Profile.setData('image_upload_data', fileReader.result);
+            }
+
+            fileReader.readAsDataURL(Profile.getNodes().imageSection.imageNode.files[0]);
+
         } else {
 
             // Set error styling and clear any existing upload for image upload error

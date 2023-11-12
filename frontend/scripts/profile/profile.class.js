@@ -16,7 +16,9 @@ export default class Profile {
         last_name: null, 
         email: null, 
         image_url: null, 
-        image_upload: null,
+        image_upload_data: null,
+        image_upload_size: null,
+        image_upload_format: null,
         links: []
     };
 
@@ -64,6 +66,7 @@ export default class Profile {
         mobileSection: {
             main: null,
             image: null,
+            imageNode: null,
             name: null,
             email: null,
             linksSection: null
@@ -155,6 +158,7 @@ export default class Profile {
         Profile.#nodes.formSaveButton = document.querySelector(`[data-formsavebutton]`);
         Profile.#nodes.mobileSection.main = document.querySelector(`[data-section="mobile-preview"]`);
         Profile.#nodes.mobileSection.image = Profile.#nodes.mobileSection.main.querySelector(`[data-mobilesection="image"]`);
+        Profile.#nodes.mobileSection.imageNode = Profile.#nodes.mobileSection.image.querySelector("[data-mobileimage]");
         Profile.#nodes.mobileSection.name = Profile.#nodes.mobileSection.main.querySelector(`[data-mobilesection="name"]`);
         Profile.#nodes.mobileSection.email = Profile.#nodes.mobileSection.main.querySelector(`[data-mobilesection="email"]`);
         Profile.#nodes.mobileSection.linksSection = Profile.#nodes.mobileSection.main.querySelector(`[data-mobilesection="links"]`);

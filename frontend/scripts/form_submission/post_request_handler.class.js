@@ -1,6 +1,7 @@
 import FormSubmission from '/frontend/scripts/form_submission/form_submission.class.js';
 import FormErrorHandler from '/frontend/scripts/form_submission/form_error_handler.class.js';
 import DirectToUrlHandler from '/frontend/scripts/form_submission/direct_to_url_handler.class.js';
+import Profile from '/frontend/scripts/profile/profile.class.js';
 
 export default class PostRequestHandler {
 
@@ -109,6 +110,14 @@ export default class PostRequestHandler {
 
                 if (profileUpdateRequest.ok) {
                     FormSubmission.getFormButtonNode().innerHTML = FormSubmission.getFormButtonText();
+
+                    // Update images with url from server.  Delete image_upload fields as they are no longer needed until user wants to update image again.
+
+                    Profile.setData('image_url', profileUpdateRequest.data.image_url);
+                    Profile.setData('image_upload_data', null);
+                    Profile.setData('image_upload_size', null);
+                    Profile.setData('image_upload_format', null);
+                    
                 } else {
                     if (profileUpdateRequest.status === 401) {
                         window.location.reload();

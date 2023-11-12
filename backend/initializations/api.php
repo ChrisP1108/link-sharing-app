@@ -184,37 +184,45 @@
 
         $body = $req['body'] ?? null;
 
-        // Separate image upload if found in body and assign to $image_upload
+        // Handle image file upload if image upload found.  Makes sure file format is actually jpg, jpeg, or webp
 
-        $image_upload = null;
+        if ($body['image_upload_data'] && $body['image_upload_format'] && $body['image_upload_size']) {
+            $image_upload = [
+                'data' => preg_replace('/^data:image\/\w+;base64,/', '', $body['image_upload_data']),
+                'format' => strtolower($body['image_upload_format']),
+                'size' => intval($body['image_upload_size'])
+            ];
 
-        if ($body['image_upload']) {
-            $image_upload = $body['image_upload'];
-            unset($body['image_upload']);
-        }
+            // Remove image upload data so it is not stored in mySql
 
-        // Handle image file upload.  Makes sure file format is actually jpg, jpeg, or webp
-
-        if ($image_upload) {
-            $file_name = $image_upload['name'];
-            $file_extension = explode(".", $file_name);
-            $file_extension = strtolower(end($file_extension));
-            $file_size = $image_upload['size'];
+            unset($body['image_upload_data']);
+            unset($body['image_upload_format']);
+            unset($body['image_upload_size']);
 
             $allowed_extensions = array("jpeg", "jpg", "webp");
 
-            if (in_array($file_extension, $allowed_extensions)) {
+            // Check if file extension is allowed type
 
-                if ($file_size > 750000) {
+            if (in_array($image_upload['format'], $allowed_extensions)) {
+
+                // Throw error if file size is larger than 750KB
+
+                if ($image_upload['size'] > 750000) {
                     return [
                         'status' => 400,
                         'msg' => 'Uploaded images must be 750KB in size or less.'
                     ];
                 }
 
-                $upload_directory = 'user_uploaded_images/' . $file_name;
+                // Set image file name based upon user id
 
-                file_put_contents($upload_directory, $image_upload);
+                $file_name = 'user_' . $user['id'];
+
+                // Write file to directory
+
+                $upload_path = 'user_uploaded_images/' . $file_name . '.' . $image_upload['format'];
+
+                file_put_contents($upload_path, base64_decode($image_upload['data']));
 
                 // Get image uploaded url to store in MySql
 
@@ -222,7 +230,7 @@
 
                 $domain = $_SERVER['HTTP_HOST'];
 
-                $body['image_url'] = $protocol . $domain . $upload_directory;
+                $body['image_url'] = $protocol . $domain . '/' . $upload_path;
 
             } else {
 
@@ -235,9 +243,15 @@
             }
         }
 
-        // Get Id from token
+        // Convert links to JSON if links present
 
-        $id = token_id() ?? null;
+        if (isset($body['links'])) {
+            $body['links'] = json_encode($body['links']);
+        }
+
+        // Remove id from body since user id already exists in database
+
+        unset($body['id']);
 
         // Sanitize inputs
 
@@ -245,7 +259,7 @@
 
         // Hash password if password is being updated
 
-        if ($body['password']) {
+        if (isset($body['password'])) {
             $sanitized_data['password'] = hash_password($body['password']);
         }
 
@@ -255,7 +269,7 @@
 
         // Update user data in MySql
 
-        $update_user = DATABASE->update_table_row($id, $sanitized_data);
+        $update_user = DATABASE->update_table_row($user['id'], $sanitized_data);
 
         if ($update_user !== false) {
 
@@ -263,7 +277,8 @@
 
             return [
                 'status' => 200,
-                'msg' => 'User successfully updated.'
+                'msg' => 'User successfully updated.',
+                'data' => ['image_url' => $body['image_url']]
             ];
         } else {
 

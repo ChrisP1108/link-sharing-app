@@ -93,37 +93,36 @@ export default class MobilePreviewHandler {
 
         Profile.getNodes().imageSection.imageContainerNode.classList.add("show-rendered-image");
 
-        const fileReader = new FileReader();
+        // Render image to mobile preview
 
-        fileReader.onload = () => { 
+        Profile.getNodes().mobileSection.imageNode.src = Profile.getData().image_upload_data;
+        Profile.getNodes().mobileSection.image.classList.add("show-rendered-image");
 
-            // Render image to mobile preview
+        // Render image to background of image input
 
-            const imageTagNode = Profile.getNodes().mobileSection.image.querySelector(`[data-mobileimage]`);
-
-            imageTagNode.src = fileReader.result;
-            Profile.getNodes().mobileSection.image.classList.add("show-rendered-image");
-
-            // Render image to background of image input
-
-            Profile.getNodes().imageSection.imageRenderNode.src = fileReader.result;
-            Profile.setData('image_upload', fileReader.result, false);
-        };
-
-        fileReader.readAsDataURL(Profile.getNodes().imageSection.imageNode.files[0]);
+        Profile.getNodes().imageSection.imageRenderNode.src = Profile.getData().image_upload_data;
 
     }
 
     // Set error styling, add error message and clear any existing upload for image upload error
 
     static setImageUploadError() {
-        Profile.setData('image_upload', null);
+        Profile.setData('image_upload_data', null);
+        Profile.setData('image_upload_size', null);
+        Profile.setData('image_upload_format', null);
         Profile.getNodes().imageSection.main.classList.add("field-error");
         FormErrorHandler.fieldErrorSet(Profile.getNodes().imageSection.main, "Invalid file format");
         Profile.getNodes().mobileSection.image.classList.remove("show-rendered-image");
         Profile.getNodes().imageSection.imageContainerNode.classList.remove("show-rendered-image");
         Profile.getNodes().imageSection.imageRenderNode.src = '';
         Profile.getNodes().imageSection.placeholderText.innerText = Profile.getNodes().imageSection.placeholderText.dataset.uploadimage;
+    }
+
+    // Set existing image from url in database to mobile and image field section;
+
+    static #setImageFromUrl() {
+        Profile.getNodes().imageSection.imageRenderNode.src = Profile.getData().image_url;
+        Profile.getNodes().mobileSection.imageNode.src = Profile.getData().image_url;
     }
 
     // Render user name and email
@@ -184,19 +183,27 @@ export default class MobilePreviewHandler {
 
                 break;
 
-            // Render image
+            // Render uploaded image
 
-            case 'image_upload':
+            case 'image_upload_data':
 
                 // Run renderUploadedImage if data is not blank
 
-                if (Profile.getData().image_upload) {
+                if (Profile.getData().image_upload_data) {
 
                     MobilePreviewHandler.#renderUploadedImage();
 
                 }
 
                 break;
+
+            // Render image url from database
+
+            case 'image_url':
+
+                if (Profile.getData().image_url) {
+                    MobilePreviewHandler.#setImageFromUrl();
+                }
 
             // Render first name
 
