@@ -181,33 +181,21 @@
     import Profile from '/frontend/scripts/profile/profile.class.js';
     import FormSubmission from '/frontend/scripts/form_submission/form_submission.class.js';
 
-    // const userData = <?php echo get_user_data(); ?>; 
+    // Get user data from mySql
+    
+    const userData = JSON.parse(`<?php echo get_user_data(); ?>`); 
 
-    const userData = { 
-        links: [
-            {
-                platform: 'github',
-                link: 'https://www.github.com/ChrisP1108',
-                order: 1
-            },
-            {
-                platform: 'youtube',
-                link: 'https://www.youtube.com/ChrisP1108',
-                order: 2
-            },
-            {
-                platform: 'linkedin',
-                link: 'https://www.linkedin.com/in/ChrisP1108',
-                order: 3
-            }
-        ],
-        first_name: 'Chris',
-        last_name: 'Paschall',
-        email: 'ChrisP1108@gmail.com'
-    }; 
+    // Parse links data
+
+    const textarea = document.createElement('textarea');
+    textarea.innerHTML = userData.links;
+    userData.links = JSON.parse(textarea.value);
+
+    // Initialize Profile fields handling and form submission handling
 
     new Profile(userData);
     new FormSubmission("[data-profileform]", "profile", "/api/user");
+    
 </script>
 <?php
     Component::footer();

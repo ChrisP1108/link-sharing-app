@@ -214,5 +214,11 @@ export default class Profile {
         // Initialize UserInfoFieldsHandler
 
         UserInfoFieldsHandler.initUserInfoFieldsHandler();
+
+        // Set existing image if image_url found in data
+
+        if (Profile.getData().image_url) {
+            MobilePreviewHandler.renderMobilePreview('image_url');
+        }
     }
 }

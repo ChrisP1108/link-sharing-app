@@ -251,6 +251,7 @@ form {
                 }
 
                 & p {
+                    z-index: 10;
                     margin-top: 1em;
                     font-weight: 700;
                 }

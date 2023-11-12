@@ -1,5 +1,6 @@
 import FormSubmission from '/frontend/scripts/form_submission/form_submission.class.js';
 import LinksHandler from '/frontend/scripts/profile/links_handler.class.js';
+import Profile from '/frontend/scripts/profile/profile.class.js';
 
 export default class NodeDataHandler {
 
@@ -69,6 +70,12 @@ export default class NodeDataHandler {
 
                     const parentNode = node.closest("[data-fieldparent]")
 
+                    // Set output on fields that aren't images and no existing image_url data is found
+
+                    if (parentNode.dataset.fieldtype === 'image' && Profile.getData().image_url) {
+                        required = false;
+                    }
+                    
                     output = [...output, {
                         name: key,
                         value: value ? value : '',

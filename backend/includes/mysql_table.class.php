@@ -72,6 +72,7 @@ class MySql_Table {
     // Get data from database table.  If no id found, it will return the entire table, otherwise it will return table row based upon id. Returns false if data is unable to be retrieved
 
     public function get_table_data($id = null) {
+
         if ($this->connect()) {
             $select_query = null;
             if ($id) {

@@ -26,7 +26,7 @@ export default class SubmissionCheckHandler {
 
             let inputErrMsg = '';
 
-            // Set error if required field blank
+            // Set error if required field is blank
 
             if (!field.value && field.required) {
                 requiredBlank = true;

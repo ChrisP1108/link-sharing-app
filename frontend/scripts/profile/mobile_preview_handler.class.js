@@ -121,7 +121,22 @@ export default class MobilePreviewHandler {
     // Set existing image from url in database to mobile and image field section;
 
     static #setImageFromUrl() {
+
+        // Add overlay styling for input image viewing
+
+        Profile.getNodes().imageSection.imageContainerNode.classList.add("show-rendered-image");
+
+        // Set placeholder text to change image
+
+        Profile.getNodes().imageSection.placeholderText.innerText = Profile.getNodes().imageSection.placeholderText.dataset.changeimage;
+
+        // Render profile picture image field
+
         Profile.getNodes().imageSection.imageRenderNode.src = Profile.getData().image_url;
+
+        // Set styling and image source on image node to show image in mobile preview
+
+        Profile.getNodes().mobileSection.image.classList.add("show-rendered-image");
         Profile.getNodes().mobileSection.imageNode.src = Profile.getData().image_url;
     }
 

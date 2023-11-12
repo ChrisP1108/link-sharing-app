@@ -186,7 +186,7 @@
 
         // Handle image file upload if image upload found.  Makes sure file format is actually jpg, jpeg, or webp
 
-        if ($body['image_upload_data'] && $body['image_upload_format'] && $body['image_upload_size']) {
+        if (isset($body['image_upload_data']) && isset($body['image_upload_format']) && isset($body['image_upload_size'])) {
             $image_upload = [
                 'data' => preg_replace('/^data:image\/\w+;base64,/', '', $body['image_upload_data']),
                 'format' => strtolower($body['image_upload_format']),

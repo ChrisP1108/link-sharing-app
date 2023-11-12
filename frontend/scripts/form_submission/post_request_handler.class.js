@@ -105,6 +105,14 @@ export default class PostRequestHandler {
             // Profile user update
 
             case 'profile':
+
+                // Remove image_upload fields if blank
+
+                if (!formData.image_upload_data && !formData.image_upload_format && !formData.image_upload_size) {
+                    delete formData.image_upload_data;
+                    delete formData.image_upload_format;
+                    delete formData.image_upload_size;
+                }
             
                 const profileUpdateRequest = await PostRequestHandler.#apiRequestHandler('PUT', formData);
 
@@ -117,7 +125,7 @@ export default class PostRequestHandler {
                     Profile.setData('image_upload_data', null);
                     Profile.setData('image_upload_size', null);
                     Profile.setData('image_upload_format', null);
-                    
+
                 } else {
                     if (profileUpdateRequest.status === 401) {
                         window.location.reload();
