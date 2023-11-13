@@ -186,18 +186,18 @@
 
         // Handle image file upload if image upload found.  Makes sure file format is actually jpg, jpeg, or webp
 
-        if (isset($body['image_upload_data']) && isset($body['image_upload_format']) && isset($body['image_upload_size'])) {
+        if (isset($body['image_upload'])) {
             $image_upload = [
-                'data' => preg_replace('/^data:image\/\w+;base64,/', '', $body['image_upload_data']),
-                'format' => strtolower($body['image_upload_format']),
-                'size' => intval($body['image_upload_size'])
+                'data' => preg_replace('/^data:image\/\w+;base64,/', '', $body['image_upload']['data']),
+                'format' => strtolower($body['image_upload']['type']),
+                'size' => intval($body['image_upload']['size']),
+                'width' => intval($body['image_upload']['width']),
+                'height' => intval($body['image_upload']['height']),
             ];
 
-            // Remove image upload data so it is not stored in mySql
+            // Remove image upload from bodyso it is not stored in mySql
 
-            unset($body['image_upload_data']);
-            unset($body['image_upload_format']);
-            unset($body['image_upload_size']);
+            unset($body['image_upload']);
 
             $allowed_extensions = array("jpeg", "jpg", "webp");
 
@@ -214,13 +214,35 @@
                     ];
                 }
 
+                // Throw error if width or height is greater than 1024px
+
+                $max_pixels = 1024;
+
+                if ($image_upload['width'] > $max_pixels || $image_upload['height'] > $max_pixels) {
+                    return [
+                        'status' => 400,
+                        'msg' => 'Uploaded images cannot be larger than 1024px in width or height.'
+                    ];
+                }
+
+                // Set image directory folder
+
+                $image_directory = 'user_uploaded_images';
+
+                // Delete any existing user image files on user_uploaded_images folder
+
+                if (isset($user['image_url'])) {
+                    $existing_file_path = $image_directory . explode("/user_uploaded_images", $user['image_url'])[1];
+                    unlink($existing_file_path);
+                }
+
                 // Set image file name based upon user id
 
                 $file_name = 'user_' . $user['id'];
 
                 // Write file to directory
 
-                $upload_path = 'user_uploaded_images/' . $file_name . '.' . $image_upload['format'];
+                $upload_path = $image_directory . '/' . $file_name . '.' . $image_upload['format'];
 
                 file_put_contents($upload_path, base64_decode($image_upload['data']));
 
@@ -278,7 +300,7 @@
             return [
                 'status' => 200,
                 'msg' => 'User successfully updated.',
-                'data' => ['image_url' => $body['image_url']]
+                'data' => ['image_url' => $body['image_url'] ? $body['image_url'] : $user['image_url']]
             ];
         } else {
 

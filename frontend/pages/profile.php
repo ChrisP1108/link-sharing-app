@@ -195,7 +195,7 @@
 
     new Profile(userData);
     new FormSubmission("[data-profileform]", "profile", "/api/user");
-    
+
 </script>
 <?php
     Component::footer();

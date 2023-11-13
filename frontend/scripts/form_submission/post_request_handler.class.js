@@ -106,12 +106,10 @@ export default class PostRequestHandler {
 
             case 'profile':
 
-                // Remove image_upload fields if blank
+                // Remove image_upload field if blank
 
-                if (!formData.image_upload_data && !formData.image_upload_format && !formData.image_upload_size) {
-                    delete formData.image_upload_data;
-                    delete formData.image_upload_format;
-                    delete formData.image_upload_size;
+                if (!formData.image_upload) {
+                    delete formData.image_upload;
                 }
             
                 const profileUpdateRequest = await PostRequestHandler.#apiRequestHandler('PUT', formData);
@@ -122,14 +120,12 @@ export default class PostRequestHandler {
                     // Update images with url from server.  Delete image_upload fields as they are no longer needed until user wants to update image again.
 
                     Profile.setData('image_url', profileUpdateRequest.data.image_url);
-                    Profile.setData('image_upload_data', null);
-                    Profile.setData('image_upload_size', null);
-                    Profile.setData('image_upload_format', null);
+                    Profile.resetImageUploadData();
 
                 } else {
                     if (profileUpdateRequest.status === 401) {
                         window.location.reload();
-                    } else if (profileUpdateRequest.msg.includes("Uploaded images must be 750KB") || profileUpdateRequest.msg.includes("An image upload must be")) {
+                    } else if (profileUpdateRequest.msg.includes("Uploaded images must be 750KB") || profileUpdateRequest.msg.includes("Uploaded images cannot be larger")) {
                         FormErrorHandler.fieldErrorSet(FormSubmission.getFormNode().querySelector(`[data-fieldtype="image"]`), profileUpdateRequest.msg);
                     } else {
                         FormErrorHandler.formErrSet(profileUpdateRequest.msg);

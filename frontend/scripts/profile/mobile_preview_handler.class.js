@@ -95,21 +95,19 @@ export default class MobilePreviewHandler {
 
         // Render image to mobile preview
 
-        Profile.getNodes().mobileSection.imageNode.src = Profile.getData().image_upload_data;
+        Profile.getNodes().mobileSection.imageNode.src = Profile.getData().image_upload.data;
         Profile.getNodes().mobileSection.image.classList.add("show-rendered-image");
 
         // Render image to background of image input
 
-        Profile.getNodes().imageSection.imageRenderNode.src = Profile.getData().image_upload_data;
+        Profile.getNodes().imageSection.imageRenderNode.src = Profile.getData().image_upload.data;
 
     }
 
     // Set error styling, add error message and clear any existing upload for image upload error
 
     static setImageUploadError() {
-        Profile.setData('image_upload_data', null);
-        Profile.setData('image_upload_size', null);
-        Profile.setData('image_upload_format', null);
+        Profile.resetImageUploadData();
         Profile.getNodes().imageSection.main.classList.add("field-error");
         FormErrorHandler.fieldErrorSet(Profile.getNodes().imageSection.main, "Invalid file format");
         Profile.getNodes().mobileSection.image.classList.remove("show-rendered-image");
@@ -200,11 +198,11 @@ export default class MobilePreviewHandler {
 
             // Render uploaded image
 
-            case 'image_upload_data':
+            case 'image_upload':
 
                 // Run renderUploadedImage if data is not blank
 
-                if (Profile.getData().image_upload_data) {
+                if (Profile.getData().image_upload) {
 
                     MobilePreviewHandler.#renderUploadedImage();
 

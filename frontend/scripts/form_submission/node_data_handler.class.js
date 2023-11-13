@@ -22,17 +22,9 @@ export default class NodeDataHandler {
 
             const differingKeys = [
                 {
-                    key: 'image_upload_data',
+                    key: 'image_upload',
                     nodeName: 'profile_picture'
                 },
-                {
-                    key: 'image_upload_format',
-                    nodeName: 'profile_picture'
-                },
-                {
-                    key: 'image_upload_size',
-                    nodeName: 'profile_picture'
-                }
             ];
 
             if (!notApplicableKeys.includes(key)) {
@@ -75,7 +67,7 @@ export default class NodeDataHandler {
                     if (parentNode.dataset.fieldtype === 'image' && Profile.getData().image_url) {
                         required = false;
                     }
-                    
+
                     output = [...output, {
                         name: key,
                         value: value ? value : '',

@@ -16,9 +16,13 @@ export default class Profile {
         last_name: null, 
         email: null, 
         image_url: null, 
-        image_upload_data: null,
-        image_upload_size: null,
-        image_upload_format: null,
+        image_upload: {
+            size: null,
+            type: null,
+            data: null,
+            width: null,
+            height: null
+        },
         links: []
     };
 
@@ -46,6 +50,12 @@ export default class Profile {
                 Profile.setLinkCollapseData(Profile.getLinkCollapseData().filter(link => Profile.getData().links.some(l => l.platform === link.platform)));
             }
         }
+    }
+
+    // Reset image upload fields
+
+    static resetImageUploadData() {
+        Profile.#data.image_upload  = { size: null, type: null, data: null, width: null, height: null };
     }
 
     // Nodes

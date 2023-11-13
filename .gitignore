@@ -5,3 +5,7 @@
 # Frontend Private Folder
 
 /frontend/private
+
+# User Uploaded Images
+
+/user_uploaded_images

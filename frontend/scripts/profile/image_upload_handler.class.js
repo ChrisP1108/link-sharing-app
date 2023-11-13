@@ -37,13 +37,18 @@ export default class ImageUploadHandler {
         // Render uploaded image if tests passed and update data.  Otherwise, remove any pre-existing image and show error message styling
 
         if (typeValid) {
-            Profile.setData('image_upload_size', ImageUploadHandler.#fileData.size, false);
-            Profile.setData('image_upload_format', uploadedFileType, false);
+            Profile.setData('image_upload', { size: ImageUploadHandler.#fileData.size, type: uploadedFileType }, false);
 
             const fileReader = new FileReader();
 
-            fileReader.onload = () => {
-                Profile.setData('image_upload_data', fileReader.result);
+            fileReader.onload = e => {
+                const img = new Image();
+
+                img.onload = () => {
+                    Profile.setData('image_upload', {...Profile.getData().image_upload, data: fileReader.result, width: img.width, height: img.height });
+                }
+
+                img.src = e.target.result;
             }
 
             fileReader.readAsDataURL(Profile.getNodes().imageSection.imageNode.files[0]);

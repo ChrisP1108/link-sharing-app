@@ -144,6 +144,8 @@ form {
 
                     width: 2em;
                     height: 1.75em;
+
+                    flex-shrink: 0;
     
                     & path {
                         fill: var(--purple);
@@ -240,20 +242,21 @@ form {
         &.image-field.field-error {
 
             & .input-type-file {
+
+                &::before {
+                    background: var(--image-error-darken-overlay) !important;
+                }
+
                 border: 1px var(--red) solid;
-
-                & .image-upload-icon path {
-                    fill: var(--red) !important;
-                }
-
-                & h4, p {
-                    color: var(--red) !important;
-                }
 
                 & p {
                     z-index: 10;
                     margin-top: 1em;
                     font-weight: 700;
+                    color: var(--red) !important;
+                    text-wrap: wrap !important;
+                    text-align: center !important;
+                    width: 100%;
                 }
             }
         }
