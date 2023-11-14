@@ -106,10 +106,10 @@ export default class MobilePreviewHandler {
 
     // Set error styling, add error message and clear any existing upload for image upload error
 
-    static setImageUploadError() {
+    static setImageUploadError(msg) {
         Profile.resetImageUploadData();
         Profile.getNodes().imageSection.main.classList.add("field-error");
-        FormErrorHandler.fieldErrorSet(Profile.getNodes().imageSection.main, "Invalid file format");
+        FormErrorHandler.fieldErrorSet(Profile.getNodes().imageSection.main, msg);
         Profile.getNodes().mobileSection.image.classList.remove("show-rendered-image");
         Profile.getNodes().imageSection.imageContainerNode.classList.remove("show-rendered-image");
         Profile.getNodes().imageSection.imageRenderNode.src = '';

@@ -13,52 +13,58 @@ export default class ImageUploadHandler {
 
         Profile.getNodes().imageSection.main.classList.remove("image-upload-error");
 
-        // Check that file upload type is either 'jpg', 'jpeg', or 'webp'
+        // Get data about file
 
-        const acceptableFileTypes = ['jpg', 'jpeg', 'webp'];
+        let fileData = { size: ImageUploadHandler.#fileData.size, type: ImageUploadHandler.#fileData.type.split("/")[1].toLowerCase() }
 
-        // Used to check if type is invalid
+        // Used to check that file upload type is either 'jpg', 'jpeg', 'png',or 'webp'
 
-        let typeValid = false;
+        const acceptableFileTypes = ['jpg', 'jpeg', 'webp', 'png'];
 
-        // Used to parse image format type
+        // Used to check for errors
 
-        let uploadedFileType = null;
+        let fileError = false;
 
-        // Performs tests on file uploaded to make sure it is of an acceptable file type and if passed, typeValid is set to true
+        // Check that file format type is valid
 
-        if (ImageUploadHandler.#fileData && ImageUploadHandler.#fileData.type && ImageUploadHandler.#fileData.type.includes("/")) {
-            uploadedFileType = ImageUploadHandler.#fileData.type.split("/")[1].toLowerCase();
-            if (acceptableFileTypes.includes(uploadedFileType)) {
-                typeValid = true;
-            }
-        }
-
-        // Render uploaded image if tests passed and update data.  Otherwise, remove any pre-existing image and show error message styling
-
-        if (typeValid) {
-            Profile.setData('image_upload', { size: ImageUploadHandler.#fileData.size, type: uploadedFileType }, false);
-
-            const fileReader = new FileReader();
-
-            fileReader.onload = e => {
-                const img = new Image();
-
-                img.onload = () => {
-                    Profile.setData('image_upload', {...Profile.getData().image_upload, data: fileReader.result, width: img.width, height: img.height });
-                }
-
-                img.src = e.target.result;
-            }
-
-            fileReader.readAsDataURL(Profile.getNodes().imageSection.imageNode.files[0]);
-
-        } else {
+        if (!acceptableFileTypes.includes(fileData.type.toLowerCase())) {
 
             // Set error styling and clear any existing upload for image upload error
 
-            MobilePreviewHandler.setImageUploadError();
+            MobilePreviewHandler.setImageUploadError("Invalid file format");
+
+            fileError = true;
         }
+        
+        const fileReader = new FileReader();
+
+        fileReader.onload = e => {
+            const img = new Image();
+
+            img.onload = () => {
+                fileData = {...fileData, data: fileReader.result, width: img.width, height: img.height }
+
+                // Check that file resolution doesn't exceed 1024px on height or width
+
+                if (fileData.width > 1024 || fileData.height > 1024) {
+
+                    MobilePreviewHandler.setImageUploadError("Cannot be larger than 1024px");
+
+                    fileError = true;
+                }
+
+                // Render uploaded image if tests passed.  Otherwise, remove any pre-existing image and show error message styling
+                
+                if (!fileError) {
+                    Profile.setData('image_upload', fileData);
+                }
+            }
+
+            img.src = e.target.result;
+        }
+
+        fileReader.readAsDataURL(Profile.getNodes().imageSection.imageNode.files[0]);
+
     }
 
     // Monitor change of input file field

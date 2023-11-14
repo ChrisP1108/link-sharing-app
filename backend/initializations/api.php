@@ -199,7 +199,7 @@
 
             unset($body['image_upload']);
 
-            $allowed_extensions = array("jpeg", "jpg", "webp");
+            $allowed_extensions = array("jpeg", "jpg", "webp", "png");
 
             // Check if file extension is allowed type
 
@@ -260,7 +260,7 @@
 
                 return [
                     'status' => 400,
-                    'msg' => 'An image upload must be in either jpg, jpeg, or webp format.'
+                    'msg' => 'An image upload must be in either jpg, jpeg, webp, or png format.'
                 ];
             }
         }

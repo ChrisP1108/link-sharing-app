@@ -254,9 +254,10 @@ form {
                     margin-top: 1em;
                     font-weight: 700;
                     color: var(--red) !important;
-                    text-wrap: wrap !important;
+                    text-wrap: balance !important;
                     text-align: center !important;
                     width: 100%;
+                    pointer-events: none;
                 }
             }
         }
@@ -326,7 +327,7 @@ form {
                 transform: translateY(calc(100% + 0.25rem));
                 position: absolute;
 
-                @media(min-width: 401px) {
+                @media(min-width: 620px) {
                     position: relative;
                     align-self: center;
                     transform: translateY(0);
@@ -334,14 +335,15 @@ form {
             }
         }
 
-        @media(max-width: 400px) {
-            margin-bottom: 2rem;
+        @media(max-width: 619px) {
+            margin-bottom: 2rem !important;
         }
 
     }
 
     .form-err-msg {
         color: var(--red);
+        text-wrap: balance;
     }
 
     & button {

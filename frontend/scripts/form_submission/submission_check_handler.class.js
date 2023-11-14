@@ -86,6 +86,12 @@ export default class SubmissionCheckHandler {
 
             if (fieldError) {            
                 FormErrorHandler.fieldErrorSet(field.parentNode, inputErrMsg);
+
+                // Add form error general message for user to check links and profile tabs for field errors
+
+                if (FormSubmission.getFormType() === 'profile') {
+                    FormErrorHandler.formErrSet("One or more fields contain errors.  Check all fields and try saving again.")
+                }
             }
         });
 

@@ -81,6 +81,7 @@ export default class PostRequestHandler {
                     } else {
                         FormErrorHandler.formErrSet(createRequest.msg);
                     }
+                    FormSubmission.setSubmitting(false);
                 }
             break;
 
@@ -99,6 +100,7 @@ export default class PostRequestHandler {
                     } else {
                         FormErrorHandler.formErrSet(loginRequest.msg);
                     }
+                    FormSubmission.setSubmitting(false);
                 }
             break;
 
@@ -108,7 +110,7 @@ export default class PostRequestHandler {
 
                 // Remove image_upload field if blank
 
-                if (!formData.image_upload) {
+                if (!formData.image_upload.data) {
                     delete formData.image_upload;
                 }
             
@@ -127,6 +129,7 @@ export default class PostRequestHandler {
                         window.location.reload();
                     } else if (profileUpdateRequest.msg.includes("Uploaded images must be 750KB") || profileUpdateRequest.msg.includes("Uploaded images cannot be larger")) {
                         FormErrorHandler.fieldErrorSet(FormSubmission.getFormNode().querySelector(`[data-fieldtype="image"]`), profileUpdateRequest.msg);
+                        FormErrorHandler.formErrSet("There was an error uploading the profile picture.");
                     } else {
                         FormErrorHandler.formErrSet(profileUpdateRequest.msg);
                     }
