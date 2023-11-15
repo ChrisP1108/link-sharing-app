@@ -161,7 +161,14 @@
             // Increment times user logged in
 
             $increment_times_logged_in = intval($user['times_logged_in']) + 1;
-            DATABASE->update_table_row($user['id'], ['times_logged_in' => $increment_times_logged_in]);
+
+            $update_data['times_logged_in'] = $increment_times_logged_in;
+
+            // Timestamp date last login
+
+            $update_data['last_login'] = Controller_Utilities::get_date_time();
+
+            DATABASE->update_table_row($user['id'], $update_data);
             
             Controller_Utilities::generate_token($user);
 
