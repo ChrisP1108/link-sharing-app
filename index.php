@@ -15,7 +15,11 @@
 
         require 'backend/initializations/env.php';
         require 'backend/initializations/mysql_table.php';
-        require 'backend/initializations/api.php';
+        require 'backend/initializations/api_controllers/utilities.class.php';
+        require 'backend/initializations/api_controllers/delete.php';
+        require 'backend/initializations/api_controllers/get.php';
+        require 'backend/initializations/api_controllers/post.php';
+        require 'backend/initializations/api_controllers/put.php';
 
     // FRONTEND IMPORTS
 
