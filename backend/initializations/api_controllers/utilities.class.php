@@ -39,6 +39,7 @@
         // Parse user keys
 
         static function parse_user_keys($user) {
+
             $user['id'] = intval($user['id']);
             $user['times_logged_in'] = intval($user['times_logged_in']);
             unset($user['password']);

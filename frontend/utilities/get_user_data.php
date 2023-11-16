@@ -5,7 +5,6 @@
         $id = 1;
         if ($id) {
             $data = DATABASE->get_table_data($id);
-            unset($data['password']);
-            return json_encode($data);
+            return json_encode(Controller_Utilities::parse_user_keys($data));
         } else return json_encode(false);
     }

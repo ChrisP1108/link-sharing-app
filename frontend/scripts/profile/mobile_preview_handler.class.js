@@ -130,12 +130,12 @@ export default class MobilePreviewHandler {
 
         // Render profile picture image field
 
-        Profile.getNodes().imageSection.imageRenderNode.src = Profile.getData().image_url;
+        Profile.getNodes().imageSection.imageRenderNode.src = window.location.origin + Profile.getData().image_url;
 
         // Set styling and image source on image node to show image in mobile preview
 
         Profile.getNodes().mobileSection.image.classList.add("show-rendered-image");
-        Profile.getNodes().mobileSection.imageNode.src = Profile.getData().image_url;
+        Profile.getNodes().mobileSection.imageNode.src = window.location.origin + Profile.getData().image_url;
     }
 
     // Render user name and email
