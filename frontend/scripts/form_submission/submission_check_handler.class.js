@@ -45,7 +45,7 @@ export default class SubmissionCheckHandler {
 
                     case 'email':
                         const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-                        if (!emailRegex.test(field.value)) {
+                        if (!emailRegex.test(field.value) && field.required) {
                             fieldError = true;
                             formError = true;
                             inputErrMsg = "Invalid email";

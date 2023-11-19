@@ -52,6 +52,12 @@ export default class Profile {
         }
     }
 
+    // Check if user has previously saved
+
+    static userSaved() {
+        return Profile.#data.image_url ? true : false;
+    }
+
     // Reset image upload fields
 
     static resetImageUploadData() {

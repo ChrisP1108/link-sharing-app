@@ -104,3 +104,23 @@ svg.platform-icon, svg.link-icon, svg.link-arrow {
 form .input-container, .mobile-click-link {
     padding: 0 min(1rem, 4.5vw);
 }
+
+/* Scrollbar styling */
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    border-radius: 5px;
+    box-shadow: inset 0 0 5px var(--grey);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--purple-active);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--purple);
+}

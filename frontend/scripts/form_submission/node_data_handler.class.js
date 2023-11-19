@@ -80,6 +80,8 @@ export default class NodeDataHandler {
             }
         });
 
+        // Set finished data 
+
         FormSubmission.setFormNodesData(output.flat(1));
     }
 }

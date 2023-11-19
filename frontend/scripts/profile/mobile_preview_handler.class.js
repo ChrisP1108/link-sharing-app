@@ -20,7 +20,12 @@ export default class MobilePreviewHandler {
         MobilePreviewHandler.#linkItems.forEach((item, index) => {
             item.innerHTML = '';
             item.dataset.order = index + 1;
-            if (index + 1 > MobilePreviewHandler.#blankMobileItems) {
+
+            // Removes all blank items if user previously saved, otherwise blank mobile items will be shown if total links is less than blankMobileItems
+
+            if (Profile.userSaved() && index > 0) {
+                item.remove();
+            } else if (index + 1 > MobilePreviewHandler.#blankMobileItems) {
                 item.remove();
             }
         });
