@@ -6,6 +6,7 @@ import LinkPlatformDropdownHandler from '/frontend/scripts/profile/link_platform
 import LinkFieldCollapseHandler from '/frontend/scripts/profile/link_field_collapse_handler.class.js';
 import LinkItem from '/frontend/scripts/profile/link_item.class.js';
 import MobilePreviewHandler from '/frontend/scripts/profile/mobile_preview_handler.class.js';
+import FormErrorHandler from '/frontend/scripts/form_submission/form_error_handler.class.js';
 
 export default class LinksHandler {
 
@@ -196,6 +197,10 @@ export default class LinksHandler {
                 }
             });
         });
+
+        // Remove existing form error message if present
+
+        Profile.getNodes().formRoot.querySelector("[data-formerrmsg]").innerText = '';
     }
 
     // Check if link input field url is valid

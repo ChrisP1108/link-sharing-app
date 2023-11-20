@@ -18,6 +18,8 @@ export default class FormErrorHandler {
         formErrMsg.classList.remove("hidden");
         formErrMsg.innerText = errMsg;
 
+        // Monitor for click or input of field with error applied to remove when user clicks
+
         // Remove error function after user clicks or types
 
         function removeErrHandler() {
@@ -28,8 +30,6 @@ export default class FormErrorHandler {
 
             FormSubmission.submissionError = false;
         }
-
-        // Monitor for click or input of field with error applied to remove when user clicks
 
         FormSubmission.getFormNodesData().forEach(field => {
             field.parentNode.addEventListener('click', removeErrHandler);
