@@ -3,6 +3,7 @@ import FormErrorHandler from '/frontend/scripts/form_submission/form_error_handl
 import DirectToUrlHandler from '/frontend/scripts/form_submission/direct_to_url_handler.class.js';
 import Profile from '/frontend/scripts/profile/profile.class.js';
 import MobilePreviewHandler from '/frontend/scripts/profile/mobile_preview_handler.class.js';
+import PopupMessageHandler from '/frontend/scripts/profile/popup_message_handler.class.js';
 
 export default class PostRequestHandler {
 
@@ -128,6 +129,12 @@ export default class PostRequestHandler {
                     // Clear out any blank mobile link items
 
                     MobilePreviewHandler.renderMobilePreview('links');
+
+                    // Display popup message
+
+                    const popupMsg = new PopupMessageHandler("Your changes have been successfully saved!", "saved");
+
+                    popupMsg.render();
 
                 } else {
                     if (profileUpdateRequest.status === 401) {

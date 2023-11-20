@@ -135,7 +135,7 @@ body:has(.profile-page-container) {
                             gap: 1.25rem;
                             flex: 1;
                             align-self: stretch;
-                            margin-top: 56px;
+                            margin-top: 48px;
 
                             & .mobile-link-container {
                                 width: 100%;

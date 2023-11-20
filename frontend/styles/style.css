@@ -124,3 +124,53 @@ form .input-container, .mobile-click-link {
 ::-webkit-scrollbar-thumb:hover {
     background: var(--purple);
 }
+
+/* Popup message styling */
+
+:root {
+    --popup-animation-time: 0.2s;
+}
+
+.popup-message-container {
+    position: fixed;
+    inset: calc(100% - 70px) 0 70px 0;
+    margin: auto;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 26px 24px;
+    width: fit-content;
+    border-radius: 12px;
+    transform: translateY(200%);
+    animation-name: popup-slide-in;
+    animation-duration: var(--popup-animation-time);
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+
+    & svg {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+
+    & h4 {
+        text-align: center;
+    }
+}
+
+@keyframes popup-slide-in {
+    from { transform: translateY(200%); opacity: 0; }
+    to { transform: translateY(0%); opacity: 1; }
+}
+
+.popup-message-slide-out {
+    animation-name: popup-slide-out;
+    animation-duration: var(--popup-animation-time);
+    animation-timing-function: linear;
+    animation-fill-mode: forwards;
+}
+
+@keyframes popup-slide-out {
+    from { transform: translateY(0%); opacity: 1; }
+    to { transform: translateY(200%); opacity: 0; }
+}
