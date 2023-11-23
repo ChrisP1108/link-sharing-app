@@ -178,7 +178,7 @@ export default class LinksHandler {
 
         Profile.setLinkFieldsRemovers(document.querySelectorAll("[data-profileform] [data-removelinkbutton]"));
 
-        // Makes sure + Add new link button is shows
+        // Makes sure + Add new link button is shown
 
         AddNewLinkButtonHandler.toggleaddNewLinkButton(true);
         
@@ -186,15 +186,33 @@ export default class LinksHandler {
 
         Profile.getNodes().linkFieldsRemovers.forEach(remover => {
             remover.addEventListener("click", () => {
+
+                // Update Data
+
                 Profile.setData('links', Profile.getData().links.filter(link => link.order !== Number(remover.dataset.linknumber)), false);
-                LinksHandler.renderLinkFieldNodes();
+                
+                // Animate fade out by adding CSS class to node
 
-                // If data links is blank, toggle "Let's get you started" back on and disable form save button
+                const root = document.querySelector(":root");
 
-                if (!Profile.getData().links.length) {
-                    LetsGetYouStartedHandler.toggleLetsGetYouStarted(true);
-                    SaveButtonHandler.toggleFormSaveButton(false);
-                }
+                const animationFadeTime = Number(getComputedStyle(root).getPropertyValue('--fade-animation-time').slice(0, -1)) * 1000;
+
+                const nodeToRemove = remover.closest(`[data-fieldtype="link"]`);
+
+                nodeToRemove.classList.add("animate-fade-out");
+
+                // Rerender
+                
+                setTimeout(() => {
+                    LinksHandler.renderLinkFieldNodes();
+
+                    // If data links is blank, toggle "Let's get you started" back on and disable form save button
+
+                    if (!Profile.getData().links.length) {
+                        LetsGetYouStartedHandler.toggleLetsGetYouStarted(true);
+                        SaveButtonHandler.toggleFormSaveButton(false);
+                    }
+                }, animationFadeTime * 1.25)
             });
         });
 

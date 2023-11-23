@@ -51,7 +51,7 @@ export default class PopupMessageHandler {
             const node = Profile.getNodes().formRoot.querySelector("[data-popupmessage]");
             node.classList.add("popup-message-slide-out");
             const root = document.querySelector(":root");
-            const animationFadeTime = Number(getComputedStyle(root).getPropertyValue('--popup-animation-time').slice(0, -1)) * 1000;
+            const animationFadeTime = Number(getComputedStyle(root).getPropertyValue('--fade-animation-time').slice(0, -1)) * 1000;
             setTimeout(() => {
                 node.remove();
             }, animationFadeTime + 250)
