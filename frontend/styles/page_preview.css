@@ -1,0 +1,27 @@
+body:has(.preview-page-container) {
+    display: grid;
+
+    & .preview-page-container {
+        display: grid;
+        grid-template-rows: auto 100px 1fr;
+        grid-template-columns: 1fr;
+
+        & * {
+            grid-column: 1 / -1;
+        }
+
+        & header {
+            padding: var(--body-padding);
+            margin: var(--body-padding);
+            grid-row: 1 / 2;
+            z-index: 2;
+            background: var(--white);
+        }
+
+        & .color-filler {
+            background: var(--purple);
+            grid-row: 1 / 3;
+            z-index: 1;
+        }
+    }
+}

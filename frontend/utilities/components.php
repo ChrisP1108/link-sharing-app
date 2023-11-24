@@ -37,4 +37,10 @@
         public static function form_field($props = null) {
             self::get_path('form_field', $props);
         }
+
+        // Mobile Content
+
+        public static function mobile_content($props = null) {
+            self::get_path("mobile_content", $props);
+        }
     }
