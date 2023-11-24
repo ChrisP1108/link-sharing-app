@@ -11,7 +11,6 @@ body:has(.preview-page-container) {
         }
 
         & header {
-            padding: var(--body-padding);
             margin: var(--body-padding);
             grid-row: 1 / 2;
             z-index: 2;
@@ -22,6 +21,11 @@ body:has(.preview-page-container) {
             background: var(--purple);
             grid-row: 1 / 3;
             z-index: 1;
+        }
+
+        & .purple-button-styling {
+            background: var(--purple) !important;
+            color: var(--white) !important;
         }
     }
 }

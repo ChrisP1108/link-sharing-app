@@ -33,6 +33,7 @@
         require 'frontend/utilities/user_page_authenticate.php';
         require 'frontend/utilities/components.php';
         require 'frontend/utilities/link_options_data.php';
+        require 'frontend/utilities/get_url_origin.php';
 
         // Views Controller Import
 

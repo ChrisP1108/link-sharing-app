@@ -74,7 +74,7 @@ header {
         }
     }
 
-    & .preview-container {
+    & .button-container {
 
         display: flex;
         transition: inherit;
@@ -96,14 +96,55 @@ header {
     }
 
     & .button-styling {
+        border-radius: 0.5em;
+        padding: 0.5em 1.5em;
+        border: 1.5px var(--purple) solid;
+        color: var(--purple);
+        background: transparent;
+        transition: inherit;
+        font-weight: 600;
 
-        @media(max-width: 33.6875rem) {
-            display: none;
+        &:hover {
+            background: var(--light-purple);
         }
-
     }
 
     & a {
         display: flex;
+    }
+}
+
+.profile-page-container {
+    & .button-styling {
+
+        @media(max-width: 539px) {
+            display: none;
+        }
+
+    }
+}
+
+.preview-page-container {
+
+    @media(max-width: 539px) {
+
+        & header { 
+            background: transparent !important;
+            margin: 0 !important;
+            gap: min(24px, 2vw);
+        }
+
+        & .color-filler {
+            display: none;
+        }
+
+        & .button-styling {
+            display: flex;
+            justify-content: center;
+            padding-left: 1em;
+            padding-right: 1em;
+            
+            flex: 0 0 min(9.75rem, 41vw);
+        }
     }
 }

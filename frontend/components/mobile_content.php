@@ -1,25 +1,54 @@
 <?php
     $profile = $props['type'] === 'profile';
     $preview = $props['type'] === 'preview';
+    $data = null;
+
+    if ($preview && $props['data']) {
+        $data = $props['data'];
+    }
 ?>
 
 <div class="mobile-content-container">
     <div class="image-container" data-mobilesection="image">
-        <img data-mobileimage>
+        <img data-mobileimage <?php if($preview) echo 'src="' . get_url_origin() . $data->image_url . '"'; ?>>
     </div>
-    <h6 class="name-text <?php if ($preview) echo "show-text"; ?>" data-mobilesection="name"></h6>
-    <p class="email-text <?php if ($preview) echo "show-text"; ?>" data-mobilesection="email"></p>
+    <?php if ($profile): ?>
+        <h6 class="name-text <?php if ($preview) echo "show-text"; ?>" data-mobilesection="name"></h6>
+    <?php else: ?>
+        <h3><?php echo $data->first_name; ?> <?php echo $data->last_name; ?></h3>
+    <?php endif; ?>
+    <p class="email-text <?php if ($preview) echo "show-text"; ?>" data-mobilesection="email"><?php if ($preview) echo $data->email;?></p>
     <section class="mobile-links-container" data-mobilesection="links">
         <?php if ($profile): ?>
-
             <div class="mobile-link-container" data-mobilelinkitem data-order="1"></div>
             <div class="mobile-link-container" data-mobilelinkitem data-order="2"></div>
             <div class="mobile-link-container" data-mobilelinkitem data-order="3"></div>
             <div class="mobile-link-container" data-mobilelinkitem data-order="4"></div>
             <div class="mobile-link-container" data-mobilelinkitem data-order="5"></div>
-
         <?php else: ?>
-
+            <?php foreach(json_decode($data->links, true) as $item): ?> 
+                <?php
+                    $platform_data = null;
+                    foreach(LINK_OPTIONS as $option) {
+                        if (strtolower($item['platform']) === strtolower($option['name'])) {
+                            $platform_data = $option;
+                        }
+                    }
+                ?>
+                <div class="mobile-link-container" data-mobilelinkitem data-order="<?php echo $item['order']; ?>" style="background: <?php echo $platform_data['color']; ?>;">
+                    <a class="mobile-click-link" href="<?php echo $item['link']; ?>" target="_blank" rel="nofollow">
+                        <?php 
+                            if ($platform_data['icon']) {
+                                echo $platform_data['icon'];
+                            }
+                        ?>
+                        <span class="mobile-link-text"><?php echo ucfirst($item['platform']); ?></span>
+                        <svg class="link-arrow" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M0.666626 5.3333V6.66664H8.66663L4.99996 10.3333L5.94663 11.28L11.2266 5.99997L5.94663 0.719971L4.99996 1.66664L8.66663 5.3333H0.666626Z" />
+                        </svg>
+                    </a>
+                </div>
+            <?php endforeach ?>
         <?php endif; ?>
     </section>
 </div>

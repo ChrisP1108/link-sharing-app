@@ -40,7 +40,7 @@
 
         // Mobile Content
 
-        public static function mobile_content($props = null) {
+        public static function mobile_content($props) {
             self::get_path("mobile_content", $props);
         }
     }
