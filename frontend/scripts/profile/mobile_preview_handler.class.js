@@ -29,6 +29,15 @@ export default class MobilePreviewHandler {
                 item.remove();
             }
         });
+
+        // Brings back blank link items if users removes all existing
+
+        if (Profile.userSaved() && !Profile.getData().links.length && Profile.getNodes().mobileSection.linksSection.querySelectorAll(`[data-mobilelinkitem]`).length === 1) {
+            for(let i = 1; i < MobilePreviewHandler.#blankMobileItems; i++) {
+                const addBlankItem = Profile.getNodes().mobileSection.blankLinkItem.cloneNode(true);
+                Profile.getNodes().mobileSection.linksSection.appendChild(addBlankItem);
+            }
+        }
     }
 
     static #renderLinkItems() {
@@ -195,7 +204,7 @@ export default class MobilePreviewHandler {
 
                 MobilePreviewHandler.#clearExistingMobileLinkItems();
 
-                // Render link items.  Fills in any blank gray mobile items fillers with linkn
+                // Render link items.  Fills in any blank gray mobile items fillers with link
 
                 MobilePreviewHandler.#renderLinkItems();
 

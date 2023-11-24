@@ -85,7 +85,8 @@ export default class Profile {
             imageNode: null,
             name: null,
             email: null,
-            linksSection: null
+            linksSection: null,
+            blankLinkItem: null
         },
         imageSection: {
             main: null,
@@ -178,6 +179,7 @@ export default class Profile {
         Profile.#nodes.mobileSection.name = Profile.#nodes.mobileSection.main.querySelector(`[data-mobilesection="name"]`);
         Profile.#nodes.mobileSection.email = Profile.#nodes.mobileSection.main.querySelector(`[data-mobilesection="email"]`);
         Profile.#nodes.mobileSection.linksSection = Profile.#nodes.mobileSection.main.querySelector(`[data-mobilesection="links"]`);
+        Profile.#nodes.mobileSection.blankLinkItem = Profile.#nodes.mobileSection.linksSection.querySelector("[data-mobilelinkitem]").cloneNode(true);
         Profile.#nodes.imageSection.main = document.querySelector(`[data-fieldtype="image"]`);
         Profile.#nodes.imageSection.imageContainerNode = Profile.#nodes.imageSection.main.querySelector(`[data-inputcontainer]`);
         Profile.#nodes.imageSection.imageNode = Profile.#nodes.imageSection.main.querySelector(`input[type="file"]`);
