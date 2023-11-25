@@ -9,7 +9,7 @@
 
     Component::header();
 ?>
-    <div class="preview-page-container">
+    <main class="preview-page-container">
         <header class="box-section">
             <a href="/profile" class="button-styling">Back to Editor</a>
             <div data-clipboardlink="<?php echo get_url_origin() . '/user/' . $id; ?>" class="button-styling purple-button-styling">Share Link</a>
@@ -23,7 +23,7 @@
                 ]);
             ?>
         </div>
-    </div>
+    </main>
 
     <script type="module">
         import PopupMessageHandler from '/frontend/scripts/profile/popup_message_handler.class.js';

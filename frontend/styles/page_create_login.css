@@ -25,6 +25,10 @@ body:has(.create-login) {
             margin: 0em 0 2em;
         }
 
+        & .logo-container {
+            margin-bottom: 2rem;
+        }
+
         .bottom-text {
             display: flex;
             flex-direction: column;
@@ -38,27 +42,6 @@ body:has(.create-login) {
 
         .form-err-msg {
             margin-bottom: 1.25em;
-        }
-
-        .logo-container {
-            margin-bottom: 2rem;
-            font-size: min(2.25rem, 11vw) !important;
-
-            & svg {
-                width: 1.15em;
-                height: 1.15em;
-            }
-
-            @media(min-width: 29.8125rem) {
-                align-self: center;
-            }
-        }
-
-        @media(max-width: 29.75rem) {
-            & .box-section {
-                background: transparent !important;
-                padding: 0 !important;
-            }
         }
     }
 }

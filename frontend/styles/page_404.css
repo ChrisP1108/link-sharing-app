@@ -1,0 +1,40 @@
+body:has(.page-404) {
+    display: grid;
+    place-items: center;
+    padding: 24px;
+
+    .page-404 {
+        width: min(29.75rem, 100%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        & .logo-container {
+            margin-bottom: 2rem;
+        }
+
+        & .box-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+    
+            & * {
+                text-align: center;
+            }
+    
+            & h5 {
+                width: min(16rem, 100%);
+            }
+    
+            & .button-styling {
+                background: var(--purple);
+                border: 0px;
+                color: var(--white);
+                margin-top: 2.5em;
+                width: min(10rem, 50%);
+                font-weight: 500;
+            }
+        }
+    }
+}
