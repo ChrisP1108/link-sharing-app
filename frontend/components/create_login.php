@@ -32,7 +32,7 @@
                 // Email Field
 
                 Component::form_field([
-                    'name' => 'email',
+                    'name' => 'login_email',
                     'label' => 'Email address',
                     'type' => 'email',
                     'icon' => 'email',

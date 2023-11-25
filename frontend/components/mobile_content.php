@@ -16,7 +16,7 @@
 ?>
 
 <div class="mobile-content-container <?php echo $parent_classes_add; ?>">
-    <div class="image-container show-rendered-image" data-mobilesection="image">
+    <div class="image-container <?php if (!$profile) echo 'show-rendered-image'; ?>" data-mobilesection="image">
         <img data-mobileimage <?php if($preview || $user) echo 'src="' . get_url_origin() . $data->image_url . '"'; ?>>
     </div>
     <?php if ($profile): ?>
@@ -24,7 +24,7 @@
     <?php else: ?>
         <h3><?php echo $data->first_name; ?> <?php echo $data->last_name; ?></h3>
     <?php endif; ?>
-    <p class="email-text <?php if ($preview || $user) echo "show-text"; ?>" data-mobilesection="email"><?php if ($preview || $user) echo $data->email;?></p>
+    <p class="email-text <?php if ($preview || $user) echo "show-text"; ?>" data-mobilesection="email"><?php if ($preview || $user) echo $data->display_email;?></p>
     <section class="mobile-links-container" data-mobilesection="links">
         <?php if ($profile): ?>
             <div class="mobile-link-container" data-mobilelinkitem data-order="1"></div>

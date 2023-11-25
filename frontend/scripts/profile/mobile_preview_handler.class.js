@@ -163,9 +163,9 @@ export default class MobilePreviewHandler {
             Profile.getNodes().mobileSection.name.innerText = `${Profile.getData().first_name ? Profile.getData().first_name : ''} ${Profile.getData().last_name ? Profile.getData().last_name : ''}`;
         }
 
-        if (type === 'email') {
+        if (type === 'display_email') {
             Profile.getNodes().mobileSection.email.classList.add("show-text");
-            Profile.getNodes().mobileSection.email.innerText = Profile.getData().email ? Profile.getData().email : '';
+            Profile.getNodes().mobileSection.email.innerText = Profile.getData().display_email ? Profile.getData().display_email : '';
         }
 
         // If data string is empty on any fields, run clearNameEmailField handler
@@ -250,7 +250,7 @@ export default class MobilePreviewHandler {
 
             // Render email
 
-            case 'email':
+            case 'display_email':
 
                 MobilePreviewHandler.#renderUserNameEmail(type);
 

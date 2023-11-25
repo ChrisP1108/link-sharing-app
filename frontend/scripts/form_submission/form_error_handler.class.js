@@ -128,9 +128,11 @@ export default class FormErrorHandler {
                     FormErrorHandler.fieldErrorRemove(fieldNode);   
                 });
 
-                fieldNode.addEventListener("keyup", () => {
-                    FormErrorHandler.fieldErrorRemove(fieldNode);  
-                });
+                setTimeout(() => {
+                    fieldNode.addEventListener("keyup", () => {
+                        FormErrorHandler.fieldErrorRemove(fieldNode);  
+                    });
+                }, 500)
             }
         }
     }

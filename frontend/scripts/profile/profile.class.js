@@ -3,6 +3,7 @@ import LinksHandler from '/frontend/scripts/profile/links_handler.class.js';
 import MobilePreviewHandler from '/frontend/scripts/profile/mobile_preview_handler.class.js';
 import ImageUploadHandler from '/frontend/scripts/profile/image_upload_handler.class.js';
 import UserInfoFieldsHandler from '/frontend/scripts/profile/user_info_fields_handler.class.js';
+import PreviewButtonHandler from '/frontend/scripts/profile/preview_button_handler.class.js';
 
 export default class Profile {
 
@@ -14,7 +15,7 @@ export default class Profile {
         id: null, 
         first_name: null, 
         last_name: null, 
-        email: null, 
+        display_email: null,
         image_url: null, 
         image_upload: {
             size: null,
@@ -67,6 +68,7 @@ export default class Profile {
     // Nodes
 
     static #nodes = {
+        previewButton: null,
         formRoot: null,
         tabLinks: null,
         tabSelected: null,
@@ -149,19 +151,20 @@ export default class Profile {
 
     // Instantiate class
 
-    constructor({ id = null, first_name = null, last_name = null, email = null, image_url = null, links = []}) {
+    constructor({ id = null, first_name = null, last_name = null, display_email = null, image_url = null, links = []}) {
 
         // Set data
 
         Profile.#data.id = id;
         Profile.#data.first_name = first_name;
         Profile.#data.last_name = last_name;
-        Profile.#data.email = email;
+        Profile.#data.display_email = display_email;
         Profile.#data.image_url = image_url;
-        Profile.#data.links = links;
+        Profile.#data.links = links === '' ? [] : links;
 
         // Set nodes
 
+        Profile.#nodes.previewButton = document.querySelector("[data-previewbutton]");
         Profile.#nodes.formRoot = document.querySelector("[data-profileform]");
         Profile.#nodes.tabLinks = document.querySelectorAll("[data-tab]");
         Profile.#nodes.tabSection = document.querySelectorAll('[data-section="tabs"] [data-tabsection]');
@@ -238,5 +241,9 @@ export default class Profile {
         if (Profile.getData().image_url) {
             MobilePreviewHandler.renderMobilePreview('image_url');
         }
+
+        // Enable preview button if user previously saved data
+        
+        PreviewButtonHandler.initPreviewButtonHandler();
     }
 }

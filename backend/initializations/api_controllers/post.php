@@ -10,10 +10,6 @@
 
         $body = $req['body'] ?? null;
 
-        if (Controller_Utilities::input_invalid($body) !== false) {
-            return Controller_Utilities::input_invalid($body);
-        }
-
         // Return 400 status if body data does not have required fields
 
         if (Controller_Utilities::input_invalid($body) !== false) {
@@ -27,7 +23,7 @@
         if ($existing_users) {
 
             foreach($existing_users as $u) {
-                if (strtolower($u['email']) === strtolower($body['email'])) {
+                if (Controller_Utilities::emails_match($u['login_email'], $body['login_email'])) {
                     return [
                         'status' => 400,
                         'msg' => 'User with the same email already exists.'
@@ -48,6 +44,10 @@
 
         $sanitized_data['created'] = Controller_Utilities::get_date_time();
 
+        // Timestamp date last login
+
+        $sanitized_data['last_login'] = Controller_Utilities::get_date_time();
+
         // Add user to database
 
         $user_add = DATABASE->create_table_row($sanitized_data);
@@ -63,7 +63,7 @@
             $new_user = null;
 
             foreach($updated_users as $u) {
-                if (strtolower($u['email']) === strtolower($sanitized_data['email'])) {
+                if (Controller_Utilities::emails_match($u['login_email'], $sanitized_data['login_email'])) {
                     $new_user = $u;
                 }
             }
@@ -81,12 +81,13 @@
 
             Controller_Utilities::generate_token($new_user);
 
-            // Return 200 status if user successfully added.
+            // Return 201 status if user successfully added.
 
             return [
                 'status' => 201,
                 'msg' => 'User successfully added.'
             ];
+
         } else {
 
             // Return 500 status if error occured adding user to database
@@ -108,11 +109,10 @@
 
         $body = $req['body'] ?? null;
 
-        if (!$body || empty($body['email']) || empty($body['password'])) {
-            return [
-                'status' => 400,
-                'msg' => 'A request body must be passed in with an email and password keys to login.'
-            ];
+        // Return 400 status if body data does not have required fields
+
+        if (Controller_Utilities::input_invalid($body) !== false) {
+            return Controller_Utilities::input_invalid($body);
         }
 
         $all_users =  DATABASE->get_table_data();
@@ -128,7 +128,7 @@
             // Find corresponding user in database that matches email
 
             foreach($all_users as $u) {
-                if (strtolower($body['email']) === strtolower($u['email'])) {
+                if (Controller_Utilities::emails_match($body['login_email'], $u['login_email'])) {
                     $user = $u;
                 }
             }
@@ -144,8 +144,8 @@
 
         if (!$user) {
             return [
-                'status' => 401,
-                'msg' => 'Invalid user email address.'
+                'status' => 400,
+                'msg' => 'No user with email entered exists.'
             ];
         }
 
@@ -193,10 +193,12 @@
             // If token found, remove it and return 200 status
 
             Token::remove_cookie($_ENV['WEB_TOKEN_NAME']);
+
             return [
                 'status' => 200,
                 'msg' => 'User successfully logged out.'
             ];
+
         } else {
 
             // If token not found, return 400 status

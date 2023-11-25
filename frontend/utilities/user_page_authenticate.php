@@ -14,7 +14,7 @@
 
         // If user has a valid token stored in their cookies, redirect to the 
 
-        if ($cookie && Token::cookie_valid($cookie, $users, $cookie, 'id')) {
+        if ($cookie && $users && Token::cookie_valid($cookie, $users, $cookie, 'id')) {
             return Token::get_cookie_id($cookie);
         } else {
             Token::remove_cookie($_ENV['WEB_TOKEN_NAME']);

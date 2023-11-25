@@ -4,6 +4,7 @@ import DirectToUrlHandler from '/frontend/scripts/form_submission/direct_to_url_
 import Profile from '/frontend/scripts/profile/profile.class.js';
 import MobilePreviewHandler from '/frontend/scripts/profile/mobile_preview_handler.class.js';
 import PopupMessageHandler from '/frontend/scripts/profile/popup_message_handler.class.js';
+import PreviewButtonHandler from '/frontend/scripts/profile/preview_button_handler.class.js';
 
 export default class PostRequestHandler {
 
@@ -95,7 +96,7 @@ export default class PostRequestHandler {
                 if (loginRequest.ok) {
                     DirectToUrlHandler.directToUrl('profile');
                 } else {
-                    if (loginRequest.msg.includes("Invalid user email")) {
+                    if (loginRequest.msg.includes("No user with email entered exists")) {
                         FormErrorHandler.fieldErrorSet(FormSubmission.getFormNode().querySelector(`[data-fieldtype="email"]`), 'Invalid email');
                     } else if (loginRequest.msg.includes("Invalid password")) {
                         FormErrorHandler.fieldErrorSet(FormSubmission.getFormNode().querySelector(`[data-fieldtype="password"]`), 'Invalid password');
@@ -129,6 +130,10 @@ export default class PostRequestHandler {
                     // Clear out any blank mobile link items
 
                     MobilePreviewHandler.renderMobilePreview('links');
+
+                    // Enable preview button
+        
+                    PreviewButtonHandler.initPreviewButtonHandler();
 
                     // Display popup message
 

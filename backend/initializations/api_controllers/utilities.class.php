@@ -7,14 +7,20 @@
         // Handle body input error on POST and PUT Requests
 
         static function input_invalid($body) {
-            if (!$body || empty($body['email']) || empty($body['password'])) {
+            if (!$body || empty($body['login_email']) || empty($body['password'])) {
                 return [
                     'status' => 400,
-                    'msg' => 'A request body must be passed in with an email and password keys and values at a minimum.'
+                    'msg' => 'A request body must be passed in with a login_email and password keys and values at a minimum.'
                 ];
             } 
 
             return false;
+        }
+
+        // Check if emails match
+
+        static function emails_match($a, $b) {
+            return strtolower($a) === strtolower($b);
         }
 
         // Hash Password for POST and PUT Requests

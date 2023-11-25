@@ -26,7 +26,7 @@
                     <rect x="0.5" y="0.5" width="51" height="41" rx="7.5"/>
                 </svg>
             </a>
-            <a href="/preview" class="button-styling">Preview</a>
+            <a href="/preview" class="button-styling button-disabled" data-previewbutton>Preview</a>
         </div>
     </header>
     <aside class="box-section box-padding-full mobile-button-container" data-section="mobile-preview">
@@ -149,7 +149,7 @@
                         // Email Field
 
                         Component::form_field([
-                            'name' => 'email',
+                            'name' => 'display_email',
                             'label' => 'Email',
                             'type' => 'email',
                             'icon' => '',
@@ -176,7 +176,9 @@
     
     const userData = <?php echo get_user_data(); ?>; 
 
-    userData.links = JSON.parse(userData.links);
+    if (userData.links) {
+        userData.links = JSON.parse(userData.links);
+    }
 
     // Initialize Profile fields handling and form submission handling
 
