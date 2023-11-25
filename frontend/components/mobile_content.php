@@ -8,8 +8,8 @@
     }
 ?>
 
-<div class="mobile-content-container">
-    <div class="image-container" data-mobilesection="image">
+<div class="mobile-content-container <?php echo $profile ? 'profile' : 'preview box-section box-shadow'; ?>">
+    <div class="image-container show-rendered-image" data-mobilesection="image">
         <img data-mobileimage <?php if($preview) echo 'src="' . get_url_origin() . $data->image_url . '"'; ?>>
     </div>
     <?php if ($profile): ?>

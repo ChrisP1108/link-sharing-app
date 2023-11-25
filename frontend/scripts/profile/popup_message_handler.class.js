@@ -36,19 +36,19 @@ export default class PopupMessageHandler {
 
     // Render Popup Message
 
-    render() {
+    render(appendNode) {
         const popupNode = document.createElement("div");
         popupNode.classList.add("popup-message-container");
         popupNode.dataset.popupmessage = null;
 
         popupNode.innerHTML = ` ${this.#selectedIcon.html} <h4>${this.#message}</h4>`;
 
-        Profile.getNodes().formRoot.appendChild(popupNode);
+        appendNode.appendChild(popupNode);
 
         // Remove popup message animation after allotted time passed and then remove node
 
         setTimeout(() => {
-            const node = Profile.getNodes().formRoot.querySelector("[data-popupmessage]");
+            const node = appendNode.querySelector("[data-popupmessage]");
             node.classList.add("popup-message-slide-out");
             const root = document.querySelector(":root");
             const animationFadeTime = Number(getComputedStyle(root).getPropertyValue('--fade-animation-time').slice(0, -1)) * 1000;

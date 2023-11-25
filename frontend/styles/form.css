@@ -64,7 +64,6 @@ form {
                 top: calc(100% + 1rem);
                 z-index: 2;
                 border-radius: 0.5rem;
-                filter: drop-shadow(0px 0px 12px var(--drop-shadow));
 
                 & li {
                     display: flex;

@@ -3,6 +3,7 @@
 @import 'light_mode.css';
 
 @import 'nav.css';
+@import 'mobile_content.css';
 @import 'page_create_login.css';
 @import 'page_profile.css';
 @import 'page_preview.css';
@@ -43,6 +44,10 @@ html, body {
 
 .box-section {
     border-radius: 0.75rem;
+}
+
+.box-shadow {
+    filter: drop-shadow(0px 0px 12px var(--drop-shadow));
 }
 
 .box-padding-full {

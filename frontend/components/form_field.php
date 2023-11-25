@@ -140,7 +140,7 @@
                         <div class="selected-link-item-container">
                             {$selected_option}
                         </div>
-                        <ul class="selection-dropdown-container hidden animate-platform-dropdown" data-name="{$name}" data-required="{$required}" data-linkplatformdropdownlist> 
+                        <ul class="selection-dropdown-container box-shadow hidden animate-platform-dropdown" data-name="{$name}" data-required="{$required}" data-linkplatformdropdownlist> 
                             {$html_options}
                         </ul>
                     </div>

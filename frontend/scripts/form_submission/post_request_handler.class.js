@@ -134,7 +134,7 @@ export default class PostRequestHandler {
 
                     const popupMsg = new PopupMessageHandler("Your changes have been successfully saved!", "saved");
 
-                    popupMsg.render();
+                    popupMsg.render(Profile.getNodes().formRoot);
 
                 } else {
                     if (profileUpdateRequest.status === 401) {

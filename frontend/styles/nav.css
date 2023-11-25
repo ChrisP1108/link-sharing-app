@@ -123,28 +123,3 @@ header {
 
     }
 }
-
-.preview-page-container {
-
-    @media(max-width: 539px) {
-
-        & header { 
-            background: transparent !important;
-            margin: 0 !important;
-            gap: min(24px, 2vw);
-        }
-
-        & .color-filler {
-            display: none;
-        }
-
-        & .button-styling {
-            display: flex;
-            justify-content: center;
-            padding-left: 1em;
-            padding-right: 1em;
-            
-            flex: 0 0 min(9.75rem, 41vw);
-        }
-    }
-}
