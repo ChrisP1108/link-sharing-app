@@ -5,8 +5,8 @@
             $cookie = $_COOKIE[$_ENV['WEB_TOKEN_NAME']] ?? null;
             $id = Token::get_cookie_id($cookie);
         } else $id = $id_param;
-        if ($id !== null && $id !== '') {
-            $data = DATABASE->get_table_data($id);
+        if ($id !== null && $id !== '' && intval($id) !== 0) {
+            $data = DATABASE->get_table_data(intval($id));
             if ($data) {
                 $data['links'] = html_entity_decode($data['links']);
                 return json_encode(Controller_Utilities::parse_user_keys($data));

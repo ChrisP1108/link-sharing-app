@@ -1,17 +1,24 @@
 <?php
-    Component::header();
-?>
-        <?php 
-            $user_data = get_user_data($id, false);
-            if ($user_data !== 'false') {
-                Component::mobile_content([
-                    'type' => 'user',
-                    'data' => json_decode($user_data)
-                ]);
-            } else {
-                echo "<p>No user with the corresponding url id exists</p>";
-            }
-        ?>
-<?php
-    Component::footer();
-?>   
+
+    // Get user data
+
+    $user_data = get_user_data($id, false);
+
+    // Loads user data if user found.  Otherwise 404 page loaded
+
+    if ($user_data !== 'false') {
+
+        Component::header();
+
+        Component::mobile_content([
+            'type' => 'user',
+            'data' => json_decode($user_data)
+        ]);
+
+        Component::footer();
+
+    } else {
+        include '404.php';
+    }
+    
+
