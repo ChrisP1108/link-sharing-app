@@ -35,6 +35,11 @@
                     'route' => '/preview',
                     'view' => 'preview',
                     'protect' => true
+                ],
+                [
+                    'route' => '/user/{id}',
+                    'view' => 'user',
+                    'protect' => false
                 ]
             ], 
             user_page_authenticate(),

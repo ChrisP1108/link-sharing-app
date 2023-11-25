@@ -1,23 +1,30 @@
 <?php
     $profile = $props['type'] === 'profile';
     $preview = $props['type'] === 'preview';
-    $data = null;
+    $user = $props['type'] === 'user';
+    $data = $props['data'] ?? null;
 
-    if ($preview && $props['data']) {
-        $data = $props['data'];
+    $parent_classes_add = null;
+
+    if ($profile) { 
+        $parent_classes_add = 'profile'; 
+    } else if ($preview) { 
+        $parent_classes_add = 'preview box-section box-shadow'; 
+    } else if ($user) { 
+        $parent_classes_add =  'user'; 
     }
 ?>
 
-<div class="mobile-content-container <?php echo $profile ? 'profile' : 'preview box-section box-shadow'; ?>">
+<div class="mobile-content-container <?php echo $parent_classes_add; ?>">
     <div class="image-container show-rendered-image" data-mobilesection="image">
-        <img data-mobileimage <?php if($preview) echo 'src="' . get_url_origin() . $data->image_url . '"'; ?>>
+        <img data-mobileimage <?php if($preview || $user) echo 'src="' . get_url_origin() . $data->image_url . '"'; ?>>
     </div>
     <?php if ($profile): ?>
-        <h6 class="name-text <?php if ($preview) echo "show-text"; ?>" data-mobilesection="name"></h6>
+        <h6 class="name-text <?php if ($preview || $user) echo "show-text"; ?>" data-mobilesection="name"></h6>
     <?php else: ?>
         <h3><?php echo $data->first_name; ?> <?php echo $data->last_name; ?></h3>
     <?php endif; ?>
-    <p class="email-text <?php if ($preview) echo "show-text"; ?>" data-mobilesection="email"><?php if ($preview) echo $data->email;?></p>
+    <p class="email-text <?php if ($preview || $user) echo "show-text"; ?>" data-mobilesection="email"><?php if ($preview || $user) echo $data->email;?></p>
     <section class="mobile-links-container" data-mobilesection="links">
         <?php if ($profile): ?>
             <div class="mobile-link-container" data-mobilelinkitem data-order="1"></div>

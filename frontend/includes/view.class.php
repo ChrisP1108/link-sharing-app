@@ -13,6 +13,18 @@
             // Loop through routes and run permission_callback for authentication
 
             foreach($routes as $route) {
+
+                // Check if route is for a user public share page
+
+                $id = null;
+
+                if (str_contains($route['route'], 'user/{id}')) {
+                    $route['route'] = explode('/{id}', $route['route'])[0];
+                    $get_id = explode('/', $_SERVER['REQUEST_URI']);
+                    $id = $get_id[sizeof($get_id) - 1];
+                    $route['route'] = $route['route'] . '/' . $id;             
+                }
+
                 if ($_SERVER['REQUEST_URI'] === $route['route']) {
                     $route_found = true;
 

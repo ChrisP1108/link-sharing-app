@@ -37,6 +37,12 @@
         background: transparent !important;
     }
 
+    & .mobile-link-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
     & h6 {
         margin: 1.25rem 0 0.75rem;
         min-width: 160px;
@@ -121,7 +127,18 @@
         }
     }
 
-    &.preview {
+    &.preview, &.user {
+
+        & h3 {
+            margin-top: 0.5em;
+            text-align: center;
+        }
+
+        & p {
+            margin-top: 0.75em;
+            text-align: center;
+        }
+
         width: min(348px, 100%);
         justify-self: center;
         padding: 48px 56px;

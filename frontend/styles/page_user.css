@@ -1,0 +1,16 @@
+body:has(.mobile-content-container.user) {
+
+    padding: var(--body-padding);
+    display: grid;
+    place-items: center;
+
+    & .mobile-content-container {
+        padding: 0;
+        width: min(237px, 100%) !important;
+
+        & p {
+            margin-top: 0.75em;
+            text-align: center;
+        }
+    }
+}
