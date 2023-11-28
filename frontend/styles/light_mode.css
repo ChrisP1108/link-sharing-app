@@ -12,7 +12,7 @@
         color: var(--grey);
     }
 
-    & p:not(p.email-text), & label, & input, & select, & option {
+    & p:not(p.email-text), & label, & input, & select, & option, & .watermark-text {
         color: var(--dark-grey);
     }
 

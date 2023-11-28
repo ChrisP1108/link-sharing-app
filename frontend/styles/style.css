@@ -3,6 +3,7 @@
 @import 'light_mode.css';
 
 @import 'nav.css';
+@import 'animation.css';
 @import 'mobile_content.css';
 @import 'page_404.css';
 @import 'page_create_login.css';
@@ -38,12 +39,6 @@ html, body {
     overflow-x: hidden;
 }
 
-/* Fade Transition Time */
-
-:root {
-    --fade-animation-time: 0.2s;
-}
-
 .box-section {
     border-radius: 0.75rem;
 }
@@ -56,6 +51,10 @@ html, body {
     padding: 40px clamp(min(24px, 7vw), 6.25vw, 40px);
 }
 
+.hidden {
+    display: none !important;
+}
+
 button, .button-tag {
     border-radius: 0.5em;
     padding: 0.75em 1.75em;
@@ -63,59 +62,9 @@ button, .button-tag {
     font-weight: 500;
 }
 
-.hidden {
-    display: none !important;
-}
-
 .button-disabled {
     opacity: 0.25;
     pointer-events: none;
-}
-
-/* Link Item Animation */
-
-.animate-fade-up {
-    animation-name: fade-in-up;
-    animation-timing-function: linear;
-    animation-duration: var(--fade-animation-time);
-    animation-fill-mode: forwards;
-}
-
-@keyframes fade-in-up {
-    from { opacity: 0; transform: translateY(8px)}
-    to { opacity: 1; transform: translateY(0px)}
-}
-
-.animate-fade-out {
-    animation-name: fade-out;
-    animation-timing-function: linear;
-    transform-origin: top;
-    animation-fill-mode: forwards;
-    animation-duration: var(--fade-animation-time);
-}
-
-@keyframes fade-out {
-    from { opacity: 1; height: 100%; transform: scale(1); }
-    to { opacity: 0; height: 0%; transform: scale(0); }
-}
-
-.animate-platform-dropdown {
-    animation-name: dropdown-flip-down;
-    animation-timing-function: linear;
-    animation-duration: 0.15s;
-    transform-origin: top;
-}
-
-@keyframes dropdown-flip-down {
-    from { transform: rotateX(90deg)}
-    to { transform: rotateX(0deg)}
-}
-
-/* Platform dropdown list item icon hover animation */
-
-@keyframes dropdown-icon-hover-pulse {
-    from { transform: scale(1) }
-    to { transform: scale(1.4) }
 }
 
 /* Platform icon global styling */
@@ -181,23 +130,6 @@ form .input-container, .mobile-click-link {
     }
 }
 
-@keyframes popup-slide-in {
-    from { transform: translateY(200%); opacity: 0; }
-    to { transform: translateY(0%); opacity: 1; }
-}
-
-.popup-message-slide-out {
-    animation-name: popup-slide-out;
-    animation-duration: var(--fade-animation-time);
-    animation-timing-function: linear;
-    animation-fill-mode: forwards;
-}
-
-@keyframes popup-slide-out {
-    from { transform: translateY(0%); opacity: 1; }
-    to { transform: translateY(200%); opacity: 0; }
-}
-
 /* Boxed-Section  */
 
 .box-section {
@@ -232,5 +164,40 @@ form .input-container, .mobile-click-link {
     & .box-section {
         background: transparent !important;
         padding: 0 !important;
+    }
+}
+
+/* Watermark container */
+
+.watermark-container {
+    padding: 12px max(5%, 20px);
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    position: fixed;
+    max-width: 1000px;
+
+    & * {
+        text-align: center;
+        line-height: 1.2;
+        color: var(--white) !important;
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        width: 150vw;
+        height: 100%;
+        left: -50vw;
+        background: var(--purple);
+        z-index: -1;
+    }
+
+    @media(max-width: 348px) {
+        grid-template-columns: 1fr;
     }
 }

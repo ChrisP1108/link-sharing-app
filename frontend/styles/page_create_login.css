@@ -3,6 +3,10 @@ body:has(.create-login) {
     place-items: center;
     padding: 24px;
 
+    @media(max-width: 420px) {
+        padding: 48px 24px 8rem;
+    }
+
 
     & .create-login {
         width: min(29.75rem, 100%);

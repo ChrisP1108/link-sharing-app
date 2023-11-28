@@ -43,4 +43,10 @@
         public static function mobile_content($props) {
             self::get_path("mobile_content", $props);
         }
+
+        // Watermark
+
+        public static function watermark() {
+            self::get_path("watermark");
+        }
     }

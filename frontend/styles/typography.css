@@ -44,7 +44,7 @@ h5, .input-container, .mobile-link-container, a,
 
 /* Body S */
 
-p, label, .mobile-link-text {
+p, label, .mobile-link-text, .watermark-text {
     font-size: min(0.75rem, 4vw);
     font-weight: 400;
 }

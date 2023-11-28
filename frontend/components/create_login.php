@@ -3,7 +3,9 @@
 
         // Load Logo
 
-        Component::logo();
+        Component::logo([
+            'show_watermark' => true
+        ]);
 
     ?>
 
@@ -91,6 +93,7 @@
         </div>
     </section>
 </main>
+<?php Component::watermark(); ?>
 
 <script type="module">
     import CreateLogin from '/frontend/scripts/create_login/create_login.class.js';
