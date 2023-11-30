@@ -115,7 +115,7 @@ header {
 }
 
 .profile-page-container {
-    & .button-styling {
+    & .button-hide-mobile {
 
         @media(max-width: 539px) {
             display: none;

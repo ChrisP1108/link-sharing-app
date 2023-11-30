@@ -119,6 +119,7 @@ form .input-container, .mobile-click-link {
     animation-duration: var(--fade-animation-time);
     animation-timing-function: linear;
     animation-fill-mode: forwards;
+    z-index: 101;
 
     & svg {
         width: 1.25rem;
@@ -143,6 +144,7 @@ form .input-container, .mobile-click-link {
     width: fit-content;
     align-items: center;
     gap: 8px;
+    align-self: center;
 
     & h2 {
         font-size: inherit;
@@ -154,16 +156,16 @@ form .input-container, .mobile-click-link {
         width: 1.15em;
         height: 1.15em;
     }
-
-    @media(min-width: 29.8125rem) {
-        align-self: center;
-    }
 }
 
-@media(max-width: 29.75rem) {
-    & .box-section {
+@media(max-width: 476px) {
+    & .create-login .box-section {
         background: transparent !important;
-        padding: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    & .create-login input {
+        background: transparent !important;
     }
 }
 
@@ -200,4 +202,8 @@ form .input-container, .mobile-click-link {
     @media(max-width: 348px) {
         grid-template-columns: 1fr;
     }
+}
+
+iframe {
+    display: none;
 }

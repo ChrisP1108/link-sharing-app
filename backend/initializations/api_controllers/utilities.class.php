@@ -59,7 +59,7 @@
                 'name' => $_ENV['WEB_TOKEN_NAME'],
                 'id' => $user['id'],
                 'role' => $_ENV['WEB_TOKEN_NAME'],
-                'expiration' => time() + 604800,
+                'expiration' => time() + (intval($_ENV['WEB_TOKEN_EXPIRATION_DAYS']) * 86400),
                 'secure' => true,
                 'http_only' => true
             ]);

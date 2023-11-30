@@ -169,6 +169,7 @@ body:has(.profile-page-container) {
                 border-top-right-radius: 0px !important;
                 align-items: end;
                 flex: 0 !important;
+                z-index: 5;
 
                 & button {
                     margin: 0 0 0 auto !important;

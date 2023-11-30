@@ -7,6 +7,12 @@
     $cookie = $_COOKIE[$_ENV['WEB_TOKEN_NAME']] ?? null;
     $id = Token::get_cookie_id($cookie);
 
+    // If profile is incomplete, redirect to profile page
+
+    if (!$user_data->image_url) {
+        header('Location: /profile');
+    }
+
     Component::header();
 ?>
     <main class="preview-page-container">

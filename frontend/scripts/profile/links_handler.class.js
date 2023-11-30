@@ -217,7 +217,7 @@ export default class LinksHandler {
         });
 
         // Remove existing form error message if present
-
+        
         Profile.getNodes().formRoot.querySelector("[data-formerrmsg]").innerText = '';
     }
 

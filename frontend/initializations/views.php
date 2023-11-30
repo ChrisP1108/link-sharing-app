@@ -1,10 +1,6 @@
 <?php
 
-    $root_url = dirname(dirname(__DIR__));
-
-    // PAGE VIEWS
-
-    $pages_file_path = $root_url . '/frontend/pages';
+    $pages_file_path = $_SERVER['DOCUMENT_ROOT'] . '/' . 'frontend/pages';
 
     $pages = new View($pages_file_path, true, '404');
 

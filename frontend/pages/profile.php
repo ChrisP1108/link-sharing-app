@@ -26,7 +26,7 @@
                     <rect x="0.5" y="0.5" width="51" height="41" rx="7.5"/>
                 </svg>
             </a>
-            <a href="/preview" class="button-styling button-disabled" data-previewbutton>Preview</a>
+            <a href="/preview" class="button-styling button-disabled button-hide-mobile" data-previewbutton>Preview</a>
         </div>
     </header>
     <aside class="box-section box-padding-full mobile-button-container" data-section="mobile-preview">
@@ -161,8 +161,8 @@
                 </div>
             </div>
         </section>
-        <section class="save-button-container box-padding-full box-section">
-            <h5 class="form-err-msg" data-formerrmsg></h5>
+        <section class="save-button-container box-padding-full">
+            <h5 class="form-err-msg hidden" data-formerrmsg></h5>
             <button type="submit" class="button-disabled" data-formsavebutton>Save</button>
         </section>
     </form>
