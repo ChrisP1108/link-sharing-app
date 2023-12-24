@@ -61,4 +61,5 @@ p, label, .mobile-link-text, .watermark-text {
 .email-text {
     font-size: min(0.875rem, 4.25vw);
     font-weight: 400;
+    text-decoration: none;
 }

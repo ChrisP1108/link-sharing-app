@@ -9,7 +9,7 @@
             "last_name varchar(100)",
             "login_email varchar(100)",
             "display_email varchar(100)",
-            "password varchar(100) NOT NULL",
+            "password varchar(512) NOT NULL",
             "image_url varchar(255)",
             "links TEXT",
             "times_logged_in mediumint(11) NOT NULL default 1",

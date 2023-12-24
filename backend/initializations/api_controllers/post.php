@@ -136,7 +136,7 @@
             // If user in database found, check password
 
             if ($user) {
-                $authorized = password_verify($body['password'], $u['password']);
+                $authorized = password_verify($body['password'], $user['password']);
             }
         } 
 

@@ -54,11 +54,6 @@ body:has(.profile-page-container) {
                         fill: var(--dark-grey);
                     }
                 }
-
-                & foreignObject {
-                    width: 100%;
-                    height: 100%;
-                }
             }
         }
 
