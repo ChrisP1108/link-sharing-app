@@ -14,6 +14,13 @@
                 ];
             } 
 
+            if (!empty($body['login_email']) && !filter_var($body['login_email'], FILTER_VALIDATE_EMAIL)) {
+                return [
+                    'status' => 400,
+                    'msg' => 'The request body email is not valid.'
+                ];
+            }
+            
             return false;
         }
 

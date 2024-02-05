@@ -16,6 +16,8 @@
             return Controller_Utilities::input_invalid($body);
         }
 
+        // Return 400 status if 
+
         // Make sure user with the same email doesn't already exist in database
 
         $existing_users = DATABASE->get_table_data();

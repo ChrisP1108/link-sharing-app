@@ -247,7 +247,7 @@ export default class LinksHandler {
 
                 const requiredTextFilled = getLinkFieldNode.value.includes(optionData.requiredText);
 
-                return requiredTextFilled && getLinkFieldNode.value.length > optionData.requiredText.length;
+                return requiredTextFilled && getLinkFieldNode.value.length > optionData.requiredText.length && !getLinkFieldNode.value.includes(" ");
 
             } else return false;
         } else return false;
