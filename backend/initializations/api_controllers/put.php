@@ -106,9 +106,30 @@
             }
         }
 
-        // Convert links to JSON if links present
+        // Check links data that it contains valid link options inputs and convert links to JSON if links are valid
 
         if (isset($body['links'])) {
+            $invalid_link_input = false;
+            foreach($body['links'] as $link) {
+                $match_found = false;
+                foreach(LINK_OPTIONS as $l) {
+                    if (strtolower($link['platform']) === strtolower($l['name']) && strpos(strtolower($link['link']), strtolower($l['required_text'])) !== false) {
+                        $match_found = true;
+                    }
+                }
+                if (!$match_found) {
+                    $invalid_link_input = true;
+                    break;
+                }
+            }
+
+            if ($invalid_link_input) {
+                return [
+                    'status' => 400,
+                    'msg' => 'Invalid link data provided.'
+                ];
+            }
+
             $body['links'] = json_encode($body['links']);
         }
 
@@ -118,21 +139,21 @@
 
         // Sanitize inputs
 
-        $sanitized_data = Sanitize::sanitize_data($body);
+        $parsed_data = $body;
 
         // Hash password if password is being updated
 
         if (isset($body['password'])) {
-            $sanitized_data['password'] = Controller_Utilities::hash_password($body['password']);
+            $parsed_data['password'] = Controller_Utilities::hash_password($body['password']);
         }
 
         // Set updated time stamp
 
-        $sanitized_data['updated'] = Controller_Utilities::get_date_time();
+        $parsed_data['updated'] = Controller_Utilities::get_date_time();
 
         // Update user data in MySql
 
-        $update_user = DATABASE->update_table_row($user['id'], $sanitized_data);
+        $update_user = DATABASE->update_table_row($user['id'], $parsed_data);
 
         if ($update_user !== false) {
 

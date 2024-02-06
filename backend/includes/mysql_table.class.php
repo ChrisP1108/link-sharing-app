@@ -74,6 +74,7 @@ class MySql_Table {
     public function get_table_data($id = null) {
 
         if ($this->connect()) {
+            $id = intval($id);
             $select_query = null;
             if ($id) {
                 $select_query = "SELECT * FROM " . $this->schema_name . "." . $this->table_name . " WHERE id = " . $id . "";
@@ -99,13 +100,30 @@ class MySql_Table {
     public function create_table_row($data) {
         if ($this->connect()) {
             $data_columns = implode(", ", array_keys($data));
-            $data_values = "'" . implode("', '", array_values($data)) . "'";
-            $insert_query = "INSERT INTO " . $this->schema_name . "." . $this->table_name . " (" . $data_columns . ") VALUES (" . $data_values . ")";
-            if ($this->conn->query($insert_query) === TRUE) {
-                $this->close_connection();
-                return true;
-            } else return false;
-        } else return false;
+            $placeholders = implode(", ", array_fill(0, count($data), "?"));
+    
+            $insert_query = "INSERT INTO " . $this->schema_name . "." . $this->table_name . " (" . $data_columns . ") VALUES (" . $placeholders . ")";
+    
+            $stmt = $this->conn->prepare($insert_query);
+    
+            if ($stmt) {
+                $types = str_repeat("s", count($data));
+                $stmt->bind_param($types, ...array_values($data));
+    
+                if ($stmt->execute()) {
+                    $stmt->close();
+                    $this->close_connection();
+                    return true;
+                } else {
+                    $stmt->close();
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     // Edit row from database table.  Returns false if failed
@@ -113,21 +131,46 @@ class MySql_Table {
     public function update_table_row($id, $data) {
         if ($this->connect()) {
             $update_values = [];
-            foreach(array_keys($data) as $index => $key) {
-                array_push($update_values, $key . " = " .  "'" . array_values($data)[$index] . "'");
+            $placeholders = [];
+    
+            foreach (array_keys($data) as $key) {
+                array_push($update_values, $key . " = ?");
+                array_push($placeholders, $data[$key]);
             }
-            $update_query = "UPDATE " . $this->schema_name . "." . $this->table_name . " SET " . implode(", ", $update_values) . " WHERE id = " . $id . "";
-            if ($this->conn->query($update_query) === TRUE) {
-                $this->close_connection();
-                return true;
-            } else return false;
-        } else return false;
+
+            $update_values[] = "id = ?";
+            $placeholders[] = $id;
+
+            $update_query = "UPDATE " . $this->schema_name . "." . $this->table_name . " SET " . implode(", ", $update_values);
+
+            $stmt = $this->conn->prepare($update_query);
+    
+            if ($stmt) {
+
+                $types = str_repeat("s", count($placeholders));
+                $stmt->bind_param($types, ...$placeholders);
+
+                if ($stmt->execute()) {
+                    $stmt->close();
+                    $this->close_connection();
+                    return true;
+                } else {
+                    $stmt->close();
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     // Delete row from database table.  Returns false if failed
 
     public function delete_table_row($id) {
         if ($this->connect()) {
+            $id = intval($id);
             $delete_query = "DELETE FROM " . $this->schema_name . "." . $this->table_name . " WHERE id = " . $id . "";
             if ($this->conn->query($delete_query) === TRUE) {
                 $this->close_connection();

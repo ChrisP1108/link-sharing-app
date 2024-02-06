@@ -34,9 +34,13 @@
 
             $parsed_data = Controller_Utilities::parse_user_keys($user);
 
+            // Sanitize data to prevent XSS attack
+
+            $sanitized_data = Sanitize::sanitize_data($parsed_data);
+
             return [
                 'status' => 200,
-                'data' => $parsed_data,
+                'data' => $sanitized_data,
                 'msg' => 'User retrieved successfully.'
             ];
         } 

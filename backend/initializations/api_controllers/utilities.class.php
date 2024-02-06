@@ -20,7 +20,6 @@
                     'msg' => 'The request body email is not valid.'
                 ];
             }
-            
             return false;
         }
 

@@ -34,25 +34,25 @@
             }
         }
 
-        // Sanitize inputs
+        // Login Email
 
-        $sanitized_data = Sanitize::sanitize_data($body);
+        $parsed_data['login_email'] = $body['login_email'];
 
         // Hash password
 
-        $sanitized_data['password'] = Controller_Utilities::hash_password($body['password']);
+        $parsed_data['password'] = Controller_Utilities::hash_password($body['password']);
 
         // Timestamp date created
 
-        $sanitized_data['created'] = Controller_Utilities::get_date_time();
+        $parsed_data['created'] = Controller_Utilities::get_date_time();
 
         // Timestamp date last login
 
-        $sanitized_data['last_login'] = Controller_Utilities::get_date_time();
+        $parsed_data['last_login'] = Controller_Utilities::get_date_time();
 
         // Add user to database
 
-        $user_add = DATABASE->create_table_row($sanitized_data);
+        $user_add = DATABASE->create_table_row($parsed_data);
 
         // Check that user was added
 
@@ -65,7 +65,7 @@
             $new_user = null;
 
             foreach($updated_users as $u) {
-                if (Controller_Utilities::emails_match($u['login_email'], $sanitized_data['login_email'])) {
+                if (Controller_Utilities::emails_match($u['login_email'], $parsed_data['login_email'])) {
                     $new_user = $u;
                 }
             }

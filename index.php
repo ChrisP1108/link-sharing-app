@@ -6,6 +6,10 @@
             return $_SERVER['DOCUMENT_ROOT'] . '/' . $local_path;
         }
 
+    // LINK OPTIONS DATA 
+
+        require get_full_path('frontend/utilities/link_options_data.php');
+
     // BACKEND IMPORTS
 
         // Class Imports
@@ -38,7 +42,6 @@
         require get_full_path('frontend/utilities/get_user_data.php');
         require get_full_path('frontend/utilities/user_page_authenticate.php');
         require get_full_path('frontend/utilities/components.php');
-        require get_full_path('frontend/utilities/link_options_data.php');
         require get_full_path('frontend/utilities/get_url_origin.php');
 
         // Views Controller Import
