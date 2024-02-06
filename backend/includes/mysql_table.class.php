@@ -129,27 +129,26 @@ class MySql_Table {
     // Edit row from database table.  Returns false if failed
 
     public function update_table_row($id, $data) {
+        $id = intval($id);
         if ($this->connect()) {
             $update_values = [];
             $placeholders = [];
     
-            foreach (array_keys($data) as $key) {
-                array_push($update_values, $key . " = ?");
-                array_push($placeholders, $data[$key]);
+            foreach ($data as $key => $value) {
+                $update_values[] = $key . " = ?";
+                $placeholders[] = $value;
             }
-
-            $update_values[] = "id = ?";
-            $placeholders[] = $id;
-
-            $update_query = "UPDATE " . $this->schema_name . "." . $this->table_name . " SET " . implode(", ", $update_values);
-
+    
+            // Build the prepared statement
+            $update_query = "UPDATE " . $this->schema_name . "." . $this->table_name . " SET " . implode(", ", $update_values) . " WHERE id = ". $id. "";
+    
+            // Prepare the statement
             $stmt = $this->conn->prepare($update_query);
     
             if ($stmt) {
-
-                $types = str_repeat("s", count($placeholders));
-                $stmt->bind_param($types, ...$placeholders);
-
+                $types = str_repeat("s", count($data));
+                $stmt->bind_param($types, ...array_values($data));
+    
                 if ($stmt->execute()) {
                     $stmt->close();
                     $this->close_connection();
