@@ -33,6 +33,19 @@
 
         $body = $req['body'] ?? null;
 
+        if (!$body) {
+            return [
+                'status' => 400,
+                'msg' => 'No data in body found.'
+            ];
+        }
+
+        // Check that inputs don't have invalid characters
+
+        if (Controller_Utilities::input_invalid_characters($body) !== false) {
+            return Controller_Utilities::input_invalid_characters($body);
+        }
+
         // Handle image file upload if image upload found.  Makes sure file format is actually jpg, jpeg, or webp
 
         if (isset($body['image_upload'])) {
@@ -104,6 +117,15 @@
                     'msg' => 'An image upload must be in either jpg, jpeg, webp, or png format.'
                 ];
             }
+        }
+
+        // Check that display email is valid
+
+        if (!filter_var($body['display_email'], FILTER_VALIDATE_EMAIL)) {
+            return [
+                'status' => 400,
+                'msg' => 'Email display field is not a valid email type'
+            ];
         }
 
         // Check links data that it contains valid link options inputs and convert links to JSON if links are valid

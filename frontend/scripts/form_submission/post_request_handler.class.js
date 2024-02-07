@@ -113,7 +113,7 @@ export default class PostRequestHandler {
 
                 // Remove image_upload field if blank
 
-                if (!formData.image_upload.data) {
+                if (!formData.image_upload || !formData.image_upload.data) {
                     delete formData.image_upload;
                 }
             

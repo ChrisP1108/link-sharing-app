@@ -6,7 +6,7 @@
 
         // Handle body input error on POST and PUT Requests
 
-        static function input_invalid($body) {
+        static public function input_invalid($body) {
             if (!$body || empty($body['login_email']) || empty($body['password'])) {
                 return [
                     'status' => 400,
@@ -23,15 +23,53 @@
             return false;
         }
 
+        // Used for checking input_invalid_characters
+
+        static private function invalid_characters_found($input) {
+            return strpos($input, ' ') !== false || strpos($input, '"') !== false || strpos($input, "'") !== false;
+        }
+
+        // Check for invalid characters
+
+        static public function input_invalid_characters($data) {
+
+            $invalid_characters = false;
+
+            if (is_string($data)) {
+                if (self::invalid_characters_found($data)) {
+                    $invalid_characters = true;
+                }
+            } else if (is_array($data)) {
+                foreach ($data as $key => $value) {
+                    if (is_array($value)) {
+                        if (self::input_invalid_characters($value)) {
+                            $invalid_characters = true;
+                        }
+                    } elseif (is_string($value)) {
+                        if (self::invalid_characters_found($value)) {
+                            $invalid_characters = true;
+                        }
+                    }
+                }
+            }
+
+            if ($invalid_characters) {
+                return [
+                    'status' => 400,
+                    'msg' => 'Inputs cannot have space or quote characters.'
+                ];
+            } else return false;
+        }
+
         // Check if emails match
 
-        static function emails_match($a, $b) {
+        static public function emails_match($a, $b) {
             return strtolower($a) === strtolower($b);
         }
 
         // Hash Password for POST and PUT Requests
 
-        static function hash_password($password = null) {
+        static public function hash_password($password = null) {
             if ($password) {
 
                 $options = [
@@ -44,13 +82,13 @@
 
         // Get Date Time
 
-        static function get_date_time() {
+        static public function get_date_time() {
             return date("Y-m-d H:i:s");
         }
 
         // Parse user keys
 
-        static function parse_user_keys($user) {
+        static public function parse_user_keys($user) {
 
             $user['id'] = intval($user['id']);
             $user['times_logged_in'] = intval($user['times_logged_in']);
@@ -60,7 +98,7 @@
 
         // Generate token
 
-        static function generate_token($user) {
+        static public function generate_token($user) {
             Token::generate_set_cookie([
                 'name' => $_ENV['WEB_TOKEN_NAME'],
                 'id' => $user['id'],
@@ -73,7 +111,7 @@
 
         // Authorized User
 
-        static function authorized_user($data) {
+        static public function authorized_user($data) {
 
             // Make sure user has valid token
 
@@ -82,7 +120,7 @@
 
         // Get Token Id
 
-        static function token_id() {
+        static public function token_id() {
             $cookie = $_COOKIE[$_ENV['WEB_TOKEN_NAME']] ?? null;
             return Token::get_cookie_id($cookie);
         }

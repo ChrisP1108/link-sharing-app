@@ -40,8 +40,8 @@ class MySql_Table {
             } else {
                 $db_create_query = "CREATE DATABASE " . $this->schema_name . "";
                 if ($this->conn->query($db_create_query) === TRUE) {
-                    return true;
                     $this->close_connection();
+                    return true;
                 } else die("Error creating database schema " . $this->schema_name);
             }
         } else return false;
@@ -168,8 +168,8 @@ class MySql_Table {
     // Delete row from database table.  Returns false if failed
 
     public function delete_table_row($id) {
+        $id = intval($id);
         if ($this->connect()) {
-            $id = intval($id);
             $delete_query = "DELETE FROM " . $this->schema_name . "." . $this->table_name . " WHERE id = " . $id . "";
             if ($this->conn->query($delete_query) === TRUE) {
                 $this->close_connection();

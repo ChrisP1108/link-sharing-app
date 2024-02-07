@@ -9,7 +9,6 @@ class Sanitize {
         // Sanitize data based on data type
 
         switch(gettype($data)) {
-
             case 'array':
                 $output = [];
                 foreach($data as $key => $value) {

@@ -16,6 +16,12 @@
             return Controller_Utilities::input_invalid($body);
         }
 
+        // Check that inputs don't have invalid characters
+
+        if (Controller_Utilities::input_invalid_characters($body) !== false) {
+            return Controller_Utilities::input_invalid_characters($body);
+        }
+
         // Return 400 status if 
 
         // Make sure user with the same email doesn't already exist in database
