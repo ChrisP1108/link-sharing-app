@@ -24,7 +24,7 @@
     <?php else: ?>
         <h3><?php echo $data->first_name; ?> <?php echo $data->last_name; ?></h3>
     <?php endif; ?>
-    <p class="email-text <?php if ($preview || $user) echo "show-text"; ?>" data-mobilesection="email"><?php if ($preview || $user) echo $data->display_email;?></p>
+    <a href="mailto:<?php echo $data->display_email; ?>" class="email-text <?php if ($preview || $user) echo "show-text"; ?>" data-mobilesection="email"><?php if ($preview || $user) echo $data->display_email;?></a>
     <section class="mobile-links-container" data-mobilesection="links">
         <?php if ($profile): ?>
             <div class="mobile-link-container" data-mobilelinkitem data-order="1"></div>
@@ -33,23 +33,23 @@
             <div class="mobile-link-container" data-mobilelinkitem data-order="4"></div>
             <div class="mobile-link-container" data-mobilelinkitem data-order="5"></div>
         <?php else: ?>
-            <?php foreach(json_decode($data->links, true) as $item): ?> 
+            <?php foreach($data->links as $item): ?> 
                 <?php
                     $platform_data = null;
                     foreach(LINK_OPTIONS as $option) {
-                        if (strtolower($item['platform']) === strtolower($option['name'])) {
+                        if (strtolower($item->platform) === strtolower($option['name'])) {
                             $platform_data = $option;
                         }
                     }
                 ?>
-                <div class="mobile-link-container" data-mobilelinkitem data-order="<?php echo $item['order']; ?>" style="background: <?php echo $platform_data['color']; ?>;">
-                    <a class="mobile-click-link" href="<?php echo $item['link']; ?>" target="_blank" rel="nofollow">
+                <div class="mobile-link-container" data-mobilelinkitem data-order="<?php echo $item->order; ?>" style="background: <?php echo $platform_data['color']; ?>;">
+                    <a class="mobile-click-link" href="<?php echo $item->link; ?>" target="_blank" rel="nofollow">
                         <?php 
                             if ($platform_data['icon']) {
                                 echo $platform_data['icon'];
                             }
                         ?>
-                        <span class="mobile-link-text"><?php echo ucfirst($item['platform']); ?></span>
+                        <span class="mobile-link-text"><?php echo ucfirst($item->platform); ?></span>
                         <svg class="link-arrow" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M0.666626 5.3333V6.66664H8.66663L4.99996 10.3333L5.94663 11.28L11.2266 5.99997L5.94663 0.719971L4.99996 1.66664L8.66663 5.3333H0.666626Z" />
                         </svg>

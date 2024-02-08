@@ -37,6 +37,7 @@
                 <?php
                     Component::mobile_content([
                         'type' => 'profile',
+                        'data' => json_decode(get_user_data())
                     ]);
                 ?>
             </foreignObject>
@@ -175,10 +176,6 @@
     // Get user data from mySql
     
     const userData = <?php echo get_user_data(); ?>; 
-
-    if (userData.links) {
-        userData.links = JSON.parse(userData.links);
-    }
 
     // Initialize Profile fields handling and form submission handling
 

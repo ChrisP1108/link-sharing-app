@@ -134,7 +134,7 @@
             text-align: center;
         }
 
-        & p {
+        & p, .email-text {
             margin-top: 0.75em;
             text-align: center;
         }

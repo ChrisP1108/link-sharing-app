@@ -35,9 +35,25 @@ export default class SubmissionCheckHandler {
                 inputErrMsg = "Can't be empty";
             }
 
+            // Check that fields don't contain spaces or quote characters
+
+            if (typeof field.value === 'string') {
+                if (field.value.includes(" ")) {
+                    fieldError = true;
+                    formError = true;
+                    inputErrMsg = "No blank spaces";
+                }
+
+                if (field.value.includes("'") || field.value.includes('"')) {
+                    fieldError = true;
+                    formError = true;
+                    inputErrMsg = "No quote characters";
+                }
+            }
+
             // Check that field inputs are valid
 
-            if (!requiredBlank) {
+            if (!requiredBlank && !fieldError) {
 
                 switch(field.type) {
 

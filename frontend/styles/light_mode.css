@@ -16,7 +16,7 @@
         color: var(--dark-grey);
     }
 
-    & p.email-text {
+    & .email-text {
         color: var(--grey);
     }
 

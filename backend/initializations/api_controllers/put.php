@@ -132,19 +132,24 @@
 
         if (isset($body['links'])) {
             $invalid_link_input = false;
-            foreach($body['links'] as $link) {
-                $match_found = false;
-                foreach(LINK_OPTIONS as $l) {
-                    if (strtolower($link['platform']) === strtolower($l['name']) && strpos(strtolower($link['link']), strtolower($l['required_text'])) !== false) {
-                        $match_found = true;
+            try {
+                foreach($body['links'] as $link) {
+                    $match_found = false;
+                    foreach(LINK_OPTIONS as $l) {
+                        if (strtolower($link['platform']) === strtolower($l['name']) 
+                            && strpos(strtolower($link['link']), strtolower($l['required_text'])) !== false 
+                            && isset($link['platform']) && isset($link['link']) && isset($link['order'])) {
+                            $match_found = true;
+                        }
+                    }
+                    if (!$match_found) {
+                        $invalid_link_input = true;
+                        break;
                     }
                 }
-                if (!$match_found) {
-                    $invalid_link_input = true;
-                    break;
-                }
+            } catch (Exception $e) {
+                $invalid_link_input = true;
             }
-
             if ($invalid_link_input) {
                 return [
                     'status' => 400,
