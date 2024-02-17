@@ -1,9 +1,22 @@
-#Deny public access to .env file
+# Redirect restricted root files access attempt to 404 page
 
-<FilesMatch ".env">
-    Order allow,deny
-    Deny from all
-</FilesMatch>
+RedirectMatch 301 /.env /404
+RedirectMatch 301 /.gitignore /404
+RedirectMatch 301 /.htaccess /404
+RedirectMatch 301 /default.php /404
+RedirectMatch 301 /error_log.txt /404
+RedirectMatch 301 /README.md /404
+
+# Redirect restricted folders to 404 page
+
+RedirectMatch 301 ^/.git(/.*)?$ /404
+RedirectMatch 301 ^/backend(/.*)?$ /404
+RedirectMatch 301 ^/frontend/components(/.*)?$ /404
+RedirectMatch 301 ^/frontend/includes(/.*)?$ /404
+RedirectMatch 301 ^/frontend/initializations(/.*)?$ /404
+RedirectMatch 301 ^/frontend/pages(/.*)?$ /404
+RedirectMatch 301 ^/frontend/private(/.*)?$ /404
+RedirectMatch 301 ^/frontend/utilities(/.*)?$ /404
 
 # Log PHP errors to a file
 
