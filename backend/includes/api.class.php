@@ -163,9 +163,9 @@ class API {
 
     // HTTP DELETE Request
 
-    public static function delete($route, $callback, $cors = false) {
+    public static function delete($route, $callback) {
         if (self::is_request("DELETE", $route)) {
-            self::callback_response($callback, $route, $cors);
+            self::callback_response($callback, $route);
         }
     }
 }
