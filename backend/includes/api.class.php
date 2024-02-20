@@ -100,6 +100,27 @@ class API {
     // Callback Controller And Response Handler
 
     private static function callback_response($callback, $route) {
+
+        // Apply CORS if in production.
+
+        if (empty($_ENV['ENVIRONMENT']) || $_ENV['ENVIRONMENT'] === 'production') {
+            $deny = false;
+
+            if (empty($_SERVER['HTTP_REFERER'])) {
+                $deny = true;
+            } else if (!str_contains($_SERVER['HTTP_REFERER'], $_SERVER['HTTP_HOST'])) {
+                $deny = true;
+            }
+
+            if ($deny) {
+                header('Content-Type: application/json');
+                http_response_code(403);
+                $response['msg'] = "Access from url origin outside of '" . $_SERVER['HTTP_HOST'] . "' is forbidden.";
+                echo json_encode($response);
+                exit;
+            } 
+        }
+
         if (is_callable($callback)) {
 
             // Make callback
@@ -142,9 +163,9 @@ class API {
 
     // HTTP DELETE Request
 
-    public static function delete($route, $callback) {
+    public static function delete($route, $callback, $cors = false) {
         if (self::is_request("DELETE", $route)) {
-            self::callback_response($callback, $route);
+            self::callback_response($callback, $route, $cors);
         }
     }
 }
