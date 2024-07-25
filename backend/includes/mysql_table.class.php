@@ -212,7 +212,6 @@ class MySql_Table
             $stmt = $this->conn->prepare($update_query);
 
             if ($stmt) {
-                // Add 'i' for integer type for the ID
                 $types .= "i";
                 $placeholders[] = $id;
 
