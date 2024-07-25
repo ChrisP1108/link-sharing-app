@@ -205,17 +205,14 @@ class MySql_Table
                 $placeholders[] = $value;
             }
 
-            // Build the prepared statement
             $update_query = "UPDATE " . $this->conn->real_escape_string($this->schema_name) . "." . $this->conn->real_escape_string($this->table_name) . " SET " . implode(", ", $update_values) . " WHERE id = ?";
 
-            // Prepare the statement
             $stmt = $this->conn->prepare($update_query);
 
             if ($stmt) {
                 $types .= "i";
                 $placeholders[] = $id;
 
-                // Bind parameters dynamically
                 $stmt->bind_param($types, ...$placeholders);
 
                 if ($stmt->execute()) {
